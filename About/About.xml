@@ -8,7 +8,14 @@
     </supportedVersions>
     <description>🎭 FULL AUTOPILOT for RimWorld! AI plays for you - just watch your story unfold. Complete colony automation! 📺
 
-✨ NEW v0.8.4++ (2025-11-16): CRITICAL Fixes!
+✨ NEW v0.9.0 Beta (2025-11-17): Enhanced Production & Construction Intelligence!
+🏗️ ConstructionCommandSystem - Force assign builders to critical construction (walls/doors/beds priority)
+⚙️ Enhanced ProductionAutomation - Survival items (clothing/weapons), medicine auto-production, food variety by stage
+🔄 Bill Resource Management - Auto pause/resume bills when ingredients unavailable
+📊 DecisionLogger - ALL decision types now supported (work/farming/defense/medical/construction/production)
+🚧 BETA Phase - Focus on new features, comprehensive polish coming in v1.0!
+
+✨ v0.8.4++ (2025-11-16): CRITICAL Fixes!
 🚨 Job spam fix - мод больше НЕ заставляет переключаться за наносекунды!
 🏠 Generator placement - генераторы СНАРУЖИ, не в центре комнат!
 ⏱️ Cooldowns 10s→60s - даём колонистам работать самостоятельно!

@@ -89,6 +89,9 @@ namespace RimWatch.Components
             // v0.8.0: NEW SYSTEMS - Command System, Game Speed Controller
             ColonistCommandSystem.Tick(map);
             GameSpeedController.Tick(map);
+            
+            // v0.9.0: NEW - Construction Command System (prioritize critical construction)
+            ConstructionCommandSystem.ManageConstructionPriorities(map, RimWatchCore.Settings);
 
             // Периодический тик ядра
             _tickCounter++;

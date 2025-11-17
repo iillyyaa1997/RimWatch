@@ -4,10 +4,34 @@
 
 [![RimWorld Version](https://img.shields.io/badge/RimWorld-1.6-green.svg)](https://rimworldgame.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Development Status](https://img.shields.io/badge/Status-In_Development-yellow.svg)]()
-[![Version](https://img.shields.io/badge/Version-0.8.5-blue.svg)]()
+[![Development Status](https://img.shields.io/badge/Status-BETA-orange.svg)]()
+[![Version](https://img.shields.io/badge/Version-0.9.0--beta-blue.svg)]()
 
-## 🎉 НОВОЕ В v0.8.5 (2025-11-17)
+## 🎉 НОВОЕ В v0.9.0 Beta (2025-11-17)
+
+**ENHANCED PRODUCTION & CONSTRUCTION INTELLIGENCE:**
+- 🏗️ **ConstructionCommandSystem** - Принудительное назначение строителей на критичные объекты
+  - Приоритеты: стены комнат → двери → кровати → генераторы → остальное
+  - Проверка каждые 10 секунд, топ-3 приоритетных объекта
+  - Умный поиск ближайшего доступного строителя
+  - НЕ прерывает текущую работу строителя
+- ⚙️ **Enhanced ProductionAutomation** - Умное управление производством
+  - Survival bills: автоматическая замена повреждённой одежды (<50% HP) и оружия (<60% HP)
+  - Medicine production: herbal medicine если нет industrial, 5+ medicine на колониста
+  - Food variety: Simple → Fine → Lavish meals в зависимости от стадии развития
+  - Bill resource management: автоматическая пауза/возобновление при нехватке ресурсов
+- 📊 **DecisionLogger expansion** - Поддержка всех типов AI решений
+  - work_prioritization, farming_management, defense_positioning
+  - medical_triage, construction_planning, production_management
+  - Интеграция через RimWatchLogger.LogDecision()
+- 🚧 **BETA Development Philosophy** - Фокус на добавление функционала
+  - Известные баги отложены до v1.0 Pre-Release
+  - Comprehensive polish и тестирование в финальной стадии
+  - Steam Workshop публикация после полной стабилизации
+
+📖 **[Full Release Notes в V090_BETA_RELEASE_NOTES.md](V090_BETA_RELEASE_NOTES.md)**
+
+## 🔙 ПРЕДЫДУЩЕЕ: v0.8.5 Beta (2025-11-17)
 
 **CRITICAL BUG FIXES & PRODUCTION INTEGRATION:**
 - 🐛 **ColonistCommandSystem** - ExecuteRescue полностью переписан (6,724→0 errors expected)

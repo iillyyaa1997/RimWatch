@@ -118,6 +118,7 @@ namespace RimWatch.Settings
         public bool weaponAutomationEnabled = true;  // ✅ Auto weapon upgrades
         public bool colonistCommandsEnabled = true;  // ✅ Emergency task priority
         public bool productionAutomationEnabled = true; // v0.8.5: ✅ Automatic bill management
+        public bool constructionCommandsEnabled = true; // v0.9.0: ✅ Force assign builders to critical construction
         
         // v0.8.1: Game Speed Settings
         public TimeSpeed idleSpeed = TimeSpeed.Ultrafast; // Speed when colony is idle (default: Ultrafast)

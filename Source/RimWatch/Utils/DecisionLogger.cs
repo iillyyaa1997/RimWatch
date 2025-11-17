@@ -10,7 +10,18 @@ namespace RimWatch.Utils
 {
     /// <summary>
     /// Structured JSON logging for AI decision-making.
-    /// Logs building placement decisions, zone updates, and other strategic choices.
+    /// v0.9.0: Now supports ALL decision types through integration with RimWatchLogger.LogDecision().
+    /// 
+    /// Decision types logged:
+    /// - building_placement: Building and room placement decisions
+    /// - work_prioritization: Work priority changes (via RimWatchLogger.LogDecision)
+    /// - farming_management: Taming, planting, slaughter decisions (via RimWatchLogger.LogDecision)
+    /// - defense_positioning: Combat positioning, drafting (via RimWatchLogger.LogDecision)
+    /// - medical_triage: Emergency medical prioritization (via RimWatchLogger.LogDecision)
+    /// - construction_planning: Builder assignments (via RimWatchLogger.LogDecision)
+    /// - production_management: Bill creation and management (via RimWatchLogger.LogDecision)
+    /// 
+    /// All automation systems use RimWatchLogger.LogDecision() which can optionally write to JSON.
     /// </summary>
     public static class DecisionLogger
     {

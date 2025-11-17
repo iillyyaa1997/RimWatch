@@ -75,6 +75,12 @@ namespace RimWatch.Automation
             
             // Create bills based on stage
             AutoCreateBills(map, stage);
+            
+            // v0.9.0: NEW - Enhanced production systems
+            CreateSurvivalBills(map);
+            CreateMedicineBills(map);
+            CreateFoodVarietyBills(map, stage);
+            ManageBillResources(map);
         }
         
         /// <summary>
@@ -321,6 +327,270 @@ namespace RimWatch.Automation
             if (recipe == null) return;
             
             foreach (var bench in artBenches)
+            {
+                if (bench.BillStack.Bills.Any(b => b.recipe == recipe))
+                    continue;
+                
+                Bill_Production bill = (Bill_Production)recipe.MakeNewBill();
+                bill.repeatMode = BillRepeatModeDefOf.TargetCount;
+                bill.targetCount = count;
+                bench.BillStack.AddBill(bill);
+                
+                RimWatchLogger.Info($"ProductionAutomation: Created {recipeDefName} bill (x{count})");
+            }
+        }
+        
+        // ===== v0.9.0: ENHANCED PRODUCTION SYSTEMS =====
+        
+        /// <summary>
+        /// Creates survival bills: clothing repair, weapon repair when items are damaged.
+        /// </summary>
+        private static void CreateSurvivalBills(Map map)
+        {
+            // Check colonist apparel condition
+            var colonists = map.mapPawns.FreeColonistsSpawned;
+            bool needsClothing = colonists.Any(p => 
+                p.apparel?.WornApparel?.Any(a => a.HitPoints < a.MaxHitPoints * 0.5f) == true);
+            
+            if (needsClothing)
+            {
+                RimWatchLogger.LogDecision("ProductionAutomation", "SurvivalClothing", new Dictionary<string, object>
+                {
+                    { "reason", "Colonists have damaged apparel (<50% HP)" }
+                });
+                
+                // Create basic clothing bills
+                CreateApparelBill(map, "Make_Apparel_Parka", 3);
+                CreateApparelBill(map, "Make_Apparel_Pants", 3);
+                CreateApparelBill(map, "Make_Apparel_ButtonDownShirt", 3);
+            }
+            
+            // Check weapon condition
+            bool needsWeapons = colonists.Any(p => 
+            {
+                var weapon = p.equipment?.Primary;
+                return weapon != null && weapon.HitPoints < weapon.MaxHitPoints * 0.6f;
+            });
+            
+            if (needsWeapons)
+            {
+                RimWatchLogger.LogDecision("ProductionAutomation", "SurvivalWeapons", new Dictionary<string, object>
+                {
+                    { "reason", "Colonists have damaged weapons (<60% HP)" }
+                });
+                
+                // Create basic weapon bills (simple weapons)
+                var smithingBenches = map.listerBuildings.allBuildingsColonist
+                    .Where(b => b is Building_WorkTable && b.def.defName.Contains("Smithing"))
+                    .Cast<Building_WorkTable>()
+                    .ToList();
+                
+                if (smithingBenches.Count > 0)
+                {
+                    CreateWeaponBill(map, "Make_MeleeWeapon_Gladius", 2);
+                    CreateWeaponBill(map, "Make_Gun_Revolver", 2);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Creates medicine bills: herbal medicine if no industrial medicine available.
+        /// </summary>
+        private static void CreateMedicineBills(Map map)
+        {
+            // Count available medicine
+            int industrialMedicine = map.resourceCounter.GetCount(ThingDefOf.MedicineIndustrial);
+            int herbalMedicine = map.resourceCounter.GetCount(ThingDefOf.MedicineHerbal);
+            
+            int totalMedicine = industrialMedicine + herbalMedicine;
+            int colonistCount = map.mapPawns.FreeColonistsSpawnedCount;
+            
+            // Need at least 5 medicine per colonist
+            int medicineNeeded = colonistCount * 5;
+            
+            if (totalMedicine < medicineNeeded)
+            {
+                RimWatchLogger.LogDecision("ProductionAutomation", "MedicineProduction", new Dictionary<string, object>
+                {
+                    { "totalMedicine", totalMedicine },
+                    { "needed", medicineNeeded },
+                    { "deficit", medicineNeeded - totalMedicine }
+                });
+                
+                // Create herbal medicine bills (always possible if neutroamine not available)
+                var drugLabs = map.listerBuildings.allBuildingsColonist
+                    .Where(b => b is Building_WorkTable && b.def.defName.Contains("DrugLab"))
+                    .Cast<Building_WorkTable>()
+                    .ToList();
+                
+                if (drugLabs.Count > 0)
+                {
+                    // Try industrial medicine first
+                    if (industrialMedicine < medicineNeeded / 2)
+                    {
+                        CreateDrugBill(map, "Make_MedicineIndustrial", medicineNeeded - totalMedicine);
+                    }
+                }
+                
+                // Herbal medicine as fallback (crafting spot)
+                var craftingSpots = map.listerBuildings.allBuildingsColonist
+                    .Where(b => b.def.defName == "CraftingSpot" || b.def.defName == "DrugLab")
+                    .Cast<Building_WorkTable>()
+                    .ToList();
+                
+                if (craftingSpots.Count > 0 && herbalMedicine < medicineNeeded / 3)
+                {
+                    RecipeDef herbalRecipe = DefDatabase<RecipeDef>.GetNamedSilentFail("Make_MedicineHerbal");
+                    if (herbalRecipe != null)
+                    {
+                        foreach (var spot in craftingSpots.Take(1))
+                        {
+                            if (!spot.BillStack.Bills.Any(b => b.recipe == herbalRecipe))
+                            {
+                                Bill_Production bill = (Bill_Production)herbalRecipe.MakeNewBill();
+                                bill.repeatMode = BillRepeatModeDefOf.TargetCount;
+                                bill.targetCount = medicineNeeded - totalMedicine;
+                                spot.BillStack.AddBill(bill);
+                                
+                                RimWatchLogger.Info($"ProductionAutomation: Created herbal medicine bill (x{bill.targetCount})");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Creates food variety bills: simple → fine → lavish based on stage.
+        /// </summary>
+        private static void CreateFoodVarietyBills(Map map, DevelopmentStage stage)
+        {
+            int colonistCount = map.mapPawns.FreeColonistsSpawnedCount;
+            
+            // Count existing meals
+            int simpleMeals = map.resourceCounter.GetCount(ThingDefOf.MealSimple);
+            int fineMeals = map.resourceCounter.GetCount(ThingDefOf.MealFine);
+            int lavishMeals = map.resourceCounter.GetCount(ThingDefOf.MealLavish);
+            
+            // Determine what meals to produce based on stage
+            string primaryMealType = "CookMealSimple";
+            int targetCount = colonistCount * 10; // 10 meals per colonist
+            
+            switch (stage)
+            {
+                case DevelopmentStage.Emergency:
+                case DevelopmentStage.EarlyGame:
+                    primaryMealType = "CookMealSimple";
+                    break;
+                    
+                case DevelopmentStage.MidGame:
+                    primaryMealType = "CookMealFine";
+                    targetCount = colonistCount * 8; // Fine meals for mood
+                    break;
+                    
+                case DevelopmentStage.LateGame:
+                case DevelopmentStage.EndGame:
+                    primaryMealType = "CookMealLavish";
+                    targetCount = colonistCount * 5; // Lavish meals for maximum mood
+                    break;
+            }
+            
+            RimWatchLogger.LogDecision("ProductionAutomation", "FoodVariety", new Dictionary<string, object>
+            {
+                { "stage", stage.ToString() },
+                { "mealType", primaryMealType },
+                { "targetCount", targetCount },
+                { "simple", simpleMeals },
+                { "fine", fineMeals },
+                { "lavish", lavishMeals }
+            });
+            
+            CreateMealBill(map, primaryMealType, targetCount);
+        }
+        
+        /// <summary>
+        /// Manages bill resources: pause/resume bills when resources are unavailable.
+        /// </summary>
+        private static void ManageBillResources(Map map)
+        {
+            var allWorkTables = map.listerBuildings.allBuildingsColonist
+                .OfType<Building_WorkTable>()
+                .ToList();
+            
+            int pausedCount = 0;
+            int resumedCount = 0;
+            
+            foreach (var table in allWorkTables)
+            {
+                foreach (var bill in table.BillStack.Bills.OfType<Bill_Production>())
+                {
+                    // Check if ingredients are available
+                    bool hasIngredients = HasRequiredIngredients(map, bill);
+                    
+                    if (!hasIngredients && !bill.suspended)
+                    {
+                        bill.suspended = true;
+                        pausedCount++;
+                    }
+                    else if (hasIngredients && bill.suspended)
+                    {
+                        bill.suspended = false;
+                        resumedCount++;
+                    }
+                }
+            }
+            
+            if (pausedCount > 0 || resumedCount > 0)
+            {
+                RimWatchLogger.LogDecision("ProductionAutomation", "BillResourceManagement", new Dictionary<string, object>
+                {
+                    { "paused", pausedCount },
+                    { "resumed", resumedCount }
+                });
+            }
+        }
+        
+        /// <summary>
+        /// Checks if required ingredients are available for a bill.
+        /// </summary>
+        private static bool HasRequiredIngredients(Map map, Bill_Production bill)
+        {
+            if (bill.recipe == null || bill.recipe.ingredients == null)
+                return true; // No ingredients required
+            
+            foreach (var ingredient in bill.recipe.ingredients)
+            {
+                // Check if we have enough of this ingredient
+                float available = 0f;
+                
+                foreach (var thingDef in ingredient.filter.AllowedThingDefs)
+                {
+                    available += map.resourceCounter.GetCount(thingDef);
+                }
+                
+                if (available < ingredient.GetBaseCount())
+                    return false; // Not enough of this ingredient
+            }
+            
+            return true; // All ingredients available
+        }
+        
+        /// <summary>
+        /// Helper: Creates weapon bills.
+        /// </summary>
+        private static void CreateWeaponBill(Map map, string recipeDefName, int count)
+        {
+            var smithingBenches = map.listerBuildings.allBuildingsColonist
+                .Where(b => b is Building_WorkTable && b.def.defName.Contains("Smithing"))
+                .Cast<Building_WorkTable>()
+                .ToList();
+            
+            if (smithingBenches.Count == 0) return;
+            
+            RecipeDef recipe = DefDatabase<RecipeDef>.GetNamedSilentFail(recipeDefName);
+            if (recipe == null) return;
+            
+            foreach (var bench in smithingBenches)
             {
                 if (bench.BillStack.Bills.Any(b => b.recipe == recipe))
                     continue;
