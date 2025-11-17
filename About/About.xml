@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>RimWatch</name>
+    <author>Ilya Volkov</author>
+    <packageId>rimwatch.mod</packageId>
+    <supportedVersions>
+        <li>1.6</li>
+    </supportedVersions>
+    <description>🎭 FULL AUTOPILOT for RimWorld! AI plays for you - just watch your story unfold. Complete colony automation! 📺
+
+✨ NEW v0.8.4++ (2025-11-16): CRITICAL Fixes!
+🚨 Job spam fix - мод больше НЕ заставляет переключаться за наносекунды!
+🏠 Generator placement - генераторы СНАРУЖИ, не в центре комнат!
+⏱️ Cooldowns 10s→60s - даём колонистам работать самостоятельно!
+🛏️ Bed cycle fix - кровати больше НЕ ставятся/убираются по кругу!
+🚑 Rescue logic - спасатели/доктора НЕ прерываются!
+📝 Log spam fix - GameSpeedController молчит если нет изменений!
+
+✨ v0.8.4+ (2025-11-16): Major UI/UX + Priority Medical!
+🎨 Increased scroll +600px - все настройки влезают!
+🌐 Global logging toggle - мастер-переключатель для всех логов!
+📋 Logging settings grouped - единый стиль, коллапсируется!
+⚡ Instant apply - настройки сохраняются мгновенно!
+🏥 Priority rescue - доктора помогают самому критичному первым!
+
+✨ v0.8.4 (2025-11-16): Foundation for Building Intelligence!
+🏠 RoomSizeCalculator - оптимальные размеры по стадиям!
+📐 BuildingSequencer - приоритеты строительства!
+⚙️ ProductionAutomation - автоматические bills!
+🐛 Critical fixes - Rescue (6,724→0 errors), Medical spam (-95%)!
+
+✨ v0.8.3 (2025-11-16): Comprehensive Logging &amp; Debugging!
+📊 Structured logging framework - full decision trail!
+🎯 All automation systems logged - understand AI behavior!
+⚡ Performance monitoring - automatic >5ms detection!
+🐛 Failure pattern detection - recurring issue alerts!
+🛠️ CRITICAL FIX: FloorBuilder ore check - no more floors on ore!
+
+✨ v0.8.2 (2025-11-12): Performance and Stability Improvements!
+⚡ Rejected location cache - no more spam!
+🔇 Warning throttling - 99% log reduction!
+📊 Better diagnostics - clear material info!
+⚡ Adaptive intervals - 90% less checks in peace!
+🌾 Animal breeding, training, hay preparation
+🏗️ Auto-turrets, building repair, decorations
+⚔️ Defensive lines, tactical retreat, turret maintenance
+🛒 Production for trade (clothing, sculptures, drugs)
+
+🎭 AI STORYTELLERS:
+Choose AI personality with unique playstyle:
+- 🛡️ Cautious Strategist - minimum risk
+- ⚖️ Balanced - golden middle
+- ⚔️ Aggressive Conqueror - fast development
+- 🎲 Chaotic - crazy experiments
+- 🔀 Random - changes style every day
+- 🎨 Custom - create your own storyteller!
+
+🤖 FULL AUTOMATION (8 categories):
+AI controls EVERYTHING - each can be toggled:
+✅ Building | ✅ Work | ✅ Farming | ✅ Defense
+✅ Trade | ✅ Medical | ✅ Social | ✅ Research
+
+🎮 GAME INTERFACE:
+- Quick menu (Shift+R) - toggle automation with one click
+- Real-time visualization - see what AI is doing
+- Save storyteller profiles and share with friends
+
+Perfect for:
+📺 Watching colony develop (like a TV series!)
+☕ Relaxed gaming with a cup of tea
+🧪 Experimenting with different AI styles
+🎬 Creating unique stories without micromanagement</description>
+    <modDependencies>
+        <li>
+            <packageId>brrainz.harmony</packageId>
+            <displayName>Harmony</displayName>
+            <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+            <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+        </li>
+    </modDependencies>
+    <loadAfter>
+        <li>brrainz.harmony</li>
+    </loadAfter>
+    <url>https://github.com/iillyyaa1997/RimWatch</url>
+</ModMetaData>
+

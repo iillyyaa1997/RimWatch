@@ -1,0 +1,65 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Bb]uild/
+[Dd]ist/
+
+# Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.user
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Build output
+*.dll
+*.pdb
+*.exe
+*.cache
+
+# RimWorld specific
+1.6/Assemblies/*.dll
+1.6/Assemblies/*.pdb
+Assemblies/*.dll
+Assemblies/*.pdb
+
+# Logs
+*.log
+RimWatch_*.log
+decisions_*.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.bak
+*.orig
+
+# Package files
+*.zip
+*.7z
+*.tar.gz
+
+# Keep certain files
+!About/Preview.png
+!LICENSE
+!README.md

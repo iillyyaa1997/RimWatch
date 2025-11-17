@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Level 1: Main Categories -->
+  <RimWatch.Settings.Building.Name>Автоматизация строительства</RimWatch.Settings.Building.Name>
+  <RimWatch.Settings.Building.Desc>Автоматическое строительство зданий и помещений</RimWatch.Settings.Building.Desc>
+  
+  <RimWatch.Settings.Work.Name>Автоматизация работы</RimWatch.Settings.Work.Name>
+  <RimWatch.Settings.Work.Desc>Автоматическое управление приоритетами работ</RimWatch.Settings.Work.Desc>
+  
+  <RimWatch.Settings.Farming.Name>Автоматизация фермерства</RimWatch.Settings.Farming.Name>
+  <RimWatch.Settings.Farming.Desc>Автоматическое управление посевами и животными</RimWatch.Settings.Farming.Desc>
+  
+  <RimWatch.Settings.Defense.Name>Автоматизация обороны</RimWatch.Settings.Defense.Name>
+  <RimWatch.Settings.Defense.Desc>Автоматическое управление боем и экипировкой</RimWatch.Settings.Defense.Desc>
+  
+  <RimWatch.Settings.Medical.Name>Автоматизация медицины</RimWatch.Settings.Medical.Name>
+  <RimWatch.Settings.Medical.Desc>Автоматическое управление здоровьем и экстренная помощь</RimWatch.Settings.Medical.Desc>
+  
+  <RimWatch.Settings.Trade.Name>Автоматизация торговли</RimWatch.Settings.Trade.Name>
+  <RimWatch.Settings.Trade.Desc>Автоматическое управление торговлей и караванами</RimWatch.Settings.Trade.Desc>
+  
+  <RimWatch.Settings.Social.Name>Автоматизация социального</RimWatch.Settings.Social.Name>
+  <RimWatch.Settings.Social.Desc>Автоматическое управление настроением и социальными связями</RimWatch.Settings.Social.Desc>
+  
+  <RimWatch.Settings.Research.Name>Автоматизация исследований</RimWatch.Settings.Research.Name>
+  <RimWatch.Settings.Research.Desc>Автоматическое управление приоритетами исследований</RimWatch.Settings.Research.Desc>
+  
+  <!-- Level 2: Building Sub-Categories -->
+  <RimWatch.Settings.Building.Beds.Name>Управление кроватями</RimWatch.Settings.Building.Beds.Name>
+  <RimWatch.Settings.Building.Beds.Desc>Автоматическое размещение и перемещение кроватей</RimWatch.Settings.Building.Beds.Desc>
+  
+  <RimWatch.Settings.Building.Rooms.Name>Строительство комнат</RimWatch.Settings.Building.Rooms.Name>
+  <RimWatch.Settings.Building.Rooms.Desc>Автоматическое строительство комнат (стены, двери, полы)</RimWatch.Settings.Building.Rooms.Desc>
+  
+  <RimWatch.Settings.Building.Power.Name>Генерация энергии</RimWatch.Settings.Building.Power.Name>
+  <RimWatch.Settings.Building.Power.Desc>Автоматическое размещение генераторов</RimWatch.Settings.Building.Power.Desc>
+  
+  <!-- Level 3: Bed Management Details -->
+  <RimWatch.Settings.Beds.Relocate.Name>Перемещение уличных кроватей</RimWatch.Settings.Beds.Relocate.Name>
+  <RimWatch.Settings.Beds.Relocate.Desc>Перенос кроватей с улицы в нормальные помещения</RimWatch.Settings.Beds.Relocate.Desc>
+  
+  <RimWatch.Settings.Beds.Install.Name>Установка сложенных кроватей</RimWatch.Settings.Beds.Install.Name>
+  <RimWatch.Settings.Beds.Install.Desc>Автоматическая установка разобранных кроватей со склада</RimWatch.Settings.Beds.Install.Desc>
+  
+  <!-- Level 3: Room Types -->
+  <RimWatch.Settings.Rooms.Bedrooms.Name>Строить спальни</RimWatch.Settings.Rooms.Bedrooms.Name>
+  <RimWatch.Settings.Rooms.Bedrooms.Desc>Строить индивидуальные спальни для колонистов</RimWatch.Settings.Rooms.Bedrooms.Desc>
+  
+  <RimWatch.Settings.Rooms.Kitchen.Name>Строить кухню</RimWatch.Settings.Rooms.Kitchen.Name>
+  <RimWatch.Settings.Rooms.Kitchen.Desc>Строить кухню с плитой</RimWatch.Settings.Rooms.Kitchen.Desc>
+  
+  <RimWatch.Settings.Rooms.Storage.Name>Строить склад</RimWatch.Settings.Rooms.Storage.Name>
+  <RimWatch.Settings.Rooms.Storage.Desc>Строить складские помещения</RimWatch.Settings.Rooms.Storage.Desc>
+  
+  <RimWatch.Settings.Rooms.Freezer.Name>Строить морозильник</RimWatch.Settings.Rooms.Freezer.Name>
+  <RimWatch.Settings.Rooms.Freezer.Desc>Строить морозильник с кулерами</RimWatch.Settings.Rooms.Freezer.Desc>
+  
+  <!-- Level 2: Work Features -->
+  <RimWatch.Settings.Work.Priorities.Name>Автоприоритеты работ</RimWatch.Settings.Work.Priorities.Name>
+  <RimWatch.Settings.Work.Priorities.Desc>Автоматическое назначение приоритетов (система 1-4)</RimWatch.Settings.Work.Priorities.Desc>
+  
+  <RimWatch.Settings.Work.Schedules.Name>Управление расписанием</RimWatch.Settings.Work.Schedules.Name>
+  <RimWatch.Settings.Work.Schedules.Desc>Автоматическое управление расписанием работы/сна</RimWatch.Settings.Work.Schedules.Desc>
+  
+  <RimWatch.Settings.Work.Dynamic.Name>Динамические приоритеты</RimWatch.Settings.Work.Dynamic.Name>
+  <RimWatch.Settings.Work.Dynamic.Desc>Настройка приоритетов в зависимости от нужд колонии</RimWatch.Settings.Work.Dynamic.Desc>
+  
+  <!-- Level 3: Schedule Types -->
+  <RimWatch.Settings.Schedules.NightOwl.Name>Расписание для сов</RimWatch.Settings.Schedules.NightOwl.Name>
+  <RimWatch.Settings.Schedules.NightOwl.Desc>Специальное расписание для ночных колонистов</RimWatch.Settings.Schedules.NightOwl.Desc>
+  
+  <RimWatch.Settings.Schedules.Emergency.Name>Экстренное расписание</RimWatch.Settings.Schedules.Emergency.Name>
+  <RimWatch.Settings.Schedules.Emergency.Desc>Расписание во время рейдов и критических ситуаций</RimWatch.Settings.Schedules.Emergency.Desc>
+  
+  <RimWatch.Settings.Schedules.Mood.Name>Расписание по настроению</RimWatch.Settings.Schedules.Mood.Name>
+  <RimWatch.Settings.Schedules.Mood.Desc>Настройка расписания в зависимости от настроения колониста</RimWatch.Settings.Schedules.Mood.Desc>
+  
+  <!-- Level 2: Defense Features -->
+  <RimWatch.Settings.Defense.Draft.Name>Автодрафт</RimWatch.Settings.Defense.Draft.Name>
+  <RimWatch.Settings.Defense.Draft.Desc>Автоматический призыв колонистов во время угроз</RimWatch.Settings.Defense.Draft.Desc>
+  
+  <RimWatch.Settings.Defense.Weapons.Name>Экипировка оружием</RimWatch.Settings.Defense.Weapons.Name>
+  <RimWatch.Settings.Defense.Weapons.Desc>Автоматическая экипировка оружием</RimWatch.Settings.Defense.Weapons.Desc>
+  
+  <RimWatch.Settings.Defense.Armor.Name>Система брони</RimWatch.Settings.Defense.Armor.Name>
+  <RimWatch.Settings.Defense.Armor.Desc>Автоматическое управление бронёй и экипировкой</RimWatch.Settings.Defense.Armor.Desc>
+  
+  <!-- Level 3: Armor Details -->
+  <RimWatch.Settings.Armor.Smart.Name>Умный режим одежды</RimWatch.Settings.Armor.Smart.Name>
+  <RimWatch.Settings.Armor.Smart.Desc>Интеллектуальное переключение между политиками одежды</RimWatch.Settings.Armor.Smart.Desc>
+  
+  <RimWatch.Settings.Armor.Policies.Name>Автополитики одежды</RimWatch.Settings.Armor.Policies.Name>
+  <RimWatch.Settings.Armor.Policies.Desc>Автоматическое управление политиками одежды</RimWatch.Settings.Armor.Policies.Desc>
+  
+  <RimWatch.Settings.Armor.Combat.Name>Боевая и гражданская</RimWatch.Settings.Armor.Combat.Name>
+  <RimWatch.Settings.Armor.Combat.Desc>Переключение между боевой и гражданской одеждой</RimWatch.Settings.Armor.Combat.Desc>
+</LanguageData>
+

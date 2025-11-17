@@ -1,0 +1,185 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Target the same framework as RimWorld (Unity/Mono) -->
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>RimWatch</AssemblyName>
+    <RootNamespace>RimWatch</RootNamespace>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <!-- Disable automatic inclusion of C# files for explicit control -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <!-- NuGet Packages -->
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+  </ItemGroup>
+
+  <!-- RimWorld Reference Assemblies -->
+  <ItemGroup Condition="Exists('$(RimWorldInstallDir)')">
+    <!-- Local development with RimWorld installed -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldInstallDir)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldInstallDir)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Docker build - use copied assemblies -->
+  <ItemGroup Condition="!Exists('$(RimWorldInstallDir)') And Exists('/app/RimWorldLibs')">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>/app/RimWorldLibs/Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>/app/RimWorldLibs/UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>/app/RimWorldLibs/UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>/app/RimWorldLibs/UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>/app/RimWorldLibs/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Mock references are ONLY for Debug builds without RimWorld libs -->
+  <ItemGroup Condition="'$(Configuration)'=='Debug' And !Exists('$(RimWorldInstallDir)') And !Exists('/app/RimWorldLibs')">
+    <Compile Include="../MockReferences/**/*.cs" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' And !Exists('$(RimWorldInstallDir)') And !Exists('/app/RimWorldLibs')">
+    <DefineConstants>$(DefineConstants);USE_MOCK_REFERENCES</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Safety guard: fail Release build if RimWorld libs are missing -->
+  <Target Name="FailIfReleaseWithoutLibs" BeforeTargets="Build" Condition="'$(Configuration)'=='Release' And !Exists('$(RimWorldInstallDir)') And !Exists('/app/RimWorldLibs')">
+    <Error Text="RimWorld reference assemblies not found. Do not build Release without libs." />
+  </Target>
+
+  <!-- Source Files - v0.1 Structure -->
+  <ItemGroup>
+    <!-- Core -->
+    <Compile Include="RimWatchMod.cs" />
+    <Compile Include="Core/RimWatchCore.cs" />
+    
+    <!-- UI Components -->
+    <Compile Include="UI/RimWatchMainPanel.cs" />
+    <Compile Include="UI/RimWatchQuickMenu.cs" />
+    <Compile Include="UI/HierarchicalSettingsUI.cs" />
+    <Compile Include="UI/UnifiedSettingsUI.cs" />
+    
+    <!-- Debug & Visualization -->
+    <Compile Include="Debug/DebugOverlay.cs" />
+    
+    <!-- Utils -->
+    <Compile Include="Utils/RimWatchLogger.cs" />
+    
+    <!-- Harmony Patches -->
+    <Compile Include="Patches/UI_Patch.cs" />
+    
+    <!-- AI System - v0.1 -->
+    <Compile Include="AI/AIStoryteller.cs" />
+    <Compile Include="AI/Storytellers/BalancedStoryteller.cs" />
+    
+    <!-- Automation - v0.5 (8 categories) -->
+    <Compile Include="Automation/WorkAutomation.cs" />
+    <Compile Include="Automation/WorkPriorityMapper.cs" />
+    <Compile Include="Automation/BuildingAutomation.cs" />
+    <Compile Include="Automation/FarmingAutomation.cs" />
+    <Compile Include="Automation/DefenseAutomation.cs" />
+    <Compile Include="Automation/TradeAutomation.cs" />
+    <Compile Include="Automation/MedicalAutomation.cs" />
+    <Compile Include="Automation/SocialAutomation.cs" />
+    <Compile Include="Automation/ResearchAutomation.cs" />
+    <Compile Include="Automation/ResourceAutomation.cs" />
+    <Compile Include="Automation/ColonistActivityMonitor.cs" />
+    <Compile Include="Automation/FurnitureRelocator.cs" />
+    <Compile Include="Automation/OutfitAutomation.cs" />
+    <Compile Include="Automation/FireAutomation.cs" />
+    <Compile Include="Automation/WorkScheduleAutomation.cs" />
+    
+    <!-- v0.8.0: New Systems -->
+    <Compile Include="Automation/ColonistCommandSystem.cs" />
+    <Compile Include="Automation/ApparelAutomation.cs" />
+    <Compile Include="Core/GameSpeedController.cs" />
+    <Compile Include="Utils/PawnPowerCalculator.cs" />
+    
+    <!-- Colony Development System - v0.7.5 -->
+    <Compile Include="Automation/ColonyDevelopment/DevelopmentStageManager.cs" />
+    <Compile Include="Automation/ColonyDevelopment/StagePriorities.cs" />
+    <Compile Include="Automation/ColonyDevelopment/ColonyTask.cs" />
+    <Compile Include="Automation/ColonyDevelopment/ColonyTaskExecutor.cs" />
+    
+    <!-- Building Placement System - v0.7.4 -->
+    <Compile Include="Automation/BuildingPlacement/PlacementValidator.cs" />
+    <Compile Include="Automation/BuildingPlacement/PlacementScore.cs" />
+    <Compile Include="Automation/BuildingPlacement/BuildingSelector.cs" />
+    <Compile Include="Automation/BuildingPlacement/LocationFinder.cs" />
+    <Compile Include="Automation/BuildingPlacement/BuildPlacer.cs" />
+    <Compile Include="Automation/BuildingPlacement/PowerPlanner.cs" />
+    <Compile Include="Automation/BuildingPlacement/RoofPlanner.cs" />
+    <Compile Include="Automation/BuildingPlacement/PreClearPlanner.cs" />
+    <Compile Include="Automation/BuildingPlacement/StuffSelector.cs" />
+    <Compile Include="Automation/BuildingPlacement/AreaValidator.cs" />
+    <Compile Include="Automation/BuildingPlacement/BaseZoneCache.cs" />
+    
+    <!-- Room Building System - v0.7.4 -->
+    <Compile Include="Automation/RoomBuilding/RoomPlanner.cs" />
+    <Compile Include="Automation/RoomBuilding/WallBuilder.cs" />
+    <Compile Include="Automation/RoomBuilding/DoorPlacer.cs" />
+    <Compile Include="Automation/RoomBuilding/RoomValidator.cs" />
+    <Compile Include="Automation/RoomBuilding/RoomConstructionManager.cs" />
+    <Compile Include="Automation/RoomBuilding/ConstructionStateChecker.cs" />
+    <Compile Include="Automation/RoomBuilding/ConstructionDiagnostics.cs" />
+    <Compile Include="Automation/RoomBuilding/ConstructionMonitor.cs" />
+    <Compile Include="Automation/RoomBuilding/FloorBuilder.cs" />
+    
+    <!-- Building Classification - v0.8 -->
+    <Compile Include="Automation/BuildingPlacement/BuildingClassifier.cs" />
+    
+    <!-- Debug & Visualization -->
+    <Compile Include="Debug/DebugOverlay.cs" />
+    
+    <!-- Utils -->
+    <Compile Include="Utils/RimWatchLogger.cs" />
+    <Compile Include="Utils/DecisionLogger.cs" />
+    
+    <!-- Components - v0.1 -->
+    <Compile Include="Components/RimWatchMapComponent.cs" />
+    
+    <!-- Settings -->
+    <Compile Include="Settings/RimWatchSettings.cs" />
+    <Compile Include="Settings/HierarchicalSettings.cs" />
+    
+    <!-- Keybindings -->
+    <Compile Include="Keybindings/RimWatchKeybindings.cs" />
+  </ItemGroup>
+
+</Project>
+

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Level 1: Main Categories -->
+  <RimWatch.Settings.Building.Name>Building Automation</RimWatch.Settings.Building.Name>
+  <RimWatch.Settings.Building.Desc>Automatic construction of buildings and rooms</RimWatch.Settings.Building.Desc>
+  
+  <RimWatch.Settings.Work.Name>Work Automation</RimWatch.Settings.Work.Name>
+  <RimWatch.Settings.Work.Desc>Automatic work priority management</RimWatch.Settings.Work.Desc>
+  
+  <RimWatch.Settings.Farming.Name>Farming Automation</RimWatch.Settings.Farming.Name>
+  <RimWatch.Settings.Farming.Desc>Automatic crop and animal management</RimWatch.Settings.Farming.Desc>
+  
+  <RimWatch.Settings.Defense.Name>Defense Automation</RimWatch.Settings.Defense.Name>
+  <RimWatch.Settings.Defense.Desc>Automatic combat and armor management</RimWatch.Settings.Defense.Desc>
+  
+  <RimWatch.Settings.Medical.Name>Medical Automation</RimWatch.Settings.Medical.Name>
+  <RimWatch.Settings.Medical.Desc>Automatic health management and emergency response</RimWatch.Settings.Medical.Desc>
+  
+  <RimWatch.Settings.Trade.Name>Trade Automation</RimWatch.Settings.Trade.Name>
+  <RimWatch.Settings.Trade.Desc>Automatic trade and caravan management</RimWatch.Settings.Trade.Desc>
+  
+  <RimWatch.Settings.Social.Name>Social Automation</RimWatch.Settings.Social.Name>
+  <RimWatch.Settings.Social.Desc>Automatic mood and social management</RimWatch.Settings.Social.Desc>
+  
+  <RimWatch.Settings.Research.Name>Research Automation</RimWatch.Settings.Research.Name>
+  <RimWatch.Settings.Research.Desc>Automatic research priority management</RimWatch.Settings.Research.Desc>
+  
+  <!-- Level 2: Building Sub-Categories -->
+  <RimWatch.Settings.Building.Beds.Name>Bed Management</RimWatch.Settings.Building.Beds.Name>
+  <RimWatch.Settings.Building.Beds.Desc>Automatic bed placement and relocation</RimWatch.Settings.Building.Beds.Desc>
+  
+  <RimWatch.Settings.Building.Rooms.Name>Room Construction</RimWatch.Settings.Building.Rooms.Name>
+  <RimWatch.Settings.Building.Rooms.Desc>Automatic room building (walls, doors, floors)</RimWatch.Settings.Building.Rooms.Desc>
+  
+  <RimWatch.Settings.Building.Power.Name>Power Generation</RimWatch.Settings.Building.Power.Name>
+  <RimWatch.Settings.Building.Power.Desc>Automatic power generator placement</RimWatch.Settings.Building.Power.Desc>
+  
+  <!-- Level 3: Bed Management Details -->
+  <RimWatch.Settings.Beds.Relocate.Name>Relocate Outdoor Beds</RimWatch.Settings.Beds.Relocate.Name>
+  <RimWatch.Settings.Beds.Relocate.Desc>Move beds from outdoors to proper rooms</RimWatch.Settings.Beds.Relocate.Desc>
+  
+  <RimWatch.Settings.Beds.Install.Name>Install Stored Beds</RimWatch.Settings.Beds.Install.Name>
+  <RimWatch.Settings.Beds.Install.Desc>Automatically install minified beds from storage</RimWatch.Settings.Beds.Install.Desc>
+  
+  <!-- Level 3: Room Types -->
+  <RimWatch.Settings.Rooms.Bedrooms.Name>Build Bedrooms</RimWatch.Settings.Rooms.Bedrooms.Name>
+  <RimWatch.Settings.Rooms.Bedrooms.Desc>Construct individual bedrooms for colonists</RimWatch.Settings.Rooms.Bedrooms.Desc>
+  
+  <RimWatch.Settings.Rooms.Kitchen.Name>Build Kitchen</RimWatch.Settings.Rooms.Kitchen.Name>
+  <RimWatch.Settings.Rooms.Kitchen.Desc>Construct kitchen with stove</RimWatch.Settings.Rooms.Kitchen.Desc>
+  
+  <RimWatch.Settings.Rooms.Storage.Name>Build Storage</RimWatch.Settings.Rooms.Storage.Name>
+  <RimWatch.Settings.Rooms.Storage.Desc>Construct storage rooms</RimWatch.Settings.Rooms.Storage.Desc>
+  
+  <RimWatch.Settings.Rooms.Freezer.Name>Build Freezer</RimWatch.Settings.Rooms.Freezer.Name>
+  <RimWatch.Settings.Rooms.Freezer.Desc>Construct freezer with coolers</RimWatch.Settings.Rooms.Freezer.Desc>
+  
+  <!-- Level 2: Work Features -->
+  <RimWatch.Settings.Work.Priorities.Name>Auto Work Priorities</RimWatch.Settings.Work.Priorities.Name>
+  <RimWatch.Settings.Work.Priorities.Desc>Automatic priority assignment (1-4 system)</RimWatch.Settings.Work.Priorities.Desc>
+  
+  <RimWatch.Settings.Work.Schedules.Name>Schedule Management</RimWatch.Settings.Work.Schedules.Name>
+  <RimWatch.Settings.Work.Schedules.Desc>Automatic work/sleep schedule management</RimWatch.Settings.Work.Schedules.Desc>
+  
+  <RimWatch.Settings.Work.Dynamic.Name>Dynamic Priorities</RimWatch.Settings.Work.Dynamic.Name>
+  <RimWatch.Settings.Work.Dynamic.Desc>Adjust priorities based on colony needs</RimWatch.Settings.Work.Dynamic.Desc>
+  
+  <!-- Level 3: Schedule Types -->
+  <RimWatch.Settings.Schedules.NightOwl.Name>Night Owl Schedules</RimWatch.Settings.Schedules.NightOwl.Name>
+  <RimWatch.Settings.Schedules.NightOwl.Desc>Special schedules for night owl colonists</RimWatch.Settings.Schedules.NightOwl.Desc>
+  
+  <RimWatch.Settings.Schedules.Emergency.Name>Emergency Schedules</RimWatch.Settings.Schedules.Emergency.Name>
+  <RimWatch.Settings.Schedules.Emergency.Desc>Schedules during raids/critical situations</RimWatch.Settings.Schedules.Emergency.Desc>
+  
+  <RimWatch.Settings.Schedules.Mood.Name>Mood-Based Schedules</RimWatch.Settings.Schedules.Mood.Name>
+  <RimWatch.Settings.Schedules.Mood.Desc>Adjust schedules based on colonist mood</RimWatch.Settings.Schedules.Mood.Desc>
+  
+  <!-- Level 2: Defense Features -->
+  <RimWatch.Settings.Defense.Draft.Name>Auto Draft</RimWatch.Settings.Defense.Draft.Name>
+  <RimWatch.Settings.Defense.Draft.Desc>Automatically draft colonists during threats</RimWatch.Settings.Defense.Draft.Desc>
+  
+  <RimWatch.Settings.Defense.Weapons.Name>Weapon Equip</RimWatch.Settings.Defense.Weapons.Name>
+  <RimWatch.Settings.Defense.Weapons.Desc>Automatically equip weapons</RimWatch.Settings.Defense.Weapons.Desc>
+  
+  <RimWatch.Settings.Defense.Armor.Name>Armor System</RimWatch.Settings.Defense.Armor.Name>
+  <RimWatch.Settings.Defense.Armor.Desc>Automatic armor and outfit management</RimWatch.Settings.Defense.Armor.Desc>
+  
+  <!-- Level 3: Armor Details -->
+  <RimWatch.Settings.Armor.Smart.Name>Smart Apparel Mode</RimWatch.Settings.Armor.Smart.Name>
+  <RimWatch.Settings.Armor.Smart.Desc>Intelligently switch between outfit policies</RimWatch.Settings.Armor.Smart.Desc>
+  
+  <RimWatch.Settings.Armor.Policies.Name>Auto Outfit Policies</RimWatch.Settings.Armor.Policies.Name>
+  <RimWatch.Settings.Armor.Policies.Desc>Manage outfit policies automatically</RimWatch.Settings.Armor.Policies.Desc>
+  
+  <RimWatch.Settings.Armor.Combat.Name>Combat vs Civilian</RimWatch.Settings.Armor.Combat.Name>
+  <RimWatch.Settings.Armor.Combat.Desc>Switch between combat and civilian clothing</RimWatch.Settings.Armor.Combat.Desc>
+</LanguageData>
+

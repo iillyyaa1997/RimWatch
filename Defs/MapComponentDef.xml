@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- RimWatch MapComponent - автоматически создается на каждой карте -->
+  <Verse.MapComponentDef>
+    <defName>RimWatchMapComponent</defName>
+    <mapComponentClass>RimWatch.Components.RimWatchMapComponent</mapComponentClass>
+  </Verse.MapComponentDef>
+</Defs>
+

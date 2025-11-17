@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Main Panel Titles -->
+  <RimWatch.UI.QuickPanel>RimWatch Quick Panel</RimWatch.UI.QuickPanel>
+  <RimWatch.UI.Settings>RimWatch Settings</RimWatch.UI.Settings>
+  
+  <!-- Section Headers -->
+  <RimWatch.UI.AutopilotControl>🤖 Autopilot Control</RimWatch.UI.AutopilotControl>
+  <RimWatch.UI.Automation>🔧 Automation</RimWatch.UI.Automation>
+  <RimWatch.UI.Debug>🐛 Debug &amp; Logging</RimWatch.UI.Debug>
+  <RimWatch.UI.Visualization>👁️ Visualization</RimWatch.UI.Visualization>
+  
+  <!-- Quick Status -->
+  <RimWatch.UI.AutopilotStatus>Autopilot: {0}</RimWatch.UI.AutopilotStatus>
+  <RimWatch.UI.StatusOn>ON</RimWatch.UI.StatusOn>
+  <RimWatch.UI.StatusOff>OFF</RimWatch.UI.StatusOff>
+  <RimWatch.UI.ActiveModules>Active modules: {0}/8</RimWatch.UI.ActiveModules>
+  
+  <!-- Buttons -->
+  <RimWatch.UI.ExpandAll>➕ Expand All</RimWatch.UI.ExpandAll>
+  <RimWatch.UI.CollapseAll>➖ Collapse All</RimWatch.UI.CollapseAll>
+  <RimWatch.UI.ApplySettings>Apply Settings</RimWatch.UI.ApplySettings>
+  <RimWatch.UI.ResetToDefaults>Reset to Defaults</RimWatch.UI.ResetToDefaults>
+  
+  <!-- Checkboxes -->
+  <RimWatch.UI.AutoEnableOnLoad>Auto-enable on load</RimWatch.UI.AutoEnableOnLoad>
+  <RimWatch.UI.DebugMode>🐛 Debug Mode</RimWatch.UI.DebugMode>
+  <RimWatch.UI.FileLogging>📝 File Logging</RimWatch.UI.FileLogging>
+  <RimWatch.UI.DebugOverlay>👁️ Debug Overlay</RimWatch.UI.DebugOverlay>
+  <RimWatch.UI.DecisionLogging>📋 Decision Logging</RimWatch.UI.DecisionLogging>
+  
+  <!-- Labels -->
+  <RimWatch.UI.BuildingLogLevel>📊 Building Log Level:</RimWatch.UI.BuildingLogLevel>
+  <RimWatch.UI.DisplayMode>Display mode:</RimWatch.UI.DisplayMode>
+  
+  <!-- Building Log Levels -->
+  <RimWatch.UI.LogLevel.Minimal>Minimal</RimWatch.UI.LogLevel.Minimal>
+  <RimWatch.UI.LogLevel.Moderate>Moderate</RimWatch.UI.LogLevel.Moderate>
+  <RimWatch.UI.LogLevel.Verbose>Verbose</RimWatch.UI.LogLevel.Verbose>
+  <RimWatch.UI.LogLevel.Debug>Debug</RimWatch.UI.LogLevel.Debug>
+  
+  <!-- Debug Overlay Modes -->
+  <RimWatch.UI.OverlayMode.Zones>Zones</RimWatch.UI.OverlayMode.Zones>
+  <RimWatch.UI.OverlayMode.PlacementScores>PlacementScores</RimWatch.UI.OverlayMode.PlacementScores>
+  <RimWatch.UI.OverlayMode.Both>Both</RimWatch.UI.OverlayMode.Both>
+  
+  <!-- Footer Tips -->
+  <RimWatch.UI.TipShiftR>💡 Press Shift+R in game for quick access</RimWatch.UI.TipShiftR>
+  <RimWatch.UI.TipParentChild>💡 Disabling parent disables all children in tree</RimWatch.UI.TipParentChild>
+  <RimWatch.UI.TipAutoApply>💡 Changes are applied automatically</RimWatch.UI.TipAutoApply>
+  
+  <!-- Tooltips -->
+  <RimWatch.UI.TooltipParent>Parent: {0}</RimWatch.UI.TooltipParent>
+  <RimWatch.UI.TooltipChildren>Children: {0}</RimWatch.UI.TooltipChildren>
+  
+  <!-- Warnings/Notes -->
+  <RimWatch.UI.DebugWarning>Note: Debug mode may slow down the game</RimWatch.UI.DebugWarning>
+  <RimWatch.UI.TreeNotInitialized>Settings tree not initialized. Please restart the game.</RimWatch.UI.TreeNotInitialized>
+</LanguageData>
+

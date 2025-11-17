@@ -1,0 +1,107 @@
+<Project>
+
+  <!-- Global project settings -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningsNotAsErrors />
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+  </PropertyGroup>
+
+  <!-- Code analysis packages -->
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- StyleCop configuration -->
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+
+  <!-- Suppress specific analyzers for RimWorld mod development -->
+  <PropertyGroup>
+    <!-- Disable documentation requirements for public APIs (mod development) -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Disable CA1303 (literal strings) for RimWorld mod strings -->
+    <NoWarn>$(NoWarn);CA1303</NoWarn>
+
+    <!-- Disable CA1304 (specify IFormatProvider) for RimWorld compatibility -->
+    <NoWarn>$(NoWarn);CA1304</NoWarn>
+
+    <!-- Disable CA1305 (specify IFormatProvider) for RimWorld compatibility -->
+    <NoWarn>$(NoWarn);CA1305</NoWarn>
+
+    <!-- Disable CA1307 (StringComparison for clarity) for RimWorld compatibility -->
+    <NoWarn>$(NoWarn);CA1307</NoWarn>
+
+    <!-- Disable CA1310 (StringComparison for correctness) for RimWorld compatibility -->
+    <NoWarn>$(NoWarn);CA1310</NoWarn>
+
+    <!-- Disable CA1826 (Use property instead of Enumerable method) for performance in hot paths -->
+    <NoWarn>$(NoWarn);CA1826</NoWarn>
+
+    <!-- Disable CA2007 (consider ConfigureAwait) for RimWorld main thread -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>
+  </PropertyGroup>
+
+  <!-- Enable additional analyzers for better code quality -->
+  <PropertyGroup>
+    <Features>strict</Features>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <!-- Performance and memory analysis -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <!-- RimWorld specific compiler symbols -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RIMWORLD</DefineConstants>
+    <DefineConstants>$(DefineConstants);HARMONY</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Conditional compilation symbols for AI features -->
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);AI_ENABLED</DefineConstants>
+    <DefineConstants>$(DefineConstants);AUTOPILOT_ENABLED</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Assembly metadata -->
+  <PropertyGroup>
+    <Company>RimWatch Development Team</Company>
+    <Product>RimWatch - AI Autopilot for RimWorld</Product>
+    <Copyright>Copyright © 2025 RimWatch Development Team</Copyright>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <InformationalVersion>0.1.0-dev</InformationalVersion>
+  </PropertyGroup>
+
+</Project>
+

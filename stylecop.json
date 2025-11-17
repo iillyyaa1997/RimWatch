@@ -1,0 +1,221 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "RimWatch Development Team",
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved.\nLicensed under the MIT license. See LICENSE file in the project root for full license information.",
+      "variables": {
+        "companyName": "RimWatch Development Team"
+      },
+      "xmlHeader": false,
+      "fileNamingConvention": "stylecop",
+      "documentInterfaces": false,
+      "documentExposedElements": false,
+      "documentInternalElements": false,
+      "documentPrivateElements": false,
+      "documentPrivateFields": false
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require",
+      "allowConsecutiveUsings": true
+    },
+    "namingRules": {
+      "allowCommonHungarianPrefixes": false,
+      "allowedHungarianPrefixes": [],
+      "includeInferredTupleElementNames": true,
+      "tupleElementNameCasing": "camelCase"
+    },
+    "orderingRules": {
+      "usingDirectivesPlacement": "outsideNamespace",
+      "systemUsingDirectivesFirst": true,
+      "blankLinesBetweenUsingGroups": "require",
+      "separateSystemUsingDirectives": true,
+      "elementOrder": [
+        "kind",
+        "accessibility",
+        "constant",
+        "static",
+        "readonly"
+      ]
+    },
+    "readabilityRules": {
+      "allowBuiltInTypeAliases": true
+    },
+    "maintainabilityRules": {
+      "topLevelTypes": [
+        "class",
+        "interface",
+        "struct",
+        "enum",
+        "delegate"
+      ]
+    }
+  },
+  "ruleset": {
+    "rules": {
+      "SA0001": {
+        "action": "none"
+      },
+      "SA1101": {
+        "action": "none"
+      },
+      "SA1116": {
+        "action": "none"
+      },
+      "SA1117": {
+        "action": "none"
+      },
+      "SA1118": {
+        "action": "none"
+      },
+      "SA1200": {
+        "action": "none"
+      },
+      "SA1201": {
+        "action": "none"
+      },
+      "SA1202": {
+        "action": "none"
+      },
+      "SA1204": {
+        "action": "none"
+      },
+      "SA1309": {
+        "action": "none"
+      },
+      "SA1413": {
+        "action": "none"
+      },
+      "SA1512": {
+        "action": "none"
+      },
+      "SA1515": {
+        "action": "none"
+      },
+      "SA1516": {
+        "action": "none"
+      },
+      "SA1600": {
+        "action": "none"
+      },
+      "SA1601": {
+        "action": "none"
+      },
+      "SA1602": {
+        "action": "none"
+      },
+      "SA1604": {
+        "action": "none"
+      },
+      "SA1605": {
+        "action": "none"
+      },
+      "SA1606": {
+        "action": "none"
+      },
+      "SA1607": {
+        "action": "none"
+      },
+      "SA1608": {
+        "action": "none"
+      },
+      "SA1610": {
+        "action": "none"
+      },
+      "SA1611": {
+        "action": "none"
+      },
+      "SA1612": {
+        "action": "none"
+      },
+      "SA1613": {
+        "action": "none"
+      },
+      "SA1614": {
+        "action": "none"
+      },
+      "SA1615": {
+        "action": "none"
+      },
+      "SA1616": {
+        "action": "none"
+      },
+      "SA1617": {
+        "action": "none"
+      },
+      "SA1618": {
+        "action": "none"
+      },
+      "SA1619": {
+        "action": "none"
+      },
+      "SA1620": {
+        "action": "none"
+      },
+      "SA1621": {
+        "action": "none"
+      },
+      "SA1622": {
+        "action": "none"
+      },
+      "SA1623": {
+        "action": "none"
+      },
+      "SA1624": {
+        "action": "none"
+      },
+      "SA1625": {
+        "action": "none"
+      },
+      "SA1626": {
+        "action": "none"
+      },
+      "SA1627": {
+        "action": "none"
+      },
+      "SA1629": {
+        "action": "none"
+      },
+      "SA1633": {
+        "action": "none"
+      },
+      "SA1634": {
+        "action": "none"
+      },
+      "SA1635": {
+        "action": "none"
+      },
+      "SA1636": {
+        "action": "none"
+      },
+      "SA1637": {
+        "action": "none"
+      },
+      "SA1638": {
+        "action": "none"
+      },
+      "SA1640": {
+        "action": "none"
+      },
+      "SA1641": {
+        "action": "none"
+      },
+      "SA1642": {
+        "action": "none"
+      },
+      "SA1643": {
+        "action": "none"
+      },
+      "SA1648": {
+        "action": "none"
+      },
+      "SA1649": {
+        "action": "none"
+      },
+      "SA1651": {
+        "action": "none"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Game Messages -->
+  <RimWatch.Message.SettingsApplied>Settings applied</RimWatch.Message.SettingsApplied>
+  <RimWatch.Message.SettingsReset>Settings reset</RimWatch.Message.SettingsReset>
+  
+  <!-- Confirmation Dialogs -->
+  <RimWatch.Dialog.ResetConfirm>Reset all settings to default values?</RimWatch.Dialog.ResetConfirm>
+</LanguageData>
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Main Panel Titles -->
+  <RimWatch.UI.QuickPanel>Быстрая панель RimWatch</RimWatch.UI.QuickPanel>
+  <RimWatch.UI.Settings>Настройки RimWatch</RimWatch.UI.Settings>
+  
+  <!-- Section Headers -->
+  <RimWatch.UI.AutopilotControl>🤖 Управление Автопилотом</RimWatch.UI.AutopilotControl>
+  <RimWatch.UI.Automation>🔧 Автоматизация</RimWatch.UI.Automation>
+  <RimWatch.UI.Debug>🐛 Отладка и Логирование</RimWatch.UI.Debug>
+  <RimWatch.UI.Visualization>👁️ Визуализация</RimWatch.UI.Visualization>
+  
+  <!-- Quick Status -->
+  <RimWatch.UI.AutopilotStatus>Автопилот: {0}</RimWatch.UI.AutopilotStatus>
+  <RimWatch.UI.StatusOn>ВКЛ</RimWatch.UI.StatusOn>
+  <RimWatch.UI.StatusOff>ВЫКЛ</RimWatch.UI.StatusOff>
+  <RimWatch.UI.ActiveModules>Активных модулей: {0}/8</RimWatch.UI.ActiveModules>
+  
+  <!-- Buttons -->
+  <RimWatch.UI.ExpandAll>➕ Развернуть все</RimWatch.UI.ExpandAll>
+  <RimWatch.UI.CollapseAll>➖ Свернуть все</RimWatch.UI.CollapseAll>
+  <RimWatch.UI.ApplySettings>Применить настройки</RimWatch.UI.ApplySettings>
+  <RimWatch.UI.ResetToDefaults>Сбросить по умолчанию</RimWatch.UI.ResetToDefaults>
+  
+  <!-- Checkboxes -->
+  <RimWatch.UI.AutoEnableOnLoad>Автовключение при загрузке</RimWatch.UI.AutoEnableOnLoad>
+  <RimWatch.UI.DebugMode>🐛 Режим отладки</RimWatch.UI.DebugMode>
+  <RimWatch.UI.FileLogging>📝 Запись в файл</RimWatch.UI.FileLogging>
+  <RimWatch.UI.DebugOverlay>👁️ Оверлей отладки</RimWatch.UI.DebugOverlay>
+  <RimWatch.UI.DecisionLogging>📋 Логирование решений</RimWatch.UI.DecisionLogging>
+  
+  <!-- Labels -->
+  <RimWatch.UI.BuildingLogLevel>📊 Уровень логов строительства:</RimWatch.UI.BuildingLogLevel>
+  <RimWatch.UI.DisplayMode>Режим отображения:</RimWatch.UI.DisplayMode>
+  
+  <!-- Building Log Levels -->
+  <RimWatch.UI.LogLevel.Minimal>Минимальный</RimWatch.UI.LogLevel.Minimal>
+  <RimWatch.UI.LogLevel.Moderate>Средний</RimWatch.UI.LogLevel.Moderate>
+  <RimWatch.UI.LogLevel.Verbose>Подробный</RimWatch.UI.LogLevel.Verbose>
+  <RimWatch.UI.LogLevel.Debug>Отладка</RimWatch.UI.LogLevel.Debug>
+  
+  <!-- Debug Overlay Modes -->
+  <RimWatch.UI.OverlayMode.Zones>Зоны</RimWatch.UI.OverlayMode.Zones>
+  <RimWatch.UI.OverlayMode.PlacementScores>Оценки размещения</RimWatch.UI.OverlayMode.PlacementScores>
+  <RimWatch.UI.OverlayMode.Both>Оба</RimWatch.UI.OverlayMode.Both>
+  
+  <!-- Footer Tips -->
+  <RimWatch.UI.TipShiftR>💡 Нажмите Shift+R в игре для быстрого доступа</RimWatch.UI.TipShiftR>
+  <RimWatch.UI.TipParentChild>💡 Отключение родителя отключает всех детей в дереве</RimWatch.UI.TipParentChild>
+  <RimWatch.UI.TipAutoApply>💡 Изменения применяются автоматически</RimWatch.UI.TipAutoApply>
+  
+  <!-- Tooltips -->
+  <RimWatch.UI.TooltipParent>Родитель: {0}</RimWatch.UI.TooltipParent>
+  <RimWatch.UI.TooltipChildren>Детей: {0}</RimWatch.UI.TooltipChildren>
+  
+  <!-- Warnings/Notes -->
+  <RimWatch.UI.DebugWarning>Примечание: Режим отладки может замедлить игру</RimWatch.UI.DebugWarning>
+  <RimWatch.UI.TreeNotInitialized>Дерево настроек не инициализировано. Пожалуйста, перезапустите игру.</RimWatch.UI.TreeNotInitialized>
+</LanguageData>
+

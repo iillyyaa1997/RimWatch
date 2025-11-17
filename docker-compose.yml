@@ -1,0 +1,145 @@
+services:
+  # Build and compile RimWatch - RimWorld 1.6 ONLY
+  build:
+    build:
+      context: .
+      target: build
+      dockerfile: Dockerfile
+    container_name: rimwatch-build
+    volumes:
+      - ./Build:/app/Build
+      - ./Source:/app/Source
+      - ./Tests:/app/Tests
+      - ./1.6:/app/1.6
+      # Mount RimWorld managed assemblies to provide real references for Release build
+      - ./RimWorldLibs:/app/RimWorldLibs:ro
+    environment:
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      - DOTNET_NOLOGO=1
+    command: >
+      sh -c "
+        cd /app/Source/RimWatch &&
+        dotnet restore &&
+        dotnet build --configuration Release --output /app/Build/Assemblies &&
+        cp -r /app/About/* /app/Build/About/ 2>/dev/null || mkdir -p /app/Build/About &&
+        mkdir -p /app/1.6/Assemblies &&
+        cp /app/Build/Assemblies/RimWatch.dll /app/1.6/Assemblies/ &&
+        echo 'Build completed! RimWorld 1.6 ONLY.'
+      "
+
+  # Run tests
+  test:
+    build:
+      context: .
+      target: test
+      dockerfile: Dockerfile
+    container_name: rimwatch-test
+    volumes:
+      - ./TestResults:/app/TestResults
+      - ./Source:/app/Source
+      - ./Tests:/app/Tests
+      - ./About:/app/About
+      - ./docs:/app/docs
+      - ./README.md:/app/README.md:ro
+      - dotnet-packages:/root/.nuget
+    environment:
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      - DOTNET_NOLOGO=1
+      - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+      - NUGET_XMLDOC_MODE=skip
+      - RIMWATCH_SKIP_HARMONY=1
+    command: >
+      bash -lc '
+        set -euo pipefail;
+        cd /app;
+        mkdir -p /app/Source /app/About /app/docs || true;
+        [ -f /app/About/Preview.png ] || (echo iVBORw0KGgo= | base64 -d > /app/About/Preview.png) || true;
+        dotnet build Tests/ --configuration Release;
+        TARGET_DIR=$$(find /app/Tests/bin -type d -path "*/Release/net8.0" | head -n 1);
+        mkdir -p "$$TARGET_DIR";
+        for d in Source About docs Tests; do
+          [ -e "$$TARGET_DIR/$$d" ] || ln -s "/app/$$d" "$$TARGET_DIR/$$d";
+        done;
+        [ -e "$$TARGET_DIR/README.md" ] || ln -s /app/README.md "$$TARGET_DIR/README.md";
+        dotnet test Tests/ --no-build --configuration Release --logger "trx;LogFileName=TestResults.trx" --results-directory /app/TestResults;
+        echo Tests completed!;
+      '
+
+  # Development environment with file watching
+  dev:
+    build:
+      context: .
+      target: build
+      dockerfile: Dockerfile
+    container_name: rimwatch-dev
+    volumes:
+      - .:/app
+      - ./Build:/app/Build
+    environment:
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      - DOTNET_NOLOGO=1
+    working_dir: /app
+    command: >
+      sh -c "
+        echo 'RimWatch Development Environment Ready!' &&
+        echo 'Available commands:' &&
+        echo '  dotnet build Source/RimWatch' &&
+        echo '  dotnet test Tests/' &&
+        echo '  dotnet watch --project Source/RimWatch' &&
+        tail -f /dev/null
+      "
+    tty: true
+    stdin_open: true
+
+  # Quick compile for development
+  quick-build:
+    build:
+      context: .
+      target: build
+      dockerfile: Dockerfile
+    container_name: rimwatch-quick
+    volumes:
+      - ./Source:/app/Source
+      - ./Build:/app/Build
+      - ./RimWorldLibs:/app/RimWorldLibs:ro
+    environment:
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      - DOTNET_NOLOGO=1
+    command: >
+      sh -c "
+        cd /app/Source/RimWatch &&
+        dotnet build --configuration Debug --output /app/Build/Debug &&
+        echo 'Quick build completed!'
+      "
+
+  # Production build with optimization
+  release:
+    build:
+      context: .
+      target: runtime
+      dockerfile: Dockerfile
+    container_name: rimwatch-release
+    volumes:
+      - ./Release:/mod/output
+      - ./About:/app/About
+    environment:
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+    command: >
+      sh -c "
+        rm -rf /mod/output/About /mod/output/Assemblies &&
+        mkdir -p /mod/output/About /mod/output/Assemblies &&
+        cp -r /mod/About/* /mod/output/About/ 2>/dev/null || true &&
+        cp -r /mod/Assemblies/* /mod/output/Assemblies/ 2>/dev/null || true &&
+        cp -r /app/About/* /mod/output/About/ &&
+        echo 'Release build copied to ./Release directory' &&
+        echo 'Ready for Steam Workshop upload!'
+      "
+
+volumes:
+  dotnet-packages:
+    driver: local
+
+networks:
+  default:
+    name: rimwatch-network
+
