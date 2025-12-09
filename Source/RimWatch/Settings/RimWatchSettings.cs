@@ -120,6 +120,16 @@ namespace RimWatch.Settings
         public bool productionAutomationEnabled = true; // v0.8.5: ✅ Automatic bill management
         public bool constructionCommandsEnabled = true; // v0.9.0: ✅ Force assign builders to critical construction
         
+        // v1.1.0: ML Systems Settings
+        public bool decisionAnalyzerEnabled = true;  // ✅ Analyze AI decision patterns and improve over time
+        public bool colonyPredictorEnabled = true;   // ✅ Predict food shortages, raids, resource depletion
+        public bool playerStyleAnalyzerEnabled = true; // ✅ Learn from player's manual overrides and adapt
+        
+        // v1.1.0: ML Configuration
+        public float mlLearningRate = 0.1f; // How fast ML systems adapt (0.0-1.0)
+        public float predictionSensitivity = 0.7f; // Threshold for warnings (0.0-1.0)
+        public int mlAnalysisInterval = 60000; // ML analysis interval in ticks (default: 1 game day)
+        
         // v0.8.1: Game Speed Settings
         public TimeSpeed idleSpeed = TimeSpeed.Ultrafast; // Speed when colony is idle (default: Ultrafast)
         public TimeSpeed workSpeed = TimeSpeed.Fast;      // Speed during active work (default: Fast)

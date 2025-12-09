@@ -144,11 +144,14 @@ namespace RimWatch.Automation
             {
                 // Find base center
                 IntVec3 baseCenter = GetBaseCenter(map);
+                RimWatchLogger.Debug($"[ResourceAutomation] Searching for trees near {baseCenter}");
 
-                // Search for trees in expanding radius
+                // Search for trees in expanding radius (увеличен до 60!)
                 List<Plant> treesToCut = new List<Plant>();
+                int totalTrees = 0;
+                int alreadyDesignated = 0;
                 
-                for (int radius = 10; radius < 40 && treesToCut.Count < 10; radius += 5)
+                for (int radius = 10; radius < 60 && treesToCut.Count < 10; radius += 5)
                 {
                     foreach (IntVec3 cell in GenRadial.RadialCellsAround(baseCenter, radius, false))
                     {
@@ -159,6 +162,8 @@ namespace RimWatch.Automation
                         Plant plant = cell.GetPlant(map);
                         if (plant != null && plant.def.plant != null && plant.def.plant.IsTree)
                         {
+                            totalTrees++;
+                            
                             // Check if already designated or harvested
                             Designation cutDesignation = map.designationManager.DesignationOn(plant, DesignationDefOf.CutPlant);
                             Designation harvestDesignation = map.designationManager.DesignationOn(plant, DesignationDefOf.HarvestPlant);
@@ -170,9 +175,15 @@ namespace RimWatch.Automation
                                 if (treesToCut.Count >= 10) // Limit to 10 trees at a time
                                     break;
                             }
+                            else
+                            {
+                                alreadyDesignated++;
+                            }
                         }
                     }
                 }
+                
+                RimWatchLogger.Debug($"[ResourceAutomation] Found {totalTrees} trees, {alreadyDesignated} already designated, {treesToCut.Count} to designate");
 
                 // Designate trees for cutting
                 foreach (Plant tree in treesToCut)
@@ -205,11 +216,14 @@ namespace RimWatch.Automation
             try
             {
                 IntVec3 baseCenter = GetBaseCenter(map);
+                RimWatchLogger.Debug($"[ResourceAutomation] Searching for ore near {baseCenter}");
 
                 // Search for mineable rocks (steel, components, etc.)
                 List<Thing> rocksToMine = new List<Thing>();
+                int totalOre = 0;
+                int alreadyDesignated = 0;
 
-                for (int radius = 10; radius < 40 && rocksToMine.Count < 5; radius += 5)
+                for (int radius = 10; radius < 60 && rocksToMine.Count < 5; radius += 5)
                 {
                     foreach (IntVec3 cell in GenRadial.RadialCellsAround(baseCenter, radius, false))
                     {
@@ -220,6 +234,8 @@ namespace RimWatch.Automation
                         Thing mineable = cell.GetFirstMineable(map);
                         if (mineable != null && mineable.def.mineable)
                         {
+                            totalOre++;
+                            
                             // Check if already designated
                             Designation mineDesignation = map.designationManager.DesignationOn(mineable, DesignationDefOf.Mine);
                             
@@ -230,9 +246,15 @@ namespace RimWatch.Automation
                                 if (rocksToMine.Count >= 5) // Limit to 5 mining jobs at a time
                                     break;
                             }
+                            else
+                            {
+                                alreadyDesignated++;
+                            }
                         }
                     }
                 }
+                
+                RimWatchLogger.Debug($"[ResourceAutomation] Found {totalOre} ore deposits, {alreadyDesignated} already designated, {rocksToMine.Count} to designate");
 
                 // Designate for mining
                 foreach (Thing rock in rocksToMine)

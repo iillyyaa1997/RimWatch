@@ -1,5 +1,6 @@
 using RimWatch.AI;
 using RimWatch.Core;
+using RimWatch.ML;
 using RimWatch.Settings;
 using RimWatch.Utils;
 using System.Collections.Generic;
@@ -130,6 +131,20 @@ namespace RimWatch.Automation
                 bool changed = AssignWorkPriorities(colonist, needs, storyteller);
                 if (changed) prioritiesChanged++;
             }
+            
+            // v1.1.0: ML - Record decision for DecisionAnalyzer
+            DecisionAnalyzer.RecordDecision(
+                "WorkAutomation",
+                "UpdateWorkPriorities",
+                new Dictionary<string, float>
+                {
+                    { "colonists", colonists.Count },
+                    { "prioritiesChanged", prioritiesChanged },
+                    { "foodUrgency", needs.FoodUrgency },
+                    { "constructionUrgency", needs.ConstructionUrgency }
+                },
+                success: prioritiesChanged > 0 // Success if we changed priorities
+            );
             
             // v0.8.3: Log execution end with summary
             RimWatchLogger.LogExecutionEnd("WorkAutomation", "UpdateWorkPriorities", true, 0, $"Updated {prioritiesChanged}/{colonists.Count} colonists");

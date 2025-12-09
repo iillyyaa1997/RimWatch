@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <!-- RimWatch GameComponent for per-save settings storage -->
+    <Verse.GameComponentDef>
+        <defName>RimWatchGameComponent</defName>
+        <gameComponentClass>RimWatch.Components.RimWatchGameComponent</gameComponentClass>
+    </Verse.GameComponentDef>
+</Defs>

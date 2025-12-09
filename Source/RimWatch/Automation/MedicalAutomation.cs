@@ -1,3 +1,4 @@
+using RimWatch.Automation.Medical;
 using RimWatch.Core;
 using RimWatch.Utils;
 using RimWorld;
@@ -327,6 +328,10 @@ namespace RimWatch.Automation
             // Note: Medical operations are complex and risky to automate
             // We'll implement basic logging for now
             AutoScheduleOperations(map, colonists);
+            
+            // **v0.9.17: Operation scheduling and preventive care**
+            OperationScheduler.Tick(map);
+            PreventiveCare.Tick(map);
             
             // v0.8.3: Log execution end
             stopwatch.Stop();

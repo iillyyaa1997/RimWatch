@@ -44,6 +44,13 @@ namespace RimWatch.UI
             // === HEADER ===
             DrawHeader(listing, isQuickPanel);
 
+            // === PER-SAVE SETTINGS (v1.3.0 - only in-game) ===
+            if (Current.Game != null)
+            {
+                DrawPerSaveSettingsSection(listing, settings);
+                listing.Gap(12f);
+            }
+
             // === QUICK STATUS (only in quick panel) ===
             if (isQuickPanel)
             {
@@ -514,6 +521,98 @@ namespace RimWatch.UI
             
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
+        }
+
+        /// <summary>
+        /// Draws Per-Save Settings section (v1.3.0 - only in-game)
+        /// </summary>
+        private static void DrawPerSaveSettingsSection(Listing_Standard listing, RimWatchSettings settings)
+        {
+            var gameComponent = RimWatchMod.GameComponent;
+            if (gameComponent == null) return;
+            
+            // Section header
+            Rect headerRect = listing.GetRect(30f);
+            DrawGradientBox(headerRect, new Color(0.2f, 0.35f, 0.5f, 0.4f), new Color(0.15f, 0.25f, 0.4f, 0.4f));
+            Widgets.DrawBox(headerRect, 1);
+            
+            Text.Font = GameFont.Medium;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(headerRect, "Per-Save Settings (v1.3.0)");
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            
+            listing.Gap(8f);
+            
+            // Main checkbox - enabled by default
+            bool oldUsePerSave = gameComponent.UsePerSaveSettings;
+            bool newUsePerSave = oldUsePerSave;
+            
+            Rect checkboxRect = listing.GetRect(30f);
+            Widgets.CheckboxLabeled(checkboxRect, "Use per-save settings (recommended)", ref newUsePerSave);
+            
+            if (newUsePerSave != oldUsePerSave)
+            {
+                gameComponent.UsePerSaveSettings = newUsePerSave;
+                
+                if (newUsePerSave)
+                {
+                    Messages.Message("✓ Per-save settings enabled. Settings will be saved with this save file.", MessageTypeDefOf.NeutralEvent, false);
+                }
+                else
+                {
+                    Messages.Message("⚠ Per-save settings disabled. Using global settings for all saves.", MessageTypeDefOf.CautionInput, false);
+                }
+            }
+            
+            // Description text
+            GUI.color = MutedTextColor;
+            listing.Label("  Each save file will remember its own settings");
+            GUI.color = Color.white;
+            
+            listing.Gap(6f);
+            
+            // Status indicator
+            if (gameComponent.UsePerSaveSettings)
+            {
+                GUI.color = new Color(0.5f, 1f, 0.5f); // Green
+                listing.Label("  Status: ✓ Per-save settings active");
+                GUI.color = Color.white;
+            }
+            else
+            {
+                GUI.color = new Color(1f, 0.8f, 0.5f); // Yellow
+                listing.Label("  Status: ⚠ Using global settings");
+                GUI.color = Color.white;
+            }
+            
+            listing.Gap(8f);
+            
+            // Copy buttons (only visible if per-save enabled)
+            if (gameComponent.UsePerSaveSettings)
+            {
+                Rect buttonsRect = listing.GetRect(30f);
+                float buttonWidth = (buttonsRect.width - 10f) / 2f;
+                
+                // Button: Copy global → this save
+                Rect button1Rect = new Rect(buttonsRect.x, buttonsRect.y, buttonWidth, buttonsRect.height);
+                if (Widgets.ButtonText(button1Rect, "Copy global → this save"))
+                {
+                    gameComponent.CopyFromGlobalSettings();
+                    Messages.Message("✓ Copied global settings to this save", MessageTypeDefOf.NeutralEvent, false);
+                }
+                
+                // Button: Copy this save → global
+                Rect button2Rect = new Rect(buttonsRect.x + buttonWidth + 10f, buttonsRect.y, buttonWidth, buttonsRect.height);
+                if (Widgets.ButtonText(button2Rect, "Copy this save → global"))
+                {
+                    gameComponent.ApplyToGlobalSettings();
+                    settings.Write(); // Save to disk
+                    Messages.Message("✓ Copied save settings to global", MessageTypeDefOf.NeutralEvent, false);
+                }
+            }
+            
+            listing.Gap(4f);
         }
 
         /// <summary>

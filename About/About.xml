@@ -8,50 +8,45 @@
     </supportedVersions>
     <description>🎭 FULL AUTOPILOT for RimWorld! AI plays for you - just watch your story unfold. Complete colony automation! 📺
 
-✨ NEW v0.9.0 Beta (2025-11-17): Enhanced Production & Construction Intelligence!
-🏗️ ConstructionCommandSystem - Force assign builders to critical construction (walls/doors/beds priority)
-⚙️ Enhanced ProductionAutomation - Survival items (clothing/weapons), medicine auto-production, food variety by stage
-🔄 Bill Resource Management - Auto pause/resume bills when ingredients unavailable
-📊 DecisionLogger - ALL decision types now supported (work/farming/defense/medical/construction/production)
-🚧 BETA Phase - Focus on new features, comprehensive polish coming in v1.0!
+🎮 v1.3.0 RELEASE (2025-12-09): Per-Save Settings - Each Save Remembers Its Own Configuration!
 
-✨ v0.8.4++ (2025-11-16): CRITICAL Fixes!
-🚨 Job spam fix - мод больше НЕ заставляет переключаться за наносекунды!
-🏠 Generator placement - генераторы СНАРУЖИ, не в центре комнат!
-⏱️ Cooldowns 10s→60s - даём колонистам работать самостоятельно!
-🛏️ Bed cycle fix - кровати больше НЕ ставятся/убираются по кругу!
-🚑 Rescue logic - спасатели/доктора НЕ прерываются!
-📝 Log spam fix - GameSpeedController молчит если нет изменений!
+✨ NEW IN v1.3.0 - PER-SAVE SETTINGS:
+💾 Automatic per-save settings - each save file remembers its own configuration
+✅ Enabled by default - works out of the box
+🔄 Seamless migration - old saves automatically migrate
+🎯 Different colonies = different strategies (desert survival vs mountain fortress vs testing)
+🔀 Easy sync - copy settings between saves with one button
 
-✨ v0.8.4+ (2025-11-16): Major UI/UX + Priority Medical!
-🎨 Increased scroll +600px - все настройки влезают!
-🌐 Global logging toggle - мастер-переключатель для всех логов!
-📋 Logging settings grouped - единый стиль, коллапсируется!
-⚡ Instant apply - настройки сохраняются мгновенно!
-🏥 Priority rescue - доктора помогают самому критичному первым!
+🧪 v1.1.0+ TESTING PHASE (2025-11-22): Machine Learning Validation Fix!
 
-✨ v0.8.4 (2025-11-16): Foundation for Building Intelligence!
-🏠 RoomSizeCalculator - оптимальные размеры по стадиям!
-📐 BuildingSequencer - приоритеты строительства!
-⚙️ ProductionAutomation - автоматические bills!
-🐛 Critical fixes - Rescue (6,724→0 errors), Medical spam (-95%)!
+✅ FIX: ML Systems now validate at startup - DecisionAnalyzer, ColonyPredictor, PlayerStyleAnalyzer
+⚠️ STATUS: TESTING - First playtest excellent (0 errors, <1% TPS), ML validation now active!
 
-✨ v0.8.3 (2025-11-16): Comprehensive Logging &amp; Debugging!
-📊 Structured logging framework - full decision trail!
-🎯 All automation systems logged - understand AI behavior!
-⚡ Performance monitoring - automatic >5ms detection!
-🐛 Failure pattern detection - recurring issue alerts!
-🛠️ CRITICAL FIX: FloorBuilder ore check - no more floors on ore!
+✨ NEW IN v1.1.0 - ML SYSTEMS:
+🧠 DecisionAnalyzer - AI learns from past decisions, improves over time
+🔮 ColonyPredictor - Predicts food shortages, raids, resource depletion
+👤 PlayerStyleAnalyzer - Learns YOUR playstyle, adapts AI to match
+🏥 Medical Operations - Auto-schedules surgeries, bionic upgrades, scar removal
+🎉 Social Events - Auto-plans parties when mood is low
+🚐 Caravan Management - Smart caravan formation and trade routes
+⚔️ Tactical Combat - Formations, positioning, retreat logic
+🌾 Advanced Farming - Crop rotation, soil fertility, animal breeding genetics
 
-✨ v0.8.2 (2025-11-12): Performance and Stability Improvements!
-⚡ Rejected location cache - no more spam!
-🔇 Warning throttling - 99% log reduction!
-📊 Better diagnostics - clear material info!
-⚡ Adaptive intervals - 90% less checks in peace!
-🌾 Animal breeding, training, hay preparation
-🏗️ Auto-turrets, building repair, decorations
-⚔️ Defensive lines, tactical retreat, turret maintenance
-🛒 Production for trade (clothing, sculptures, drugs)
+🎛️ NEW SETTINGS:
+- ML Learning Rate - Control how fast AI adapts
+- Prediction Sensitivity - Adjust warning thresholds
+- Analysis Intervals - Configure ML update frequency
+- Per-category automation toggles
+
+🎉 v1.0.6 RELEASE (2025-11-18): Production-Ready AI Colony Manager with Critical Fixes!
+
+✨ CORE FEATURES:
+🎭 5 AI Storyteller Personalities - Choose your AI's playstyle!
+🏗️ Advanced Building Intelligence - Base layout planning, material selection, auto-upgrades
+🤖 Machine Learning - AI learns from your style and predicts colony needs
+🎨 Modern Dashboard UI - Real-time stats, alerts, decision history
+📊 Debug Visualization - See AI plans overlaid on map
+⚡ Performance Optimized - &lt;5% TPS impact with smart caching
 
 🎭 AI STORYTELLERS:
 Choose AI personality with unique playstyle:

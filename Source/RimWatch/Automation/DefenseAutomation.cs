@@ -1,4 +1,6 @@
+using RimWatch.Automation.Defense;
 using RimWatch.Core;
+using RimWatch.ML;
 using RimWatch.Settings;
 using RimWatch.Utils;
 using RimWorld;
@@ -196,6 +198,12 @@ namespace RimWatch.Automation
             AutoTacticalRetreat(map, status);
             AutoRepairTurrets(map);
             
+            // **v0.9.15: Advanced tactical positioning and formations**
+            if (status.EnemyCount > 0)
+            {
+                TacticalPositioningSystem.Tick(map);
+            }
+            
             // v0.8.3: Log execution end
             stopwatch.Stop();
             if (DefenseLogLevel >= SystemLogLevel.Verbose)
@@ -266,7 +274,8 @@ namespace RimWatch.Automation
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             
             // Check if enemies are close enough to be a real threat
-            const float DangerDistance = 30f; // Only draft if enemies within 30 tiles of any colonist
+            // ✅ CRITICAL FIX: Increased from 30 to 60 tiles - raids often start at distance!
+            const float DangerDistance = 60f; // Draft if enemies within 60 tiles (almost half map)
             
             List<Pawn> enemies = map.mapPawns.AllPawnsSpawned
                 .Where(p => p.HostileTo(Faction.OfPlayer) && !p.Dead && !p.Downed)
@@ -297,8 +306,28 @@ namespace RimWatch.Automation
                 }
             }
             
-            // Only draft if enemies are present AND close
-            if (!hasCloseEnemies || status.EnemyCount == 0)
+            // ✅ CRITICAL FIX: Draft logic that prevents stuck-drafted state!
+            // Draft if:
+            // - Enemies are close (within 60 tiles) OR
+            // - Raid is in progress AND enemies exist AND enemies are approaching (not fleeing)
+            bool shouldDraft = false;
+            
+            if (status.EnemyCount > 0)
+            {
+                if (hasCloseEnemies)
+                {
+                    // Always draft if enemies are close
+                    shouldDraft = true;
+                }
+                else if (status.RaidInProgress && closestDistance < 100f)
+                {
+                    // Draft if raid active and enemies not too far (100 tiles = reasonable range)
+                    shouldDraft = true;
+                }
+                // Otherwise: enemies exist but far away (>100 tiles) or fleeing → DON'T draft
+            }
+            
+            if (!shouldDraft)
             {
                 // Undraft colonists if no close enemies and they're drafted
                 List<Pawn> draftedColonists = map.mapPawns.FreeColonistsSpawned
@@ -308,13 +337,15 @@ namespace RimWatch.Automation
                 if (draftedColonists.Count > 0)
                 {
                     // v0.8.3: Log undraft decision
-                    string reasonStr = status.EnemyCount == 0 ? "ThreatCleared" : "EnemyTooFar";
+                    string reasonStr = status.EnemyCount == 0 ? "ThreatCleared" : 
+                                      (closestDistance > 100f ? "EnemyVeryFar" : "EnemyTooFar");
                     RimWatchLogger.LogDecision("DefenseAutomation", "UndraftColonists", new Dictionary<string, object>
                     {
                         { "count", draftedColonists.Count },
                         { "reason", reasonStr },
                         { "closestDistance", closestDistance },
-                        { "dangerDistance", DangerDistance }
+                        { "enemyCount", status.EnemyCount },
+                        { "raidInProgress", status.RaidInProgress }
                     });
                     
                     List<string> undraftedNames = new List<string>();
@@ -324,7 +355,8 @@ namespace RimWatch.Automation
                         undraftedNames.Add(colonist.LabelShort);
                     }
                     
-                    string reason = status.EnemyCount == 0 ? "threat cleared" : $"enemies too far ({closestDistance:F0} tiles)";
+                    string reason = status.EnemyCount == 0 ? "threat cleared" : 
+                                   $"enemies too far ({closestDistance:F0} tiles, {status.EnemyCount} enemies)";
                     
                     // v0.8.3: Log execution end
                     stopwatch.Stop();

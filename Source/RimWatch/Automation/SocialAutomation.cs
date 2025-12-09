@@ -1,3 +1,4 @@
+using RimWatch.Automation.Social;
 using RimWatch.Core;
 using RimWatch.Utils;
 using RimWorld;
@@ -87,6 +88,11 @@ namespace RimWatch.Automation
             // **NEW: Execute social actions**
             AutoManagePrisoners(map);
             AutoScheduleParties(map, status);
+            
+            // **v0.9.18: Mood crisis detection, event planning, conflict resolution**
+            MoodCrisisDetector.Tick(map);
+            SocialEventPlanner.Tick(map);
+            ConflictResolver.Tick(map);
         }
 
         /// <summary>

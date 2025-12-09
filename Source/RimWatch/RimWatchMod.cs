@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using HarmonyLib;
+using RimWatch.Components;
 using RimWatch.Core;
 using RimWatch.Settings;
 using RimWatch.Utils;
@@ -19,6 +20,18 @@ namespace RimWatch
     {
         public static RimWatchMod? Instance { get; private set; }
         public static RimWatchSettings Settings { get; private set; } = new RimWatchSettings();
+        
+        /// <summary>
+        /// Get the GameComponent for per-save settings (only available in-game)
+        /// </summary>
+        public static RimWatchGameComponent? GameComponent
+        {
+            get
+            {
+                if (Current.Game == null) return null;
+                return Current.Game.GetComponent<RimWatchGameComponent>();
+            }
+        }
         
         private static Harmony? _harmonyInstance;
         public static Harmony? HarmonyInstance => _harmonyInstance;
@@ -102,6 +115,18 @@ namespace RimWatch
         public override void WriteSettings()
         {
             base.WriteSettings();
+            RimWatchLogger.Info("[MOD] WriteSettings() called - settings saved to disk!");
+            
+            // ✅ CRITICAL FIX: Apply settings to Core after saving!
+            Settings.ApplyToCore();
+            
+            // ✅ Sync to per-save settings if in-game and per-save is enabled
+            var gameComponent = GameComponent;
+            if (gameComponent != null && gameComponent.UsePerSaveSettings)
+            {
+                gameComponent.CopyFromGlobalSettings();
+                RimWatchLogger.Info("[MOD] Synced settings to per-save (in-game)");
+            }
         }
     }
 }

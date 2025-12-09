@@ -93,6 +93,7 @@
     <Compile Include="UI/RimWatchQuickMenu.cs" />
     <Compile Include="UI/HierarchicalSettingsUI.cs" />
     <Compile Include="UI/UnifiedSettingsUI.cs" />
+    <Compile Include="UI/DebugOverlay.cs" />
     
     <!-- Debug & Visualization -->
     <Compile Include="Debug/DebugOverlay.cs" />
@@ -106,6 +107,13 @@
     <!-- AI System - v0.1 -->
     <Compile Include="AI/AIStoryteller.cs" />
     <Compile Include="AI/Storytellers/BalancedStoryteller.cs" />
+    
+    <!-- v0.9.1: New AI Storytellers -->
+    <Compile Include="AI/Storytellers/CautiousStoryteller.cs" />
+    <Compile Include="AI/Storytellers/AggressiveStoryteller.cs" />
+    <Compile Include="AI/Storytellers/ChaoticStoryteller.cs" />
+    <Compile Include="AI/Storytellers/RandomStoryteller.cs" />
+    <Compile Include="AI/Storytellers/CustomStoryteller.cs" />
     
     <!-- Automation - v0.5 (8 categories) -->
     <Compile Include="Automation/WorkAutomation.cs" />
@@ -129,6 +137,49 @@
     <Compile Include="Automation/ApparelAutomation.cs" />
     <Compile Include="Core/GameSpeedController.cs" />
     <Compile Include="Utils/PawnPowerCalculator.cs" />
+    
+    <!-- v0.9.2: Production Intelligence -->
+    <Compile Include="Automation/Production/BillIntelligence.cs" />
+    <Compile Include="Automation/Production/WorkshopManager.cs" />
+    
+    <!-- v0.9.6 & v0.9.13: Performance & Caching -->
+    <Compile Include="Core/CacheManager.cs" />
+    <Compile Include="Core/PerformanceMonitor.cs" />
+    
+    <!-- v0.9.3, v0.9.9, v0.9.10: UI Enhancements -->
+    <Compile Include="UI/StorytellerSelectionPanel.cs" />
+    <Compile Include="UI/DecisionHistoryPanel.cs" />
+    <Compile Include="UI/ProfileManagerPanel.cs" />
+    
+    <!-- v0.9.7-0.9.8: Machine Learning Systems -->
+    <Compile Include="ML/DecisionAnalyzer.cs" />
+    <Compile Include="ML/ColonyPredictor.cs" />
+    <Compile Include="ML/PlayerStyleAnalyzer.cs" />
+    <Compile Include="ML/MLSystemsIntegration.cs" />
+    
+    <!-- v0.9.4-0.9.5: Building Intelligence -->
+    <Compile Include="Automation/BuildingUpgradeManager.cs" />
+    
+    <!-- v0.9.15: Defense Tactical Systems -->
+    <Compile Include="Automation/Defense/TacticalPositioningSystem.cs" />
+    <Compile Include="Automation/Defense/FormationManager.cs" />
+    
+    <!-- v0.9.16: Trade Caravan Systems -->
+    <Compile Include="Automation/Trade/CaravanManager.cs" />
+    <Compile Include="Automation/Trade/RouteOptimizer.cs" />
+    
+    <!-- v0.9.17: Medical Operations & Preventive Care -->
+    <Compile Include="Automation/Medical/OperationScheduler.cs" />
+    <Compile Include="Automation/Medical/PreventiveCare.cs" />
+    
+    <!-- v0.9.18: Social Mood Crisis & Conflict Resolution -->
+    <Compile Include="Automation/Social/MoodCrisisDetector.cs" />
+    <Compile Include="Automation/Social/SocialEventPlanner.cs" />
+    <Compile Include="Automation/Social/ConflictResolver.cs" />
+    
+    <!-- v0.9.19-0.9.20: Building Layout & Furniture Intelligence -->
+    <Compile Include="Automation/Building/BaseLayoutPlanner.cs" />
+    <Compile Include="Automation/RoomBuilding/FurnitureRelocator.cs" />
     
     <!-- Colony Development System - v0.7.5 -->
     <Compile Include="Automation/ColonyDevelopment/DevelopmentStageManager.cs" />
@@ -172,6 +223,7 @@
     
     <!-- Components - v0.1 -->
     <Compile Include="Components/RimWatchMapComponent.cs" />
+    <Compile Include="Components/RimWatchGameComponent.cs" />
     
     <!-- Settings -->
     <Compile Include="Settings/RimWatchSettings.cs" />

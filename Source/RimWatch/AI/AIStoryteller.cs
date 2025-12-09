@@ -1,3 +1,4 @@
+using RimWatch.AI.Storytellers;
 using RimWatch.Automation;
 using RimWatch.Utils;
 using RimWorld;
@@ -38,6 +39,17 @@ namespace RimWatch.AI
         /// <param name="needs">Текущие потребности колонии.</param>
         /// <returns>Приоритет работы (1-4 для Manual, 0=disabled/1=enabled для Simple).</returns>
         public abstract int DetermineWorkPriority(WorkTypeDef workType, Pawn colonist, ColonyNeeds needs);
+
+        /// <summary>
+        /// v0.9.1: Returns the personality traits of this storyteller.
+        /// </summary>
+        public abstract StorytellerPersonality GetPersonality();
+
+        /// <summary>
+        /// v0.9.14: Returns the crafting strategy for this storyteller.
+        /// Stockpile = craft more reserves, Trade = craft for selling.
+        /// </summary>
+        public abstract CraftingStrategy GetCraftingStrategy();
 
         /// <summary>
         /// Вызывается при активации рассказчика.

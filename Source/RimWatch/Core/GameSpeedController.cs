@@ -25,26 +25,22 @@ namespace RimWatch.Core
         {
             try
             {
-                // v0.8.1: Check if enabled in settings
-                if (!RimWatchMod.Settings.gameSpeedControlEnabled) return;
-                
                 int currentTick = Find.TickManager.TicksGame;
                 if (currentTick - _lastSpeedChangeTick < SpeedChangeInterval) return;
                 
-                // Detect user pause
+                // ✅ FIX: Auto-unpause ALWAYS works, even if speed control is disabled!
                 if (Find.TickManager.Paused)
                 {
                     if (!_userPausedGame)
                     {
                         _userPausedGame = true;
-                        RimWatchLogger.Debug("GameSpeedController: User paused detected");
+                        RimWatchLogger.Debug("GameSpeedController: Pause detected");
                     }
                     
-                    // Auto-unpause if emergencies resolved (from settings)
-                    if (RimWatchMod.Settings.autoUnpause && ShouldUnpause(map))
+                    // ✅ CRITICAL: Auto-unpause works independently of gameSpeedControlEnabled!
+                    if (ShouldUnpause(map))
                     {
                         Find.TickManager.CurTimeSpeed = TimeSpeed.Normal;
-                        // Note: Can't directly set Paused property, but changing speed will unpause
                         _userPausedGame = false;
                         RimWatchLogger.Info("⏯️ GameSpeedController: Auto-unpaused (emergency resolved)");
                     }
@@ -55,6 +51,9 @@ namespace RimWatch.Core
                 {
                     _userPausedGame = false;
                 }
+                
+                // v0.8.1: Speed control is optional, but unpause is always active
+                if (!RimWatchMod.Settings.gameSpeedControlEnabled) return;
                 
                 // Determine optimal speed
                 TimeSpeed targetSpeed = DetermineOptimalSpeed(map);

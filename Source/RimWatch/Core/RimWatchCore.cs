@@ -1,6 +1,7 @@
 using RimWatch.AI;
 using RimWatch.AI.Storytellers;
 using RimWatch.Utils;
+using System.Linq;
 using Verse;
 
 namespace RimWatch.Core
@@ -96,6 +97,31 @@ namespace RimWatch.Core
             // v0.5: Применяем настройки из Settings
             // НЕ устанавливаем значения напрямую - они будут установлены из RimWatchSettings
             RimWatchLogger.Info("Core initialization complete - waiting for settings application");
+            
+            // v1.1.0: Run ML systems validation at startup
+            try
+            {
+                RimWatchLogger.Info("ML Systems: Running integration validation...");
+                var validationResult = RimWatch.ML.MLSystemsIntegration.ValidateIntegration();
+                
+                if (validationResult.AllPassed)
+                {
+                    RimWatchLogger.Info("✅ ML Systems: All integration checks passed!");
+                }
+                else
+                {
+                    int failedCount = validationResult.TotalChecks - validationResult.PassedChecks;
+                    RimWatchLogger.Warning($"⚠️ ML Systems: {failedCount} checks failed:");
+                    foreach (var check in validationResult.Checks.Where(c => !c.Value.Success))
+                    {
+                        RimWatchLogger.Warning($"  - {check.Key}: {check.Value.Message}");
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                RimWatchLogger.Error($"ML Systems validation failed: {ex.Message}");
+            }
         }
 
         /// <summary>

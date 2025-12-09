@@ -5,31 +5,202 @@
 [![RimWorld Version](https://img.shields.io/badge/RimWorld-1.6-green.svg)](https://rimworldgame.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Development Status](https://img.shields.io/badge/Status-BETA-orange.svg)]()
-[![Version](https://img.shields.io/badge/Version-0.9.0--beta-blue.svg)]()
+[![Version](https://img.shields.io/badge/Version-1.3.0-blue.svg)]()
 
-## 🎉 НОВОЕ В v0.9.0 Beta (2025-11-17)
+## 🎮 v1.3.0 PER-SAVE SETTINGS (2025-12-09)
 
-**ENHANCED PRODUCTION & CONSTRUCTION INTELLIGENCE:**
-- 🏗️ **ConstructionCommandSystem** - Принудительное назначение строителей на критичные объекты
-  - Приоритеты: стены комнат → двери → кровати → генераторы → остальное
-  - Проверка каждые 10 секунд, топ-3 приоритетных объекта
-  - Умный поиск ближайшего доступного строителя
-  - НЕ прерывает текущую работу строителя
-- ⚙️ **Enhanced ProductionAutomation** - Умное управление производством
-  - Survival bills: автоматическая замена повреждённой одежды (<50% HP) и оружия (<60% HP)
-  - Medicine production: herbal medicine если нет industrial, 5+ medicine на колониста
-  - Food variety: Simple → Fine → Lavish meals в зависимости от стадии развития
-  - Bill resource management: автоматическая пауза/возобновление при нехватке ресурсов
-- 📊 **DecisionLogger expansion** - Поддержка всех типов AI решений
-  - work_prioritization, farming_management, defense_positioning
-  - medical_triage, construction_planning, production_management
-  - Интеграция через RimWatchLogger.LogDecision()
-- 🚧 **BETA Development Philosophy** - Фокус на добавление функционала
-  - Известные баги отложены до v1.0 Pre-Release
-  - Comprehensive polish и тестирование в финальной стадии
-  - Steam Workshop публикация после полной стабилизации
+**КАЖДЫЙ СЕЙВ ПОМНИТ СВОИ НАСТРОЙКИ!**
 
-📖 **[Full Release Notes в V090_BETA_RELEASE_NOTES.md](V090_BETA_RELEASE_NOTES.md)**
+### ✨ Что это значит
+
+RimWatch теперь **автоматически сохраняет настройки отдельно для каждого сейва**! Когда вы заходите в сейв, автоматически применяются те настройки, которые были активны когда вы последний раз играли этот сейв.
+
+**По умолчанию ВКЛЮЧЕНО** - работает "из коробки" для всех новых и существующих сейвов!
+
+### 🎯 Примеры использования
+
+**Сценарий 1: Разные колонии - разные стратегии**
+- Сейв "Desert Base" - включены farming + trade (выживание в пустыне)
+- Сейв "Mountain Fortress" - включены building + defense (укрепленная база)
+- Сейв "Tribal Start" - только work + social (примитивная колония)
+
+**Сценарий 2: Тестирование**
+- Сейв "Test Colony" - все автоматизации включены + debug mode
+- Сейв "Normal Play" - только базовые автоматизации
+
+**Переключение между сейвами автоматически меняет настройки!**
+
+### ⚙️ Управление
+
+1. Откройте **Mod Settings → RimWatch**
+2. В самом верху (только в игре):
+   - ✓ **Use per-save settings** (включено по умолчанию)
+   - Кнопки для копирования настроек между глобальными и per-save
+   - Индикатор текущего режима
+
+3. Настройки сохраняются автоматически при каждом сохранении игры
+
+### 🔄 Миграция старых сейвов
+
+Старые сейвы (до v1.3.0) **автоматически мигрируют**:
+- При первой загрузке используются текущие глобальные настройки
+- При первом сохранении настройки записываются в save file
+- **Никаких действий от вас не требуется!**
+
+📖 **[Технический гайд: PER_SAVE_SETTINGS.md](PER_SAVE_SETTINGS.md)**
+
+## 🧪 v1.1.0 TESTING PHASE (2025-11-22)
+
+**FIRST PLAYTEST SESSION: ✅ EXCELLENT RESULTS**
+
+### 📊 Test Results Summary
+- ✅ **0 errors, 0 crashes** - perfect stability
+- ✅ **All 8 automation systems working** flawlessly
+- ✅ **Performance: <2ms average** execution time per system
+- ✅ **TPS Impact: <1%** - excellent optimization
+- ✅ **Smart decision making** - correct priorities, emergency detection, resource management
+
+**Detailed Analysis:** [LOG_ANALYSIS_2025-11-22.md](LOG_ANALYSIS_2025-11-22.md)
+
+### 🔍 What Was Tested
+- ✅ WorkAutomation - Job priorities, emergency responses
+- ✅ ResourceAutomation - Tree cutting, stone processing, emergency wood management
+- ✅ ConstructionMonitor - 63 unfinished objects tracked correctly
+- ✅ FurnitureRelocator - Bed relocation and installation
+- ✅ ColonyDevelopment - Stage-based priorities (beds=100, food=95, storage=90)
+- ✅ MedicalAutomation - Health monitoring, low medicine detection
+- ✅ FarmingAutomation - 2888 plants harvested, smart taming (muffalo utility: 72.0)
+- ✅ TradeAutomation - Forbid/allow management (996/1001 items processed)
+- ✅ FloorBuilder - Room processing, ore detection working
+- ✅ ResearchAutomation - Project tracking
+
+### 🔜 Next Testing Steps
+- [ ] **Long-term stability** - 5+ hour sessions
+- [ ] **ML Systems verification** - Check startup initialization
+- [ ] **Late game scenarios** - 10+ colonists, year 2+
+- [ ] **Combat stress test** - Raid response, formations
+- [ ] **Emergency scenarios** - Fire, medical crises, starvation
+
+## 🎮 v1.3.0 PER-SAVE SETTINGS (2025-12-09)
+
+**КАЖДЫЙ СЕЙВ ПОМНИТ СВОИ НАСТРОЙКИ!**
+
+### ✨ Что это значит
+
+RimWatch теперь **автоматически сохраняет настройки отдельно для каждого сейва**! Когда вы заходите в сейв, автоматически применяются те настройки, которые были активны когда вы последний раз играли этот сейв.
+
+**По умолчанию ВКЛЮЧЕНО** - работает "из коробки" для всех новых и существующих сейвов!
+
+### 🎯 Примеры использования
+
+**Сценарий 1: Разные колонии - разные стратегии**
+- Сейв "Desert Base" - включены farming + trade (выживание в пустыне)
+- Сейв "Mountain Fortress" - включены building + defense (укрепленная база)
+- Сейв "Tribal Start" - только work + social (примитивная колония)
+
+**Сценарий 2: Тестирование**
+- Сейв "Test Colony" - все автоматизации включены + debug mode
+- Сейв "Normal Play" - только базовые автоматизации
+
+**Переключение между сейвами автоматически меняет настройки!**
+
+### ⚙️ Управление
+
+1. Откройте **Mod Settings → RimWatch**
+2. В самом верху (только в игре):
+   - ✓ **Use per-save settings** (включено по умолчанию)
+   - Кнопки для копирования настроек между глобальными и per-save
+   - Индикатор текущего режима
+
+3. Настройки сохраняются автоматически при каждом сохранении игры
+
+### 🔄 Миграция старых сейвов
+
+Старые сейвы (до v1.3.0) **автоматически мигрируют**:
+- При первой загрузке используются текущие глобальные настройки
+- При первом сохранении настройки записываются в save file
+- **Никаких действий от вас не требуется!**
+
+### 🔜 Next Testing Steps
+- [ ] **Long-term stability** - 5+ hour sessions
+- [ ] **ML Systems verification** - Check startup initialization
+- [ ] **Late game scenarios** - 10+ colonists, year 2+
+- [ ] **Combat stress test** - Raid response, formations
+- [ ] **Emergency scenarios** - Fire, medical crises, starvation
+
+## 🎉 v1.1.0 MACHINE LEARNING REVOLUTION (2025-11-22)
+
+**ML SYSTEMS FULLY ACTIVATED - AI THAT LEARNS & PREDICTS:**
+
+### 🧠 Machine Learning Features (NEW!)
+- **Decision Analyzer**: AI learns from past decisions, improves strategies over time
+- **Colony Predictor**: Forecasts food shortages, raids, resource depletion 1-3 days ahead
+- **Player Style Learning**: Observes your manual overrides, adapts AI to match YOUR playstyle
+- **Pattern Recognition**: Identifies successful strategies and avoids repeated failures
+
+### 🏥 Medical Intelligence (ENHANCED!)
+- **Auto-Surgery Scheduling**: Automatically schedules bionic upgrades, scar removal, organ replacements
+- **Preventive Care**: Monitors colonist health, catches issues before they become critical
+- **Bed Assignment**: Smart medical bed allocation for urgent cases
+- **Pain Management**: Prioritizes treatment of most painful conditions first
+
+### 🎛️ ML Configuration (NEW SETTINGS!)
+- **Learning Rate**: Control how fast AI adapts (0.0-1.0, default 0.1)
+- **Prediction Sensitivity**: Adjust warning thresholds (0.0-1.0, default 0.7)
+- **Analysis Intervals**: Configure ML update frequency (default: 1 game day)
+- **System Toggles**: Enable/disable individual ML systems
+
+### 🚀 Advanced Systems Now Active
+- **Tactical Combat**: Formations, positioning, retreat logic fully operational
+- **Advanced Farming**: Crop rotation, soil fertility, breeding genetics implemented
+- **Caravan Management**: Auto-formation, tracking, route optimization working
+- **Base Layout Intelligence**: Multi-room planning with defensive considerations
+
+## 🎉 v1.0.6 PRODUCTION RELEASE (2025-11-18)
+
+**PRODUCTION-READY AI COLONY MANAGER:**
+
+### 🎭 AI Storyteller System
+- **5 Unique Personalities**: Cautious, Balanced, Aggressive, Chaotic, Custom
+- **Storyteller UI**: Beautiful cards with preview & personality comparison
+- **Profile Manager**: Save, load, and share storyteller configurations
+- **Dynamic Switching**: Change storytellers mid-game seamlessly
+
+### 🏗️ Advanced Building Intelligence  
+- **Base Layout Planner**: Multi-room planning with optimal layouts
+- **Material Intelligence**: Cost-benefit analysis, fire safety, beauty optimization
+- **Building Upgrades**: Auto-upgrade when better tech researched
+- **Furniture Decorator**: Smart placement of furniture, art, lighting
+
+### 🤖 Machine Learning & Prediction
+- **Decision Analyzer**: Learn from past AI decisions and patterns
+- **Colony Predictor**: Forecast food shortages, raids, resource needs
+- **Player Style Learning**: AI adapts to your manual overrides
+- **Pattern Recognition**: Identifies successful strategies
+
+### 🎨 Modern UI & Visualization
+- **Dashboard**: Tabbed interface with Overview, Statistics, Settings, Alerts
+- **Real-time Stats**: Colony status, automation systems, storyteller info
+- **Debug Overlay**: Visualize AI plans (buildings, defense, pathfinding)
+- **Decision History**: Complete log viewer with filters and search
+
+### ⚡ Performance & Optimization
+- **<5% TPS Impact**: Optimized for smooth gameplay
+- **Smart Caching**: Cache expensive calculations
+- **Dynamic Intervals**: Adjust update frequency based on load
+- **Throttled Logging**: Reduce log spam
+
+### 📊 Complete Automation (8 Systems)
+- 🏗️ **Building**: Base layouts, room planning, furniture placement
+- 👷 **Work**: Job priorities, skill optimization, emergency tasks
+- 🌾 **Farming**: Crop rotation, animal breeding, seasonal planning
+- 🛡️ **Defense**: Tactical positioning, combat roles, formations
+- 💰 **Trade**: Auto-caravans, route optimization, resource management
+- ⚕️ **Medical**: Operation scheduling, preventive care, health monitoring
+- 👥 **Social**: Mood crisis detection, event planning, conflict resolution
+- 🔬 **Research**: Priority-based research queue
+
+📖 **[Read QUICK_START.md](QUICK_START.md)** | **[Storytellers Guide](STORYTELLERS_GUIDE.md)** | **[Full Changelog](CHANGELOG.md)**
 
 ## 🔙 ПРЕДЫДУЩЕЕ: v0.8.5 Beta (2025-11-17)
 

@@ -14,6 +14,11 @@ namespace RimWatch.Automation.BuildingPlacement
     /// </summary>
     public static class LocationFinder
     {
+        // ✅ FIX: Cache recently chosen locations to avoid duplicates
+        private static Dictionary<int, HashSet<IntVec3>> _recentlyChosenLocations = new Dictionary<int, HashSet<IntVec3>>();
+        private const int LOCATION_CACHE_TIMEOUT_TICKS = 300; // 5 seconds
+        private static int _lastCacheClearTick = 0;
+        
         /// <summary>
         /// Building roles for specialized placement logic.
         /// </summary>
@@ -41,6 +46,21 @@ namespace RimWatch.Automation.BuildingPlacement
             BuildingRole role,
             string logLevel = "Moderate")
         {
+            // ✅ FIX: Clear cache periodically
+            int currentTick = Find.TickManager.TicksGame;
+            if (currentTick - _lastCacheClearTick > LOCATION_CACHE_TIMEOUT_TICKS)
+            {
+                _recentlyChosenLocations.Clear();
+                _lastCacheClearTick = currentTick;
+            }
+            
+            // Initialize cache for this map
+            int mapId = map.uniqueID;
+            if (!_recentlyChosenLocations.ContainsKey(mapId))
+            {
+                _recentlyChosenLocations[mapId] = new HashSet<IntVec3>();
+            }
+            
             // Start timer for search time tracking
             Stopwatch stopwatch = Stopwatch.StartNew();
             
@@ -77,6 +97,14 @@ namespace RimWatch.Automation.BuildingPlacement
                     IntVec3 candidate = new IntVec3(x, 0, z);
 
                     if (!candidate.InBounds(map)) continue;
+                    
+                    // ✅ FIX: Skip recently chosen locations to avoid duplicates
+                    if (_recentlyChosenLocations[mapId].Contains(candidate))
+                    {
+                        if (logLevel == "Debug")
+                            RimWatchLogger.Debug($"LocationFinder: Skipping recently chosen location ({candidate.x}, {candidate.z})");
+                        continue;
+                    }
 
                     // Early reject if no rotation is acceptable with comprehensive area validation
                     if (!HasAnyValidRotationWithAreaCheck(map, buildingDef, candidate, logLevel))
@@ -145,6 +173,10 @@ namespace RimWatch.Automation.BuildingPlacement
 
             // Get top 3 for logging
             var top3 = candidates.Take(3).ToList();
+            
+            // ✅ FIX: Remember chosen location to avoid duplicates
+            IntVec3 bestLocation = top3.First().Location;
+            _recentlyChosenLocations[mapId].Add(bestLocation);
             
             stopwatch.Stop();
 
@@ -291,8 +323,17 @@ namespace RimWatch.Automation.BuildingPlacement
                 case BuildingRole.Kitchen:
                 case BuildingRole.Research:
                 case BuildingRole.Medical:
-                    // Prefer indoor, constructed floor
-                    if (isRoofed) score.AddFactor("Role: Indoor preferred", 5);
+                case BuildingRole.Workshop:  // ✅ CRITICAL FIX: Workshops MUST be indoor!
+                    // ✅ CRITICAL: These buildings REQUIRE roof!
+                    if (isRoofed)
+                    {
+                        score.AddFactor("Role: Indoor (required)", 15);
+                    }
+                    else
+                    {
+                        // ✅ STRONG PENALTY for outdoor - workshops need protection!
+                        score.AddFactor("Role: Outdoor (not acceptable!)", -30);
+                    }
                     break;
 
                 case BuildingRole.Farm:
@@ -417,19 +458,38 @@ namespace RimWatch.Automation.BuildingPlacement
             
             Rot4[] tryRots = new[] { Rot4.North, Rot4.East, Rot4.South, Rot4.West };
             
+            // ✅ FIX: Определяем bufferSize в зависимости от типа здания
+            int bufferSize = 0; // Default: no buffer (footprint only)
+            
+            // Walls need buffer to avoid clipping
+            bool isWall = buildingDef.building != null && 
+                          buildingDef.passability == Traversability.Impassable &&
+                          buildingDef.fillPercent >= 0.75f;
+            
+            if (isWall)
+            {
+                bufferSize = 0; // Walls can be adjacent
+            }
+            else
+            {
+                // Non-walls (stoves, beds, workshops): no buffer for placement validation
+                // Buffer checks are too strict and reject valid locations
+                bufferSize = 0;
+            }
+            
             foreach (Rot4 rot in tryRots)
             {
                 // First check GenConstruct (faster, basic rules)
                 AcceptanceReport report = GenConstruct.CanPlaceBlueprintAt(buildingDef, cell, rot, map);
                 if (!report.Accepted) continue;
                 
-                // Then comprehensive area validation (footprint + buffer)
+                // Then comprehensive area validation (footprint only, no buffer!)
                 ValidationResult areaCheck = AreaValidator.ValidateBuildingArea(
                     map, 
                     cell, 
                     buildingDef, 
                     rot, 
-                    bufferSize: 1, 
+                    bufferSize: bufferSize, // ✅ Changed from hardcoded 1 to 0!
                     logLevel: "Minimal"); // Minimal logging for candidate screening
                 
                 if (areaCheck.IsValid)

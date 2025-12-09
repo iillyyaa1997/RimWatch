@@ -95,6 +95,37 @@ namespace RimWatch.AI.Storytellers
         }
 
         /// <summary>
+        /// Personality traits for Balanced Manager.
+        /// </summary>
+        public override StorytellerPersonality GetPersonality()
+        {
+            return new StorytellerPersonality
+            {
+                RiskTolerance = 0.5f,         // Balanced risk tolerance
+                BuildingSpeed = 0.5f,         // Moderate building pace
+                TradeAggressiveness = 0.5f,   // Balanced trading
+                DefenseStyle = 0.5f,          // Adaptive defense
+                ResearchPriority = 0.6f,      // Good research focus
+                SocialFocus = 0.6f            // Good mood management
+            };
+        }
+
+        /// <summary>
+        /// v0.9.14: Crafting strategy for Balanced - moderate approach.
+        /// </summary>
+        public override CraftingStrategy GetCraftingStrategy()
+        {
+            return new CraftingStrategy
+            {
+                StockpileMultiplier = 1.5f,   // 50% extra reserves
+                TradeFocus = 0.3f,            // Some trade crafting
+                MinimumQuality = "Normal",    // Normal quality
+                PrioritizeWeapons = false,    // Balanced priorities
+                PrioritizeApparel = false
+            };
+        }
+
+        /// <summary>
         /// Корректирует приоритет на основе навыков колониста.
         /// Сбалансированный менеджер учитывает способности колонистов.
         /// </summary>

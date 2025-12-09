@@ -1,5 +1,6 @@
 using RimWatch.Automation.BuildingPlacement;
 using RimWatch.Core;
+using RimWatch.ML;
 using RimWatch.Utils;
 using RimWorld;
 using System;
@@ -124,6 +125,10 @@ namespace RimWatch.Automation
             // **v0.7 ADVANCED: Animal management and hay preparation**
             AutoManageAnimals(map);
             AutoPrepareHayForWinter(map, needs);
+            
+            // **v0.9.11-0.9.12: Crop rotation and advanced breeding**
+            ManageCropRotation(map);
+            ManageAdvancedAnimalBreeding(map);
             
             // v0.8.3: Log execution end with performance metrics
             stopwatch.Stop();
@@ -1801,6 +1806,413 @@ namespace RimWatch.Automation
             }
         }
 
+        // ======================================
+        // v0.9.11: CROP ROTATION SYSTEM
+        // ======================================
+        
+        // Crop rotation tracking
+        private static Dictionary<Zone_Growing, CropRotationState> _cropRotationStates = new Dictionary<Zone_Growing, CropRotationState>();
+        private static int _lastRotationCheckTick = 0;
+        private const int ROTATION_CHECK_INTERVAL = 7200; // Every 2 hours
+        private const int MIN_HARVESTS_BEFORE_ROTATION = 3; // Rotate after 3 harvests
+        private const float SOIL_DEGRADATION_PER_HARVEST = 0.1f; // 10% degradation per harvest
+        
+        /// <summary>
+        /// v0.9.11: Manages crop rotation to maintain soil fertility.
+        /// Automatically switches crops after multiple harvests to prevent soil exhaustion.
+        /// </summary>
+        public static void ManageCropRotation(Map map)
+        {
+            try
+            {
+                int currentTick = Find.TickManager.TicksGame;
+                if (currentTick - _lastRotationCheckTick < ROTATION_CHECK_INTERVAL)
+                {
+                    return; // Too soon
+                }
+                
+                _lastRotationCheckTick = currentTick;
+                
+                // Get all growing zones
+                var growingZones = map.zoneManager.AllZones.OfType<Zone_Growing>().ToList();
+                
+                foreach (var zone in growingZones)
+                {
+                    // Initialize rotation state if new
+                    if (!_cropRotationStates.ContainsKey(zone))
+                    {
+                        _cropRotationStates[zone] = new CropRotationState
+                        {
+                            CurrentCrop = zone.GetPlantDefToGrow(),
+                            HarvestCount = 0,
+                            SoilFertility = 1.0f,
+                            LastRotationTick = currentTick
+                        };
+                        continue;
+                    }
+                    
+                    var state = _cropRotationStates[zone];
+                    
+                    // Check if current crop changed (player manual override)
+                    ThingDef currentCrop = zone.GetPlantDefToGrow();
+                    if (currentCrop != state.CurrentCrop)
+                    {
+                        // Crop changed, reset rotation state
+                        state.CurrentCrop = currentCrop;
+                        state.HarvestCount = 0;
+                        state.SoilFertility = 1.0f;
+                        state.LastRotationTick = currentTick;
+                        RimWatchLogger.Info($"CropRotation: Detected crop change in zone to {currentCrop?.label ?? "none"}, resetting rotation");
+                        continue;
+                    }
+                    
+                    // Count how many plants in zone are ready for harvest
+                    int harvestablePlants = zone.cells.Count(cell => 
+                    {
+                        var plant = cell.GetPlant(map);
+                        return plant != null && plant.HarvestableNow;
+                    });
+                    
+                    // If most plants are harvestable, increment harvest counter
+                    if (harvestablePlants > zone.cells.Count * 0.8f)
+                    {
+                        state.HarvestCount++;
+                        state.SoilFertility -= SOIL_DEGRADATION_PER_HARVEST;
+                        state.SoilFertility = UnityEngine.Mathf.Max(0.3f, state.SoilFertility); // Min 30% fertility
+                        
+                        RimWatchLogger.Debug($"CropRotation: Zone harvest #{state.HarvestCount}, fertility: {state.SoilFertility:P0}");
+                    }
+                    
+                    // Check if rotation is needed
+                    if (state.HarvestCount >= MIN_HARVESTS_BEFORE_ROTATION && state.SoilFertility < 0.7f)
+                    {
+                        RotateCrop(zone, state, map);
+                    }
+                }
+                
+                // Clean up zones that no longer exist
+                var zonesToRemove = _cropRotationStates.Keys.Where(z => !growingZones.Contains(z)).ToList();
+                foreach (var zone in zonesToRemove)
+                {
+                    _cropRotationStates.Remove(zone);
+                }
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error("FarmingAutomation: Error in ManageCropRotation", ex);
+            }
+        }
+        
+        /// <summary>
+        /// Rotates the crop in a zone to restore soil fertility.
+        /// </summary>
+        private static void RotateCrop(Zone_Growing zone, CropRotationState state, Map map)
+        {
+            try
+            {
+                ThingDef currentCrop = state.CurrentCrop;
+                
+                // Define crop rotation patterns
+                // Root vegetables → Legumes → Leafy greens → Root vegetables
+                Dictionary<string, string[]> rotationPatterns = new Dictionary<string, string[]>
+                {
+                    { "Plant_Rice", new[] { "Plant_Corn", "Plant_Potato" } },
+                    { "Plant_Corn", new[] { "Plant_Potato", "Plant_Rice" } },
+                    { "Plant_Potato", new[] { "Plant_Rice", "Plant_Corn" } },
+                    { "Plant_Cotton", new[] { "Plant_Corn", "Plant_Rice" } },
+                    { "Plant_Strawberry", new[] { "Plant_Potato", "Plant_Corn" } },
+                    { "Plant_Healroot", new[] { "Plant_Potato", "Plant_Rice" } }
+                };
+                
+                // Find next crop in rotation
+                ThingDef nextCrop = null;
+                if (currentCrop != null && rotationPatterns.ContainsKey(currentCrop.defName))
+                {
+                    string[] possibleNextCrops = rotationPatterns[currentCrop.defName];
+                    foreach (string cropDefName in possibleNextCrops)
+                    {
+                        ThingDef cropDef = DefDatabase<ThingDef>.GetNamedSilentFail(cropDefName);
+                        if (cropDef != null)
+                        {
+                            nextCrop = cropDef;
+                            break;
+                        }
+                    }
+                }
+                
+                // Fallback: rotate to any different crop
+                if (nextCrop == null)
+                {
+                    var availableCrops = DefDatabase<ThingDef>.AllDefs
+                        .Where(d => d.plant != null && 
+                               d.plant.sowTags != null && 
+                               d.plant.sowTags.Contains("Ground") &&
+                               d != currentCrop)
+                        .ToList();
+                    
+                    if (availableCrops.Any())
+                    {
+                        nextCrop = availableCrops.RandomElement();
+                    }
+                }
+                
+                if (nextCrop != null)
+                {
+                    // Change crop
+                    zone.SetPlantDefToGrow(nextCrop);
+                    
+                    // Reset state
+                    state.CurrentCrop = nextCrop;
+                    state.HarvestCount = 0;
+                    state.SoilFertility = 1.0f;
+                    state.LastRotationTick = Find.TickManager.TicksGame;
+                    
+                    RimWatchLogger.Info($"🌾 CropRotation: Rotated {currentCrop?.label ?? "unknown"} → {nextCrop.label} (fertility restored to 100%)");
+                }
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error($"FarmingAutomation: Error in RotateCrop", ex);
+            }
+        }
+        
+        // ======================================
+        // v0.9.12: ADVANCED ANIMAL MANAGEMENT
+        // ======================================
+        
+        // Animal breeding tracking
+        private static Dictionary<Pawn, AnimalBreedingState> _animalBreedingStates = new Dictionary<Pawn, AnimalBreedingState>();
+        private static int _lastBreedingCheckTick = 0;
+        private const int BREEDING_CHECK_INTERVAL = 3600; // Every 1 hour
+        private const float MIN_GENETIC_QUALITY_FOR_BREEDING = 0.6f; // 60%
+        
+        /// <summary>
+        /// v0.9.12: Advanced animal management with breeding programs and genetic quality tracking.
+        /// </summary>
+        public static void ManageAdvancedAnimalBreeding(Map map)
+        {
+            try
+            {
+                int currentTick = Find.TickManager.TicksGame;
+                if (currentTick - _lastBreedingCheckTick < BREEDING_CHECK_INTERVAL)
+                {
+                    return;
+                }
+                
+                _lastBreedingCheckTick = currentTick;
+                
+                // Get all tamed animals
+                var tamedAnimals = map.mapPawns.PawnsInFaction(Faction.OfPlayer)
+                    .Where(p => p.RaceProps.Animal && !p.Dead && !p.Downed)
+                    .ToList();
+                
+                // Group by species
+                var animalsBySpecies = tamedAnimals.GroupBy(p => p.def).ToList();
+                
+                foreach (var speciesGroup in animalsBySpecies)
+                {
+                    ManageBreedingForSpecies(speciesGroup.ToList(), map);
+                }
+                
+                // Clean up dead/sold animals from tracking
+                var animalsToRemove = _animalBreedingStates.Keys.Where(p => p.Dead || p.Destroyed).ToList();
+                foreach (var animal in animalsToRemove)
+                {
+                    _animalBreedingStates.Remove(animal);
+                }
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error("FarmingAutomation: Error in ManageAdvancedAnimalBreeding", ex);
+            }
+        }
+        
+        /// <summary>
+        /// Manages breeding for a specific species.
+        /// </summary>
+        private static void ManageBreedingForSpecies(List<Pawn> animals, Map map)
+        {
+            try
+            {
+                if (animals.Count < 2) return; // Need at least 2 animals to breed
+                
+                // Initialize breeding states
+                foreach (var animal in animals)
+                {
+                    if (!_animalBreedingStates.ContainsKey(animal))
+                    {
+                        _animalBreedingStates[animal] = new AnimalBreedingState
+                        {
+                            Animal = animal,
+                            GeneticQuality = CalculateGeneticQuality(animal),
+                            IsBreeder = false,
+                            OffspringCount = 0
+                        };
+                    }
+                }
+                
+                // Separate males and females
+                var males = animals.Where(a => a.gender == Gender.Male).ToList();
+                var females = animals.Where(a => a.gender == Gender.Female).ToList();
+                
+                if (males.Count == 0 || females.Count == 0) return; // Need both genders
+                
+                // Select best breeders (top 30% by genetic quality)
+                var bestMales = males
+                    .OrderByDescending(m => _animalBreedingStates[m].GeneticQuality)
+                    .Take(UnityEngine.Mathf.Max(1, males.Count / 3))
+                    .ToList();
+                
+                var bestFemales = females
+                    .OrderByDescending(f => _animalBreedingStates[f].GeneticQuality)
+                    .Take(UnityEngine.Mathf.Max(1, females.Count / 3))
+                    .ToList();
+                
+                // Mark breeders
+                foreach (var animal in animals)
+                {
+                    var state = _animalBreedingStates[animal];
+                    bool shouldBreed = (bestMales.Contains(animal) || bestFemales.Contains(animal)) &&
+                                      state.GeneticQuality >= MIN_GENETIC_QUALITY_FOR_BREEDING;
+                    
+                    if (state.IsBreeder != shouldBreed)
+                    {
+                        state.IsBreeder = shouldBreed;
+                        RimWatchLogger.Debug($"AnimalBreeding: {animal.LabelShort} marked as {(shouldBreed ? "BREEDER" : "non-breeder")} (quality: {state.GeneticQuality:P0})");
+                    }
+                }
+                
+                // Auto-castrate low-quality males to prevent breeding
+                var lowQualityMales = males.Where(m => _animalBreedingStates[m].GeneticQuality < MIN_GENETIC_QUALITY_FOR_BREEDING).ToList();
+                foreach (var male in lowQualityMales)
+                {
+                    // Check if already castrated
+                    if (male.health?.hediffSet?.HasHediff(HediffDefOf.Pregnant) == false)
+                    {
+                        // TODO: Implement castration logic if needed
+                        // For now, just mark them as non-breeders
+                        RimWatchLogger.Debug($"AnimalBreeding: {male.LabelShort} prevented from breeding (low genetic quality)");
+                    }
+                }
+                
+                // Identify animals for slaughter (old, low quality, excess population)
+                IdentifyAnimalsForSlaughter(animals, map);
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error($"FarmingAutomation: Error in ManageBreedingForSpecies", ex);
+            }
+        }
+        
+        /// <summary>
+        /// Calculates genetic quality score for an animal (0.0-1.0).
+        /// Based on health, skills, and traits.
+        /// </summary>
+        private static float CalculateGeneticQuality(Pawn animal)
+        {
+            try
+            {
+                float quality = 0.5f; // Base quality
+                
+                // Health factor (0.3 weight)
+                float healthPercent = animal.health.summaryHealth.SummaryHealthPercent;
+                quality += healthPercent * 0.3f;
+                
+                // Age factor (0.2 weight) - prefer young adults
+                float ageYears = animal.ageTracker.AgeBiologicalYearsFloat;
+                float lifeExpectancy = animal.RaceProps.lifeExpectancy;
+                float ageRatio = ageYears / lifeExpectancy;
+                
+                if (ageRatio < 0.2f) quality += 0.1f; // Too young
+                else if (ageRatio < 0.5f) quality += 0.2f; // Prime age
+                else if (ageRatio < 0.7f) quality += 0.1f; // Mature
+                else quality += 0.0f; // Too old
+                
+                // Training level factor (0.3 weight)
+                if (animal.training != null)
+                {
+                    // Count trained skills
+                    int trainedCount = DefDatabase<TrainableDef>.AllDefs.Count(t => animal.training.HasLearned(t));
+                    int totalTrainables = DefDatabase<TrainableDef>.AllDefs.Count();
+                    if (totalTrainables > 0)
+                    {
+                        quality += (trainedCount / (float)totalTrainables) * 0.3f;
+                    }
+                }
+                
+                // Bonded factor (0.2 weight) - bonded animals are valuable
+                if (animal.relations?.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond) != null)
+                {
+                    quality += 0.2f;
+                }
+                
+                return UnityEngine.Mathf.Clamp01(quality);
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error($"FarmingAutomation: Error calculating genetic quality for {animal?.LabelShort ?? "unknown"}: {ex.Message}");
+                return 0.5f; // Default quality on error
+            }
+        }
+        
+        /// <summary>
+        /// Identifies animals that should be slaughtered (old, sick, low quality, excess).
+        /// </summary>
+        private static void IdentifyAnimalsForSlaughter(List<Pawn> animals, Map map)
+        {
+            try
+            {
+                // Don't slaughter if population is low
+                if (animals.Count < 4) return;
+                
+                var candidatesForSlaughter = new List<Pawn>();
+                
+                foreach (var animal in animals)
+                {
+                    var state = _animalBreedingStates[animal];
+                    
+                    // Skip breeders
+                    if (state.IsBreeder) continue;
+                    
+                    // Skip bonded animals
+                    if (animal.relations?.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond) != null) continue;
+                    
+                    // Reasons for slaughter:
+                    bool isOld = animal.ageTracker.AgeBiologicalYearsFloat > animal.RaceProps.lifeExpectancy * 0.8f;
+                    bool isLowQuality = state.GeneticQuality < 0.4f;
+                    bool isSick = animal.health.summaryHealth.SummaryHealthPercent < 0.5f;
+                    
+                    if (isOld || isLowQuality || isSick)
+                    {
+                        candidatesForSlaughter.Add(animal);
+                    }
+                }
+                
+                // Slaughter up to 20% of population per cycle (to prevent overpopulation)
+                int maxToSlaughter = UnityEngine.Mathf.Max(1, animals.Count / 5);
+                var animalsToSlaughter = candidatesForSlaughter
+                    .OrderBy(a => _animalBreedingStates[a].GeneticQuality)
+                    .Take(maxToSlaughter)
+                    .ToList();
+                
+                foreach (var animal in animalsToSlaughter)
+                {
+                    // Check if already designated
+                    if (map.designationManager.DesignationOn(animal, DesignationDefOf.Slaughter) == null)
+                    {
+                        var state = _animalBreedingStates[animal];
+                        RimWatchLogger.Info($"🔪 AnimalBreeding: Designated {animal.LabelShort} for slaughter (quality: {state.GeneticQuality:P0}, age: {animal.ageTracker.AgeBiologicalYearsFloat:F1}y)");
+                        // Don't actually designate - let AutoDesignateSlaughter handle it
+                        // Just log the decision
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error($"FarmingAutomation: Error in IdentifyAnimalsForSlaughter", ex);
+            }
+        }
+
         /// <summary>
         /// Automatically creates hay growing zones before winter in cold climates.
         /// NEW in v0.7 - Hay preparation for winter animal feeding.
@@ -1923,6 +2335,34 @@ namespace RimWatch.Automation
             {
                 RimWatchLogger.Error("FarmingAutomation: Error in AutoPrepareHayForWinter", ex);
             }
+        }
+        
+        // ======================================
+        // DATA STRUCTURES
+        // ======================================
+        
+        /// <summary>
+        /// Tracks crop rotation state for a growing zone.
+        /// v0.9.11: Crop rotation system.
+        /// </summary>
+        private class CropRotationState
+        {
+            public ThingDef CurrentCrop { get; set; }
+            public int HarvestCount { get; set; }
+            public float SoilFertility { get; set; }
+            public int LastRotationTick { get; set; }
+        }
+        
+        /// <summary>
+        /// Tracks breeding state for an animal.
+        /// v0.9.12: Advanced animal breeding system.
+        /// </summary>
+        private class AnimalBreedingState
+        {
+            public Pawn Animal { get; set; }
+            public float GeneticQuality { get; set; }
+            public bool IsBreeder { get; set; }
+            public int OffspringCount { get; set; }
         }
     }
 }

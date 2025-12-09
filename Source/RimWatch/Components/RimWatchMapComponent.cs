@@ -2,6 +2,7 @@ using RimWatch.Automation;
 using RimWatch.Automation.BuildingPlacement;
 using RimWatch.Automation.RoomBuilding;
 using RimWatch.Core;
+using RimWatch.ML;
 using RimWatch.Utils;
 using Verse;
 
@@ -83,15 +84,9 @@ namespace RimWatch.Components
             if (RimWatchCore.ResearchEnabled)
                 ResearchAutomation.Tick();
 
-            // v0.8.5: NEW - Production Automation (bills management)
-            ProductionAutomation.Tick();
-
             // v0.8.0: NEW SYSTEMS - Command System, Game Speed Controller
             ColonistCommandSystem.Tick(map);
             GameSpeedController.Tick(map);
-            
-            // v0.9.0: NEW - Construction Command System (prioritize critical construction)
-            ConstructionCommandSystem.ManageConstructionPriorities(map, RimWatchCore.Settings);
 
             // Периодический тик ядра
             _tickCounter++;
@@ -199,6 +194,46 @@ namespace RimWatch.Components
             catch (System.Exception ex)
             {
                 RimWatchLogger.Error("RimWatchMapComponent: Error in WorkScheduleAutomation", ex);
+            }
+
+            // ✅ v1.1.0: ML SYSTEMS ACTIVATION
+            // DecisionAnalyzer - Analyze AI decision patterns and improve over time
+            if (RimWatchMod.Settings?.decisionAnalyzerEnabled ?? true)
+            {
+                try
+                {
+                    DecisionAnalyzer.Tick();
+                }
+                catch (System.Exception ex)
+                {
+                    RimWatchLogger.Error("RimWatchMapComponent: Error in DecisionAnalyzer", ex);
+                }
+            }
+
+            // ColonyPredictor - Predict food shortages, raids, resource depletion
+            if (RimWatchMod.Settings?.colonyPredictorEnabled ?? true)
+            {
+                try
+                {
+                    ColonyPredictor.Tick(map);
+                }
+                catch (System.Exception ex)
+                {
+                    RimWatchLogger.Error("RimWatchMapComponent: Error in ColonyPredictor", ex);
+                }
+            }
+
+            // PlayerStyleAnalyzer - Learn from player's manual overrides
+            if (RimWatchMod.Settings?.playerStyleAnalyzerEnabled ?? true)
+            {
+                try
+                {
+                    PlayerStyleAnalyzer.Tick();
+                }
+                catch (System.Exception ex)
+                {
+                    RimWatchLogger.Error("RimWatchMapComponent: Error in PlayerStyleAnalyzer", ex);
+                }
             }
         }
         

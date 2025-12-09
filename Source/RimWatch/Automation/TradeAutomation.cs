@@ -1,3 +1,4 @@
+using RimWatch.Automation.Trade;
 using RimWatch.Core;
 using RimWatch.Utils;
 using RimWatch.Automation.ColonyDevelopment;
@@ -104,6 +105,9 @@ namespace RimWatch.Automation
             
             // **v0.7 ADVANCED: Production for trade**
             AutoProduceTradeGoods(map);
+            
+            // **v0.9.16: Automatic caravan trading**
+            CaravanManager.Tick(map);
             
             // v0.8.3: Log execution end
             stopwatch.Stop();

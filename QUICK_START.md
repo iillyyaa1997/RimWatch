@@ -1,269 +1,172 @@
-# RimWatch - Быстрый старт
+# 🚀 RimWatch Quick Start Guide
 
-## 🚀 Установка (будущее)
+Welcome to **RimWatch** - the AI Autopilot for RimWorld! This guide will get you up and running in 5 minutes.
 
-### Steam Workshop (когда выйдет)
-1. Открой Steam Workshop для RimWorld
-2. Найди "RimWatch"
-3. Нажми "Subscribe"
-4. Запусти RimWorld
+## 📦 Installation
 
-### Ручная установка
-1. Скачай последний релиз из [Releases](https://github.com/iillyyaa1997/RimWatch/releases)
-2. Распакуй в папку `RimWorld/Mods/`
-3. Запусти RimWorld
-4. Включи мод в списке модов
+### From Steam Workshop (Recommended)
+1. Subscribe to [RimWatch on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=XXXXXXX)
+2. Launch RimWorld
+3. Enable "RimWatch" in Mod Settings
+4. Restart the game
 
-## ⚙️ Первая настройка
+### Manual Installation
+1. Download the latest release from [GitHub Releases](https://github.com/yourusername/RimWatch/releases)
+2. Extract to `RimWorld/Mods/RimWatch`
+3. Enable in Mod Settings
+4. Restart the game
 
-### Порядок загрузки модов
-```
-1. Harmony (обязательно)
-2. Core (RimWorld)
-3. RimWatch
-4. Остальные моды
-```
+## ⚡ First Steps
 
-### Рекомендуемые настройки для начала
+### 1. Access RimWatch Panel
+- Press **`** (backtick) key to open Quick Control Menu
+- Or click the **RimWatch icon** in the bottom-right corner
+- Or use **Mod Settings** → RimWatch
 
-1. **Открой настройки мода** (Options → Mod Settings → RimWatch)
+### 2. Enable Autopilot
+1. Open RimWatch panel
+2. Click **"Enable Autopilot"** toggle
+3. AI will start managing your colony!
 
-2. **Выбери режим "Менеджер"** (рекомендуется для первого опыта)
-   - Сбалансированная автоматизация
-   - ИИ помогает, но не контролирует все
+### 3. Choose a Storyteller
+RimWatch includes 5 AI personalities:
 
-3. **Включи категории:**
-   - ✅ Управление работой (базовая функция)
-   - ❌ Строительство (пока не готово в v0.1)
-   - ❌ Сельское хозяйство (пока не готово в v0.1)
+- **🛡️ Cautious Strategist** - Safe, defensive play (recommended for beginners)
+- **⚖️ Balanced Manager** - Well-rounded approach
+- **⚔️ Aggressive Conqueror** - Fast expansion, high risk
+- **🎲 Chaotic Experimenter** - Random, unpredictable decisions
+- **🎨 Custom** - Configure your own personality
 
-4. **Включи визуализацию:**
-   - ✅ Показывать действия ИИ
-   - ✅ Уведомления о важных решениях
+**To change storyteller:**
+1. Open RimWatch panel → Settings tab
+2. Click **"Change Storyteller"**
+3. Select your preferred personality
+4. Click **"Apply"**
 
-## 🎮 Первая игра
+## 🎯 What RimWatch Automates
 
-### Новая колония
+### Building 🏗️
+- Constructs bedrooms, kitchens, storage, workshops
+- Plans base layouts with optimal room placement
+- Upgrades buildings when better tech is available
+- Places furniture, lighting, and decorations
 
-1. **Создай новую игру** как обычно
-2. **Выбери сценарий** (рекомендуется "Катастрофа")
-3. **Найди кнопку 🎭 RimWatch** в правом верхнем углу
-4. **Кликни на кнопку** - откроется панель управления
-5. **Включи автопилот** (главный переключатель)
-6. **Выбери рассказчика** (для начала - "Сбалансированный")
-7. **Просто наблюдай!** ИИ начнет управлять колонией
+### Work 👷
+- Assigns colonists to optimal jobs
+- Manages work priorities dynamically
+- Handles emergency tasks (rescue, firefighting)
+- Optimizes skill development
 
-### Существующая колония
+### Farming 🌾
+- Plants crops based on growing seasons
+- Manages crop rotation for soil fertility
+- Handles animal breeding programs
+- Optimizes food production
 
-RimWatch можно добавить к **существующему сохранению**:
+### Defense 🛡️
+- Positions colonists during raids
+- Assigns tactical combat roles
+- Manages weapon assignments
+- Builds defensive structures
 
-1. Загрузи сохранение
-2. Включи RimWatch в настройках модов
-3. Перезагрузи игру
-4. Настрой ИИ в меню модов
+### Trade 💰
+- Forms trade caravans automatically
+- Optimizes trade routes
+- Manages resource stockpiles
+- Sells excess goods
 
-## 📊 Интерфейс
+### Medical ⚕️
+- Schedules beneficial operations (bionics, scar removal)
+- Provides preventive care
+- Monitors colonist health
+- Manages medicine supplies
 
-### Кнопка RimWatch
+### Social 👥
+- Detects mood crises
+- Plans social events (parties, rituals)
+- Resolves conflicts
+- Manages prisoner recruitment
 
-После загрузки мода в правом верхнем углу экрана появится **кнопка с иконкой 🎭**:
+## 🎛️ Key Settings
 
-```
-[Menu] [Archive] [🎭 RimWatch] [📊]  ← Здесь
-```
-
-**Что делать с кнопкой:**
-- **Клик левой кнопкой** → Открывается полная панель управления
-- **Клик правой кнопкой** → Быстрое меню для переключения автоматизаций
-- **Наведи курсор** → Увидишь текущий статус автопилота
-
-**Цвет кнопки:**
-- 🟢 **Зеленая** - Автопилот работает нормально
-- 🟡 **Желтая** - Есть предупреждения (например, мало еды)
-- 🔴 **Красная** - Автопилот выключен
-- ⚫ **Серая** - Мод неактивен
-
-### Overlay (F10) - будет добавлено в v0.5
-
-Нажми **кнопку 📊** или **F10** в игре для вызова информационного оверлея:
-
-```
-┌─────────────────────────────────────┐
-│ RimWatch v0.5.0                      │
-│ Режим: Менеджер                      │
-├─────────────────────────────────────┤
-│ Активные стратегии:                  │
-│ • WorkStrategy (работает)            │
-│ • BuildStrategy (ожидание)           │
-│                                       │
-│ Следующие действия:                  │
-│ 1. Назначить приоритеты              │
-│ 2. Проверить запасы еды              │
-│ 3. Спланировать склад                │
-│                                       │
-│ Статистика:                          │
-│ • Решений принято: 142               │
-│ • Успешных: 138 (97%)                │
-│ • CPU: 3.2%                          │
-└─────────────────────────────────────┘
-```
-
-### Уведомления
-
-ИИ будет уведомлять о важных решениях:
+### Automation Categories
+Enable/disable specific automation systems:
 
 ```
-[RimWatch] ИИ назначил приоритеты работ для 8 колонистов
-[RimWatch] Запланировано строительство склада (12x8)
-[RimWatch] ⚠️ Критически низкие запасы еды - увеличена охота
+✅ Building Automation
+✅ Work Management
+✅ Farming & Animals
+✅ Defense Systems
+✅ Trade & Commerce
+✅ Medical Care
+✅ Social Management
 ```
 
-## 🎯 Режимы работы
+### Autopilot Mode
+- **Full Autopilot**: AI handles everything
+- **Assisted**: AI suggests, you approve
+- **Manual Override**: You can take control anytime
 
-### 🛡️ Ассистент (для новичков)
+### Performance
+- **Update Intervals**: How often AI checks (default: 60s)
+- **Decision Logging**: Track AI decisions for analysis
+- **Performance Impact**: Optimized for <5% TPS overhead
 
-**Кому подходит:** Хочешь играть сам, но нужна небольшая помощь
+## 🔍 Monitoring AI Decisions
 
-**Что делает ИИ:**
-- Подсказывает оптимальные приоритеты
-- Уведомляет о проблемах
-- **НЕ** принимает решения сам
+### Decision History Panel
+1. Open RimWatch Main Panel
+2. Go to **"Alerts"** tab
+3. View recent AI decisions and their reasoning
 
-**Рекомендуется если:**
-- Первый раз играешь с модом
-- Хочешь полный контроль
-- Учишься играть в RimWorld
+### Debug Overlay
+Enable visual overlays to see AI plans:
+- Building plans (yellow outlines)
+- Defense coverage (blue circles)
+- Pathfinding (orange highlights)
+- Room quality (color-coded)
 
-### 🎖️ Менеджер (рекомендуется)
+## ⚠️ Common Issues
 
-**Кому подходит:** Хочешь сфокусироваться на стратегии, а рутину делегировать
+### "Autopilot not responding"
+- Check that Autopilot is enabled (toggle in main panel)
+- Verify automation categories are enabled
+- Restart RimWatch from mod settings
 
-**Что делает ИИ:**
-- ✅ Управляет приоритетами работ
-- ✅ Планирует базовое строительство
-- ✅ Управляет сельским хозяйством
-- ❌ НЕ принимает критические решения (оборона, торговля)
+### "AI making bad decisions"
+- Try a different storyteller personality
+- Adjust storyteller traits in Custom mode
+- Check decision history for reasoning
 
-**Рекомендуется если:**
-- Хочешь сбалансированный опыт
-- Устал от рутинного микроменеджмента
-- Хочешь больше времени на стратегию
+### "Performance issues"
+- Increase update intervals (Settings → Performance)
+- Disable unused automation categories
+- Check for mod conflicts
 
-### 🏆 Наблюдатель (для расслабленной игры)
+### "Errors in log"
+- Report bugs on [GitHub Issues](https://github.com/yourusername/RimWatch/issues)
+- Include Player.log file
+- Describe what happened before error
 
-**Кому подходит:** Хочешь наблюдать за развитием колонии
+## 🎓 Next Steps
 
-**Что делает ИИ:**
-- ✅ Управляет почти всем
-- ✅ Принимает большинство решений
-- ❌ Просит подтверждения на критические действия
+Once you're comfortable with basics:
 
-**Рекомендуется если:**
-- Хочешь расслабиться и наблюдать
-- Интересно увидеть как играет ИИ
-- Хочешь запустить и пойти попить чай
+1. **📖 Read [STORYTELLERS_GUIDE.md](STORYTELLERS_GUIDE.md)** - Learn about AI personalities
+2. **⚙️ Read [AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md)** - Deep dive into automation systems
+3. **🐛 Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Advanced problem-solving
+4. **❓ Read [FAQ.md](FAQ.md)** - Frequently asked questions
 
-### 🌟 Автопилот (экспериментальный)
+## 💬 Community & Support
 
-**Кому подходит:** Хочешь полностью автоматическую игру
+- **Discord**: [Join our server](https://discord.gg/rimwatch)
+- **Reddit**: [r/RimWatch](https://reddit.com/r/RimWatch)
+- **GitHub**: [Report issues](https://github.com/yourusername/RimWatch/issues)
 
-**Что делает ИИ:**
-- ✅ Управляет ВСЕМ
-- ✅ Принимает ВСЕ решения
-- ✅ Играет полностью сам
+## 🎉 You're Ready!
 
-**Рекомендуется если:**
-- Хочешь просто наблюдать
-- Экспериментируешь с ИИ
-- Запускаешь игру "на фоне"
-
-## 🔧 Настройка под себя
-
-### Тонкая настройка категорий
-
-Каждую категорию можно включить/отключить отдельно:
-
-```
-Управление работой:        ✅ Включено
-├─ Частота обновления:     Каждые 5 секунд
-├─ Учитывать навыки:       ✅ Да
-└─ Балансировка нагрузки:  ✅ Да
-
-Строительство:             ❌ Выключено
-Сельское хозяйство:        ✅ Включено
-├─ Автоматические поля:    ✅ Да
-├─ Выбор культур:          Авто
-└─ Управление животными:   ❌ Нет (будет в v1.0)
-```
-
-### Стратегические настройки
-
-**Стиль игры:**
-- 🗡️ **Агрессивный** - больше риска, быстрое развитие
-- ⚖️ **Сбалансированный** - умеренный риск (рекомендуется)
-- 🛡️ **Мирный** - минимум риска, медленное развитие
-
-**Приоритеты:**
-- 🏥 **Выживание** - фокус на еде, здоровье, безопасности
-- 🏗️ **Развитие** - фокус на строительстве и улучшениях
-- 💰 **Богатство** - фокус на торговле и накоплении
-
-## ❓ Часто задаваемые вопросы
-
-### Можно ли отключить ИИ во время игры?
-Да! Просто смени режим на "Ассистент" или отключи категории в настройках.
-
-### ИИ делает что-то странное, как исправить?
-1. Проверь настройки режима
-2. Попробуй другой режим
-3. Отключи проблемную категорию
-4. Сообщи о баге в [GitHub Issues](https://github.com/iillyyaa1997/RimWatch/issues)
-
-### Мод влияет на производительность?
-Минимально (< 5% в большинстве случаев). В настройках можно снизить частоту обновлений для улучшения производительности.
-
-### Совместимо с модом X?
-Смотри список совместимости в [README.md](README.md). В целом, RimWatch совместим с большинством контент-модов.
-
-### Можно ли использовать в multiplayer?
-Планируется в версии 2.0!
-
-## 🐛 Проблемы?
-
-### Мод не загружается
-1. Проверь что Harmony установлен и включен
-2. Проверь порядок загрузки модов
-3. Проверь версию RimWorld (нужна 1.6+)
-4. Посмотри логи: `HugsLib` (Ctrl+F12)
-
-### ИИ не работает
-1. Проверь что режим не "Ассистент"
-2. Проверь что категории включены
-3. Подожди несколько игровых дней
-4. Посмотри логи в файле
-
-### Игра тормозит
-1. Смени режим на менее автоматизированный
-2. Отключи некоторые категории
-3. Увеличь частоту обновлений в настройках
-4. Отключи визуализацию
-
-## 📞 Поддержка
-
-- **GitHub Issues:** [Сообщить о баге](https://github.com/iillyyaa1997/RimWatch/issues)
-- **GitHub Discussions:** [Обсуждения](https://github.com/iillyyaa1997/RimWatch/discussions)
-- **Discord:** (будет создан позже)
-
-## 🎓 Дальнейшее чтение
-
-- [README.md](README.md) - Полное описание мода
-- [ROADMAP.md](ROADMAP.md) - План разработки
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - Архитектура (для разработчиков)
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Как помочь проекту
+RimWatch is now managing your colony! Sit back, relax, and watch your AI overlord build an empire. 🤖👑
 
 ---
 
-**Приятной игры!** 🤖❤️
-
-*P.S. Если мод тебе понравился, поставь звезду на GitHub!*
-
+**Pro Tip**: Start with **Cautious Strategist** for your first autopilot run. It's the safest option and will help you learn how RimWatch works before trying more aggressive strategies.

@@ -1,4 +1,6 @@
+using RimWatch.Automation.BaseLayout;
 using RimWatch.Core;
+using RimWatch.ML;
 using RimWatch.Utils;
 using RimWatch.Automation.BuildingPlacement;
 using RimWatch.Automation.RoomBuilding;
@@ -68,6 +70,15 @@ namespace RimWatch.Automation
                 _tickCounter = 0;
                 RimWatchLogger.Info("[BuildingAutomation] Tick! Running building analysis...");
                 AnalyzeAndPlanBuildings();
+                
+                // **v0.9.19-0.9.20: Base layout planning & furniture decoration**
+                Map map = Find.CurrentMap;
+                if (map != null)
+                {
+                    BaseLayoutPlanner.Tick(map);
+                    // v1.1.0: FurnitureRelocator runs via MapComponent (AutoRelocateFurniture)
+                    // Not needed here as it has its own call in RimWatchMapComponent
+                }
             }
         }
 
@@ -221,6 +232,20 @@ namespace RimWatch.Automation
             // v0.8.3: Log execution end with performance tracking
             stopwatch.Stop();
             RimWatchLogger.LogExecutionEnd("BuildingAutomation", "AnalyzeAndPlanBuildings", true, stopwatch.ElapsedMilliseconds, $"Processed {totalNeeds} needs");
+            
+            // v1.1.0: ML - Record decision for DecisionAnalyzer
+            DecisionAnalyzer.RecordDecision(
+                "BuildingAutomation",
+                "AnalyzeAndPlanBuildings",
+                new Dictionary<string, float>
+                {
+                    { "colonists", colonistCount },
+                    { "totalNeeds", totalNeeds },
+                    { "bedroomDeficit", bedroomStats.BedroomDeficit },
+                    { "executionTime", stopwatch.ElapsedMilliseconds }
+                },
+                success: totalNeeds > 0 // Success if we identified needs to address
+            );
             
             // v0.8.3: Log performance warning if operation took too long (>5ms threshold)
             if (stopwatch.ElapsedMilliseconds > 5)
@@ -531,7 +556,13 @@ namespace RimWatch.Automation
                 AutoPlaceGatheringSpot(map);
             }
 
-            // Priority 6: Workshops (production buildings)
+            // Priority 6: Research (technology advancement) - ✅ CRITICAL FIX!
+            if (needs.NeedsResearch)
+            {
+                AutoPlaceResearchBench(map);
+            }
+            
+            // Priority 7: Workshops (production buildings)
             if (needs.NeedsWorkshops)
             {
                 AutoPlaceWorkshops(map);
@@ -999,6 +1030,158 @@ namespace RimWatch.Automation
             catch (Exception ex)
             {
                 RimWatchLogger.Error("BuildingAutomation: Error in FindKitchenLocation", ex);
+                return IntVec3.Invalid;
+            }
+        }
+
+        /// <summary>
+        /// Automatically places a research bench for technology advancement.
+        /// ✅ CRITICAL FIX: This function was missing entirely!
+        /// </summary>
+        private static void AutoPlaceResearchBench(Map map)
+        {
+            try
+            {
+                // Check cooldown
+                if (!CanPlaceBuildingType("Research"))
+                {
+                    RimWatchLogger.Debug("BuildingAutomation: Research bench placement on cooldown");
+                    return;
+                }
+
+                // Get settings
+                RimWatchMod modInstance = LoadedModManager.GetMod<RimWatchMod>();
+                string logLevel = modInstance?.GetSettings<RimWatchSettings>()?.buildingLogLevel.ToString() ?? "Moderate";
+
+                // Get research bench def (SimpleResearchBench always available)
+                ThingDef benchDef = ThingDef.Named("SimpleResearchBench");
+                if (benchDef == null)
+                {
+                    RimWatchLogger.Error("BuildingAutomation: SimpleResearchBench ThingDef not found!");
+                    return;
+                }
+
+                RimWatchLogger.Info($"[BuildingAutomation] Attempting to place research bench...");
+
+                // Find best location using LocationFinder
+                IntVec3 location = LocationFinder.FindBestLocation(
+                    map,
+                    benchDef,
+                    LocationFinder.BuildingRole.Research,
+                    logLevel
+                );
+
+                if (location == IntVec3.Invalid)
+                {
+                    // ✅ FALLBACK: Use legacy finder
+                    location = FindResearchBenchLocation(map);
+                    if (logLevel != "Minimal")
+                    {
+                        RimWatchLogger.Warning($"[BuildingAutomation] LocationFinder failed, using fallback");
+                    }
+                }
+
+                if (location == IntVec3.Invalid)
+                {
+                    RimWatchLogger.Error($"❌ [BuildingAutomation] No valid location for research bench found (tried LocationFinder + fallback)!");
+                    return;
+                }
+
+                // Select stuff (wood for SimpleResearchBench)
+                ThingDef stuffDef = GenStuff.DefaultStuffFor(benchDef);
+
+                // Place blueprint via Designator with rotation probing
+                Rot4 usedRot;
+                bool success = BuildPlacer.TryPlaceWithBestRotation(map, benchDef, location, stuffDef, out usedRot, logLevel);
+                
+                if (success)
+                {
+                    if (logLevel == "Minimal")
+                    {
+                        RimWatchLogger.Info($"✅ Placed research bench at ({location.x}, {location.z})");
+                    }
+                    else
+                    {
+                        RimWatchLogger.Info($"🔬 BuildingAutomation: Placed research bench at ({location.x}, {location.z})");
+                    }
+                    
+                    RecordPlacement("Research");
+                    
+                    // Update zone cache after placement
+                    BaseZoneCache.UpdateCache(map);
+                    RimWatchLogger.Debug("BuildingAutomation: Zone cache updated after research bench placement");
+
+                    // Ensure roof over research bench (required for research!)
+                    RoofPlanner.BuildRoofOver(map, location, benchDef, usedRot, 0, logLevel);
+                }
+                else
+                {
+                    RimWatchLogger.Error($"❌ BuildingAutomation: Failed to place research bench (Designator rejected) at ({location.x}, {location.z})");
+                }
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error("BuildingAutomation: Error in AutoPlaceResearchBench", ex);
+            }
+        }
+
+        /// <summary>
+        /// Finds a suitable location for a research bench.
+        /// Prefers indoor locations near existing buildings.
+        /// </summary>
+        private static IntVec3 FindResearchBenchLocation(Map map)
+        {
+            try
+            {
+                // Find center of existing buildings
+                List<Building> buildings = map.listerBuildings.allBuildingsColonist.ToList();
+                IntVec3 baseCenter = map.Center;
+                
+                if (buildings.Count > 0)
+                {
+                    int avgX = (int)buildings.Average(b => b.Position.x);
+                    int avgZ = (int)buildings.Average(b => b.Position.z);
+                    baseCenter = new IntVec3(avgX, 0, avgZ);
+                }
+
+                // Search for locations near base
+                List<IntVec3> candidates = new List<IntVec3>();
+                
+                for (int radius = 5; radius < 40; radius += 5)
+                {
+                    for (int angle = 0; angle < 360; angle += 45)
+                    {
+                        float radians = angle * (float)Math.PI / 180f;
+                        int x = baseCenter.x + (int)(radius * Math.Cos(radians));
+                        int z = baseCenter.z + (int)(radius * Math.Sin(radians));
+                        IntVec3 candidate = new IntVec3(x, 0, z);
+
+                        if (!candidate.InBounds(map)) continue;
+                        if (!candidate.Standable(map)) continue;
+                        
+                        // Check if area is clear for research bench (3x2 or 4x2)
+                        if (!CanPlaceBuildingAt(map, candidate, new IntVec2(4, 2)))
+                            continue;
+                        
+                        candidates.Add(candidate);
+                    }
+                    
+                    if (candidates.Count > 0)
+                    {
+                        RimWatchLogger.LogDecision("BuildingAutomation", "ResearchBenchLocationFound", new Dictionary<string, object>
+                        {
+                            { "location", candidates.First().ToString() },
+                            { "candidatesFound", candidates.Count }
+                        });
+                        return candidates.First();
+                    }
+                }
+
+                return IntVec3.Invalid;
+            }
+            catch (Exception ex)
+            {
+                RimWatchLogger.Error("BuildingAutomation: Error in FindResearchBenchLocation", ex);
                 return IntVec3.Invalid;
             }
         }
@@ -1960,7 +2143,8 @@ namespace RimWatch.Automation
                     r.Priority >= 95);
 
                 // Check cooldown (but skip if CRITICAL bedroom need!)
-                const int RoomBuildingCooldown = 7200; // 120 seconds (rooms are expensive)
+                // ✅ CRITICAL FIX: Reduced from 7200 to 3600 (60 seconds instead of 120)
+                const int RoomBuildingCooldown = 3600; // 60 seconds (rooms are expensive but beds are critical!)
                 
                 if (_lastPlacementTick.ContainsKey("Room"))
                 {
