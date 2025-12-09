@@ -89,6 +89,7 @@
     <Compile Include="Core/RimWatchCore.cs" />
     
     <!-- UI Components -->
+    <Compile Include="UI/UIDesignSystem.cs" />
     <Compile Include="UI/RimWatchMainPanel.cs" />
     <Compile Include="UI/RimWatchQuickMenu.cs" />
     <Compile Include="UI/HierarchicalSettingsUI.cs" />

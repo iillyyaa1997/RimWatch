@@ -13,30 +13,11 @@ using Verse;
 namespace RimWatch.UI
 {
     /// <summary>
-    /// Главная панель управления RimWatch с современным дизайном и статистикой.
-    /// v1.0: Modern dashboard with tabs, real-time stats, and visual indicators.
+    /// Main RimWatch dashboard with clean, minimalist design (Shift+R).
+    /// v1.3.1: Unified design system - clean, readable, professional.
     /// </summary>
     public class RimWatchMainPanel : Window
     {
-        // UI Constants - Unified Design System
-        private const float TAB_HEIGHT = 40f;
-        private const float CARD_HEIGHT = 120f; // Unified card height
-        private const float SMALL_CARD_HEIGHT = 60f; // For compact cards
-        private const float PADDING = 12f; // Consistent padding
-        private const float CARD_SPACING = 8f; // Space between cards
-        private const float SECTION_SPACING = 16f; // Space between sections
-        
-        // Unified Color Scheme - Яркие, насыщенные цвета
-        private static readonly Color CARD_BG_PURPLE = new Color(0.4f, 0.3f, 0.6f, 0.95f); // Storyteller
-        private static readonly Color CARD_BG_BLUE = new Color(0.2f, 0.4f, 0.7f, 0.95f); // Status
-        private static readonly Color CARD_BG_GREEN = new Color(0.2f, 0.5f, 0.3f, 0.95f); // Automation
-        private static readonly Color CARD_BG_ORANGE = new Color(0.7f, 0.4f, 0.2f, 0.95f); // Decisions
-        private static readonly Color CARD_BG_RED = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Alerts
-        private static readonly Color CARD_BG_CYAN = new Color(0.2f, 0.6f, 0.7f, 0.95f); // Settings
-        private static readonly Color CARD_BG_YELLOW = new Color(0.7f, 0.6f, 0.2f, 0.95f); // Statistics
-        private static readonly Color TAB_ACTIVE = new Color(0.3f, 0.6f, 0.9f, 0.9f);
-        private static readonly Color TAB_INACTIVE = new Color(0.2f, 0.2f, 0.2f, 0.5f);
-        
         // State
         private DashboardTab _currentTab = DashboardTab.Overview;
         private Vector2 _scrollPosition = Vector2.zero;
@@ -50,7 +31,7 @@ namespace RimWatch.UI
             resizeable = true;
             closeOnAccept = false;
             closeOnCancel = true;
-            closeOnClickedOutside = false; // Keep open for dashboard
+            closeOnClickedOutside = false;
             absorbInputAroundWindow = false;
 
             // Center on screen
@@ -64,17 +45,21 @@ namespace RimWatch.UI
 
         public override void DoWindowContents(Rect inRect)
         {
-            // Header with title and version
-            DrawHeader(inRect);
+            // Main header
+            Rect headerRect = new Rect(inRect.x, inRect.y, inRect.width, UIDesignSystem.HEIGHT_HeaderLarge);
+            DrawMainHeader(headerRect);
             
-            // Tab buttons
-            Rect tabRect = new Rect(inRect.x, inRect.y + 50f, inRect.width, TAB_HEIGHT);
+            // Tab navigation
+            float tabY = headerRect.yMax + UIDesignSystem.SPACE_SM;
+            Rect tabRect = new Rect(inRect.x, tabY, inRect.width, UIDesignSystem.HEIGHT_Tab);
             DrawTabs(tabRect);
             
-            // Content area
-            Rect contentRect = new Rect(inRect.x, inRect.y + 90f, inRect.width, inRect.height - 90f);
+            // Content area with subtle background
+            float contentY = tabRect.yMax + UIDesignSystem.SPACE_MD;
+            Rect contentRect = new Rect(inRect.x, contentY, inRect.width, inRect.height - contentY);
+            UIDesignSystem.DrawSection(contentRect);
             
-            // Draw content based on selected tab
+            // Draw selected tab content
             switch (_currentTab)
             {
                 case DashboardTab.Overview:
@@ -93,365 +78,421 @@ namespace RimWatch.UI
                     DrawAlertsTab(contentRect);
                     break;
             }
+            
+            UIDesignSystem.ResetTextState();
         }
         
         /// <summary>
-        /// Draws the header with title and version.
+        /// Draws main header with title and status
         /// </summary>
-        private void DrawHeader(Rect inRect)
+        private void DrawMainHeader(Rect rect)
         {
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width - 100f, 40f), "🤖 RimWatch AI Dashboard");
+            UIDesignSystem.DrawHeader(rect, "🤖 RimWatch AI Dashboard", GameFont.Medium);
             
-            Text.Font = GameFont.Tiny;
-            string status = RimWatchCore.AutopilotEnabled ? "ACTIVE" : "INACTIVE";
-            Color statusColor = RimWatchCore.AutopilotEnabled ? Color.green : Color.gray;
+            // Status badge in corner
+            bool isActive = RimWatchCore.AutopilotEnabled;
+            string status = isActive ? "● ACTIVE" : "○ INACTIVE";
+            Color statusColor = isActive ? UIDesignSystem.Status_Active : UIDesignSystem.Status_Inactive;
             
+            Rect statusRect = new Rect(rect.xMax - 120f, rect.y + UIDesignSystem.SPACE_SM, 110f, 24f);
             GUI.color = statusColor;
-            Widgets.Label(new Rect(inRect.x + inRect.width - 100f, inRect.y + 10f, 100f, 30f), $"Status: {status}");
-            GUI.color = Color.white;
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleRight;
+            Widgets.Label(statusRect, status);
+            UIDesignSystem.ResetTextState();
         }
         
         /// <summary>
-        /// Draws tab buttons.
+        /// Draws tab navigation buttons
         /// </summary>
-        private void DrawTabs(Rect tabRect)
+        private void DrawTabs(Rect rect)
         {
-            float tabWidth = tabRect.width / 4f;
+            float tabWidth = rect.width / 4f;
             
-            DrawTab(new Rect(tabRect.x, tabRect.y, tabWidth, tabRect.height), "📊 Overview", DashboardTab.Overview);
-            DrawTab(new Rect(tabRect.x + tabWidth, tabRect.y, tabWidth, tabRect.height), "📈 Statistics", DashboardTab.Statistics);
-            DrawTab(new Rect(tabRect.x + tabWidth * 2, tabRect.y, tabWidth, tabRect.height), "⚙️ Settings", DashboardTab.Settings);
-            DrawTab(new Rect(tabRect.x + tabWidth * 3, tabRect.y, tabWidth, tabRect.height), "🚨 Alerts", DashboardTab.Alerts);
-        }
-        
-        /// <summary>
-        /// Draws a single tab button with unified style.
-        /// </summary>
-        private void DrawTab(Rect rect, string label, DashboardTab tab)
-        {
-            bool isActive = _currentTab == tab;
-            
-            // Draw background
-            Widgets.DrawBoxSolid(rect, isActive ? TAB_ACTIVE : TAB_INACTIVE);
-            
-            // Draw border for active tab
-            if (isActive)
+            if (UIDesignSystem.DrawTab(
+                new Rect(rect.x, rect.y, tabWidth, rect.height),
+                "📊 Overview", _currentTab == DashboardTab.Overview))
             {
-                Widgets.DrawBox(rect, 2);
+                _currentTab = DashboardTab.Overview;
             }
             
-            // Draw label with better centering
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Text.Font = isActive ? GameFont.Small : GameFont.Tiny;
-            GUI.color = isActive ? Color.white : new Color(0.7f, 0.7f, 0.7f);
-            Widgets.Label(rect, label);
-            GUI.color = Color.white;
-            Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
-            
-            // Click handler
-            if (Widgets.ButtonInvisible(rect))
+            if (UIDesignSystem.DrawTab(
+                new Rect(rect.x + tabWidth, rect.y, tabWidth, rect.height),
+                "📈 Statistics", _currentTab == DashboardTab.Statistics))
             {
-                _currentTab = tab;
+                _currentTab = DashboardTab.Statistics;
+            }
+            
+            if (UIDesignSystem.DrawTab(
+                new Rect(rect.x + tabWidth * 2, rect.y, tabWidth, rect.height),
+                "⚙️ Settings", _currentTab == DashboardTab.Settings))
+            {
+                _currentTab = DashboardTab.Settings;
+            }
+            
+            if (UIDesignSystem.DrawTab(
+                new Rect(rect.x + tabWidth * 3, rect.y, tabWidth, rect.height),
+                "🚨 Alerts", _currentTab == DashboardTab.Alerts))
+            {
+                _currentTab = DashboardTab.Alerts;
             }
         }
         
         /// <summary>
-        /// Draws the Overview tab with key stats.
+        /// Overview Tab - Clean, minimal, essential info only
         /// </summary>
         private void DrawOverviewTab(Rect contentRect)
         {
-            Widgets.BeginScrollView(contentRect, ref _scrollPosition, new Rect(0, 0, contentRect.width - 20f, 1400f));
+            Rect scrollView = contentRect.ContractedBy(UIDesignSystem.SPACE_MD);
+            Rect viewRect = new Rect(0, 0, scrollView.width - 20f, 1000f);
             
-            float y = PADDING;
-            float width = contentRect.width - 20f;
+            Widgets.BeginScrollView(scrollView, ref _scrollPosition, viewRect);
             
-            // === SECTION 1: QUICK CONTROLS (NEW!) ===
-            y = DrawQuickControlsCard(y, width);
-            y += SECTION_SPACING;
+            float y = 0f;
+            float width = viewRect.width;
             
-            // === SECTION 2: STORYTELLER INFO ===
-            y = DrawStorytellerCard(y, width);
-            y += SECTION_SPACING;
+            // === QUICK CONTROLS ===
+            y = DrawQuickControlsSection(y, width);
+            y += UIDesignSystem.SPACE_XL;
             
-            // === SECTION 3: COLONY STATS ===
-            y = DrawColonyStats(y, width);
-            y += SECTION_SPACING;
+            // === COLONY STATUS ===
+            y = DrawColonyStatusSection(y, width);
+            y += UIDesignSystem.SPACE_XL;
             
-            // === SECTION 4: AUTOMATION STATUS ===
-            y = DrawAutomationStatus(y, width);
-            y += SECTION_SPACING;
+            // === AUTOMATION SYSTEMS ===
+            y = DrawAutomationSystemsSection(y, width);
+            y += UIDesignSystem.SPACE_XL;
             
-            // === SECTION 5: RECENT DECISIONS ===
-            y = DrawRecentDecisions(y, width);
+            // === STORYTELLER INFO ===
+            y = DrawStorytellerSection(y, width);
             
             Widgets.EndScrollView();
         }
         
         /// <summary>
-        /// Draws quick control toggles for automation categories - NEW!
+        /// Quick Controls - Toggle automation categories
         /// </summary>
-        private float DrawQuickControlsCard(float y, float width)
+        private float DrawQuickControlsSection(float y, float width)
         {
-            Rect cardRect = new Rect(PADDING, y, width - PADDING * 2, CARD_HEIGHT);
+            float sectionHeight = UIDesignSystem.HEIGHT_Header + UIDesignSystem.HEIGHT_Checkbox * 2 + UIDesignSystem.SPACE_MD * 3;
+            Rect sectionRect = new Rect(0, y, width, sectionHeight);
             
-            // Draw card background - Cyan for settings
-            Widgets.DrawBoxSolid(cardRect, CARD_BG_CYAN);
-            Widgets.DrawBox(cardRect, 1);
-            
-            // Title
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(cardRect.x + PADDING, cardRect.y + PADDING, cardRect.width - PADDING * 2, 30f), 
-                "⚡ Quick Controls - Automation Categories");
+            // Section header
+            Rect headerRect = new Rect(sectionRect.x, sectionRect.y, sectionRect.width, UIDesignSystem.HEIGHT_Header);
+            UIDesignSystem.DrawCard(headerRect, UIDesignSystem.BG_Dark);
             Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = UIDesignSystem.Text_Primary;
+            Widgets.Label(headerRect.ContractedBy(UIDesignSystem.SPACE_MD), "⚡ Quick Controls");
+            UIDesignSystem.ResetTextState();
             
-            // Two rows of checkboxes (4 per row)
-            float checkboxY = cardRect.y + 45f;
-            float checkboxWidth = (cardRect.width - PADDING * 5) / 4f;
-            float checkboxHeight = 30f;
+            // Content area
+            float contentY = headerRect.yMax + UIDesignSystem.SPACE_MD;
+            float checkboxWidth = (width - UIDesignSystem.SPACE_MD * 5) / 4f;
             
             var settings = RimWatchMod.Settings;
             
             // Row 1
-            DrawQuickToggle(new Rect(cardRect.x + PADDING, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM, contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "🏗️ Building", ref settings.buildingEnabled);
-            DrawQuickToggle(new Rect(cardRect.x + PADDING + checkboxWidth + PADDING, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM + (checkboxWidth + UIDesignSystem.SPACE_MD), contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "👷 Work", ref settings.workEnabled);
-            DrawQuickToggle(new Rect(cardRect.x + PADDING + (checkboxWidth + PADDING) * 2, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM + (checkboxWidth + UIDesignSystem.SPACE_MD) * 2, contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "🌾 Farming", ref settings.farmingEnabled);
-            DrawQuickToggle(new Rect(cardRect.x + PADDING + (checkboxWidth + PADDING) * 3, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM + (checkboxWidth + UIDesignSystem.SPACE_MD) * 3, contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "🛡️ Defense", ref settings.defenseEnabled);
             
             // Row 2
-            checkboxY += checkboxHeight + PADDING / 2;
-            DrawQuickToggle(new Rect(cardRect.x + PADDING, checkboxY, checkboxWidth, checkboxHeight), 
+            contentY += UIDesignSystem.HEIGHT_Checkbox + UIDesignSystem.SPACE_SM;
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM, contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "💰 Trade", ref settings.tradeEnabled);
-            DrawQuickToggle(new Rect(cardRect.x + PADDING + checkboxWidth + PADDING, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM + (checkboxWidth + UIDesignSystem.SPACE_MD), contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "🏥 Medical", ref settings.medicalEnabled);
-            DrawQuickToggle(new Rect(cardRect.x + PADDING + (checkboxWidth + PADDING) * 2, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM + (checkboxWidth + UIDesignSystem.SPACE_MD) * 2, contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "😊 Social", ref settings.socialEnabled);
-            DrawQuickToggle(new Rect(cardRect.x + PADDING + (checkboxWidth + PADDING) * 3, checkboxY, checkboxWidth, checkboxHeight), 
+            DrawQuickToggle(new Rect(UIDesignSystem.SPACE_SM + (checkboxWidth + UIDesignSystem.SPACE_MD) * 3, contentY, checkboxWidth, UIDesignSystem.HEIGHT_Checkbox), 
                 "🔬 Research", ref settings.researchEnabled);
             
-            return y + CARD_HEIGHT;
+            return sectionRect.yMax;
         }
         
         /// <summary>
-        /// Draws a quick toggle checkbox with label - NEW!
+        /// Quick toggle checkbox helper
         /// </summary>
         private void DrawQuickToggle(Rect rect, string label, ref bool value)
         {
             bool oldValue = value;
             Text.Font = GameFont.Tiny;
             Widgets.CheckboxLabeled(rect, label, ref value);
-            Text.Font = GameFont.Small;
             
             if (oldValue != value)
             {
-                // Apply changes immediately
                 RimWatchMod.Settings.ApplyToCore();
                 RimWatchMod.Settings.Write();
-                RimWatchLogger.Info($"[QuickControls] Toggled {label}: {oldValue} → {value}");
+                RimWatchLogger.Info($"[QuickControls] {label}: {oldValue} → {value}");
             }
+            
+            UIDesignSystem.ResetTextState();
         }
         
         /// <summary>
-        /// Draws storyteller info card.
+        /// Colony Status - Essential colony stats
         /// </summary>
-        private float DrawStorytellerCard(float y, float width)
-        {
-            Rect cardRect = new Rect(PADDING, y, width - PADDING * 2, CARD_HEIGHT);
-            // Unified purple for storyteller
-            Widgets.DrawBoxSolid(cardRect, CARD_BG_PURPLE);
-            Widgets.DrawBox(cardRect, 1);
-            
-            Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(cardRect.x + 10f, cardRect.y + 5f, cardRect.width - 20f, 25f), 
-                $"📖 Current Storyteller: {RimWatchCore.CurrentStoryteller?.GetType().Name ?? "None"}");
-            
-            Text.Font = GameFont.Tiny;
-            var personality = RimWatchCore.CurrentStoryteller?.GetPersonality();
-            if (personality != null)
-            {
-                string traits = $"Risk: {personality.RiskTolerance:P0} | Build: {personality.BuildingSpeed:P0} | Trade: {personality.TradeAggressiveness:P0}";
-                Widgets.Label(new Rect(cardRect.x + 10f, cardRect.y + 30f, cardRect.width - 20f, 20f), traits);
-            }
-            
-            return y + CARD_HEIGHT;
-        }
-        
-        /// <summary>
-        /// Draws colony statistics.
-        /// </summary>
-        private float DrawColonyStats(float y, float width)
+        private float DrawColonyStatusSection(float y, float width)
         {
             if (Find.CurrentMap == null)
                 return y;
             
+            float sectionHeight = UIDesignSystem.HEIGHT_Card;
+            Rect sectionRect = new Rect(0, y, width, sectionHeight);
+            
             var map = Find.CurrentMap;
             int colonists = map.mapPawns.FreeColonistsSpawnedCount;
             int prisoners = map.mapPawns.PrisonersOfColonySpawnedCount;
-            float avgMood = map.mapPawns.FreeColonistsSpawned.Average(p => p.needs?.mood?.CurLevelPercentage ?? 0.5f);
+            float avgMood = map.mapPawns.FreeColonistsSpawned.Any() 
+                ? map.mapPawns.FreeColonistsSpawned.Average(p => p.needs?.mood?.CurLevelPercentage ?? 0.5f) 
+                : 0.5f;
             
-            Rect cardRect = new Rect(PADDING, y, width - PADDING * 2, CARD_HEIGHT);
-            // Unified blue for colony status
-            Widgets.DrawBoxSolid(cardRect, CARD_BG_BLUE);
-            Widgets.DrawBox(cardRect, 1);
+            UIDesignSystem.DrawCard(sectionRect, UIDesignSystem.BG_Medium);
             
+            // Icon + title
+            Rect iconRect = new Rect(sectionRect.x + UIDesignSystem.SPACE_MD, 
+                sectionRect.y + UIDesignSystem.SPACE_MD, 24f, 24f);
+            Text.Font = GameFont.Medium;
+            Widgets.Label(iconRect, "🏘️");
+            
+            Rect titleRect = new Rect(iconRect.xMax + UIDesignSystem.SPACE_SM, 
+                sectionRect.y + UIDesignSystem.SPACE_MD, 200f, 24f);
+            GUI.color = UIDesignSystem.Text_Primary;
+            Widgets.Label(titleRect, "Colony Status");
+            
+            // Stats in rows
+            float statsY = titleRect.yMax + UIDesignSystem.SPACE_SM;
+            Rect statRect = new Rect(sectionRect.x + UIDesignSystem.SPACE_MD, statsY, 
+                sectionRect.width - UIDesignSystem.SPACE_MD * 2, 20f);
+            
+            GUI.color = UIDesignSystem.Text_Secondary;
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(statRect, $"Colonists: {colonists}  •  Prisoners: {prisoners}  •  Average Mood: {avgMood:P0}");
+            
+            UIDesignSystem.ResetTextState();
+            
+            return sectionRect.yMax;
+        }
+        
+        /// <summary>
+        /// Automation Systems - Status indicators for all 8 systems
+        /// </summary>
+        private float DrawAutomationSystemsSection(float y, float width)
+        {
+            float rowHeight = 22f;
+            float sectionHeight = UIDesignSystem.HEIGHT_Header + rowHeight * 8 + UIDesignSystem.SPACE_MD * 2;
+            Rect sectionRect = new Rect(0, y, width, sectionHeight);
+            
+            // Header
+            Rect headerRect = new Rect(sectionRect.x, sectionRect.y, sectionRect.width, UIDesignSystem.HEIGHT_Header);
+            UIDesignSystem.DrawCard(headerRect, UIDesignSystem.BG_Dark);
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(cardRect.x + 10f, cardRect.y + 5f, cardRect.width - 20f, 25f), "🏘️ Colony Status");
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = UIDesignSystem.Text_Primary;
+            Widgets.Label(headerRect.ContractedBy(UIDesignSystem.SPACE_MD), "🤖 Automation Systems");
+            UIDesignSystem.ResetTextState();
             
-            Text.Font = GameFont.Tiny;
-            string stats = $"Colonists: {colonists} | Prisoners: {prisoners} | Avg Mood: {avgMood:P0}";
-            Widgets.Label(new Rect(cardRect.x + 10f, cardRect.y + 30f, cardRect.width - 20f, 20f), stats);
+            // System status rows
+            float statusY = headerRect.yMax + UIDesignSystem.SPACE_MD;
             
-            return y + CARD_HEIGHT;
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Building", RimWatch.Automation.BuildingAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Work", RimWatch.Automation.WorkAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Farming", RimWatch.Automation.FarmingAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Defense", RimWatch.Automation.DefenseAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Trade", RimWatch.Automation.TradeAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Medical", RimWatch.Automation.MedicalAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Social", RimWatch.Automation.SocialAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Research", RimWatch.Automation.ResearchAutomation.IsEnabled);
+            
+            return sectionRect.yMax;
         }
         
         /// <summary>
-        /// Draws automation status indicators.
+        /// Single system status row with dot indicator
         /// </summary>
-        private float DrawAutomationStatus(float y, float width)
+        private void DrawSystemStatusRow(float x, float y, string name, bool enabled)
         {
-            float cardHeight = 220f; // Taller card for 8 systems
-            Rect cardRect = new Rect(PADDING, y, width - PADDING * 2, cardHeight);
-            // Unified green for automation systems
-            Widgets.DrawBoxSolid(cardRect, CARD_BG_GREEN);
-            Widgets.DrawBox(cardRect, 1);
+            Rect dotRect = new Rect(x, y, 16f, 16f);
+            UIDesignSystem.DrawStatusDot(dotRect, enabled);
             
-            // Title
+            Rect labelRect = new Rect(x + 22f, y, 200f, 20f);
+            GUI.color = enabled ? UIDesignSystem.Text_Primary : UIDesignSystem.Text_Secondary;
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(labelRect, name);
+            UIDesignSystem.ResetTextState();
+        }
+        
+        /// <summary>
+        /// Storyteller Info - Current AI storyteller
+        /// </summary>
+        private float DrawStorytellerSection(float y, float width)
+        {
+            float sectionHeight = UIDesignSystem.HEIGHT_Card;
+            Rect sectionRect = new Rect(0, y, width, sectionHeight);
+            
+            UIDesignSystem.DrawCard(sectionRect, UIDesignSystem.BG_Medium);
+            
+            // Icon + title
+            Rect iconRect = new Rect(sectionRect.x + UIDesignSystem.SPACE_MD, 
+                sectionRect.y + UIDesignSystem.SPACE_MD, 24f, 24f);
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(cardRect.x + PADDING, cardRect.y + PADDING, cardRect.width - PADDING * 2, 30f), 
-                "⚡ Automation Systems");
+            Widgets.Label(iconRect, "📖");
             
-            float statusY = cardRect.y + 45f;
-            Text.Font = GameFont.Tiny;
+            Rect titleRect = new Rect(iconRect.xMax + UIDesignSystem.SPACE_SM, 
+                sectionRect.y + UIDesignSystem.SPACE_MD, sectionRect.width - iconRect.xMax - UIDesignSystem.SPACE_MD * 2, 24f);
+            GUI.color = UIDesignSystem.Text_Primary;
+            Text.Font = GameFont.Small;
+            string storytellerName = RimWatchCore.CurrentStoryteller?.GetType().Name ?? "None";
+            Widgets.Label(titleRect, $"Storyteller: {storytellerName}");
             
-            DrawSystemStatus(cardRect.x + 10f, statusY, "Building", RimWatch.Automation.BuildingAutomation.IsEnabled);
-            DrawSystemStatus(cardRect.x + 10f, statusY + 25f, "Work", RimWatch.Automation.WorkAutomation.IsEnabled);
-            DrawSystemStatus(cardRect.x + 10f, statusY + 50f, "Farming", RimWatch.Automation.FarmingAutomation.IsEnabled);
-            DrawSystemStatus(cardRect.x + 10f, statusY + 75f, "Defense", RimWatch.Automation.DefenseAutomation.IsEnabled);
-            DrawSystemStatus(cardRect.x + 10f, statusY + 100f, "Trade", RimWatch.Automation.TradeAutomation.IsEnabled);
-            DrawSystemStatus(cardRect.x + 10f, statusY + 125f, "Medical", RimWatch.Automation.MedicalAutomation.IsEnabled);
-            DrawSystemStatus(cardRect.x + 10f, statusY + 150f, "Social", RimWatch.Automation.SocialAutomation.IsEnabled);
+            // Personality traits
+            var personality = RimWatchCore.CurrentStoryteller?.GetPersonality();
+            if (personality != null)
+            {
+                float traitsY = titleRect.yMax + UIDesignSystem.SPACE_SM;
+                Rect traitsRect = new Rect(sectionRect.x + UIDesignSystem.SPACE_MD, traitsY, 
+                    sectionRect.width - UIDesignSystem.SPACE_MD * 2, 20f);
+                
+                GUI.color = UIDesignSystem.Text_Secondary;
+                Text.Font = GameFont.Tiny;
+                string traits = $"Risk: {personality.RiskTolerance:P0}  •  Build Speed: {personality.BuildingSpeed:P0}  •  Trade: {personality.TradeAggressiveness:P0}";
+                Widgets.Label(traitsRect, traits);
+            }
             
-            return y + 200f + PADDING;
+            UIDesignSystem.ResetTextState();
+            
+            return sectionRect.yMax;
         }
         
         /// <summary>
-        /// Draws a system status indicator.
-        /// </summary>
-        private void DrawSystemStatus(float x, float y, string name, bool enabled)
-        {
-            GUI.color = enabled ? Color.green : Color.red;
-            Widgets.Label(new Rect(x, y, 20f, 20f), enabled ? "●" : "○");
-            GUI.color = Color.white;
-            Widgets.Label(new Rect(x + 25f, y, 200f, 20f), name);
-        }
-        
-        /// <summary>
-        /// Draws recent decisions.
-        /// </summary>
-        private float DrawRecentDecisions(float y, float width)
-        {
-            float cardHeight = 180f; // Room for more decisions
-            Rect cardRect = new Rect(PADDING, y, width - PADDING * 2, cardHeight);
-            // Unified orange for decisions
-            Widgets.DrawBoxSolid(cardRect, CARD_BG_ORANGE);
-            Widgets.DrawBox(cardRect, 1);
-            
-            // Title
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(cardRect.x + PADDING, cardRect.y + PADDING, cardRect.width - PADDING * 2, 30f), 
-                "📝 Recent AI Decisions");
-            
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(cardRect.x + 10f, cardRect.y + 35f, cardRect.width - 20f, 100f), 
-                "Check Decision History panel for detailed logs...");
-            
-            return y + 150f + PADDING;
-        }
-        
-        /// <summary>
-        /// Draws the Statistics tab.
+        /// Statistics Tab - Performance metrics
         /// </summary>
         private void DrawStatisticsTab(Rect contentRect)
         {
+            Rect innerRect = contentRect.ContractedBy(UIDesignSystem.SPACE_MD);
+            
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(contentRect.x + PADDING, contentRect.y + PADDING, contentRect.width - 20f, 30f), 
+            GUI.color = UIDesignSystem.Text_Primary;
+            Widgets.Label(new Rect(innerRect.x, innerRect.y, innerRect.width, 30f), 
                 "📈 Performance & Statistics");
             
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(contentRect.x + PADDING, contentRect.y + 50f, contentRect.width - 20f, 200f), 
+            GUI.color = UIDesignSystem.Text_Secondary;
+            Widgets.Label(new Rect(innerRect.x, innerRect.y + 50f, innerRect.width, 200f), 
                 "Performance metrics and detailed statistics will be displayed here.\n\n" +
                 "Coming soon:\n" +
                 "• TPS impact measurement\n" +
                 "• Memory usage tracking\n" +
                 "• Decision success rates\n" +
                 "• Automation efficiency scores");
+            
+            UIDesignSystem.ResetTextState();
         }
         
         /// <summary>
-        /// Draws the Settings tab.
+        /// Settings Tab - Uses UnifiedSettingsUI
         /// </summary>
         private void DrawSettingsTab(Rect contentRect)
         {
-            // Use existing UnifiedSettingsUI
-            RimWatch.UI.UnifiedSettingsUI.DrawAllSettings(contentRect, RimWatchMod.Settings, isQuickPanel: true);
+            UnifiedSettingsUI.DrawAllSettings(contentRect, RimWatchMod.Settings, isQuickPanel: true);
         }
         
         /// <summary>
-        /// Draws the Alerts tab.
+        /// Alerts Tab - Active warnings and crises
         /// </summary>
         private void DrawAlertsTab(Rect contentRect)
         {
-            Widgets.BeginScrollView(contentRect, ref _scrollPosition, new Rect(0, 0, contentRect.width - 20f, 800f));
+            Rect scrollView = contentRect.ContractedBy(UIDesignSystem.SPACE_MD);
+            Rect viewRect = new Rect(0, 0, scrollView.width - 20f, 800f);
             
-            float y = PADDING;
+            Widgets.BeginScrollView(scrollView, ref _scrollPosition, viewRect);
             
+            float y = 0f;
+            
+            // Header
+            Rect headerRect = new Rect(0, y, viewRect.width, UIDesignSystem.HEIGHT_Header);
+            UIDesignSystem.DrawCard(headerRect, UIDesignSystem.BG_Dark);
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(PADDING, y, contentRect.width - 40f, 30f), "🚨 Active Alerts & Warnings");
-            y += 40f;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = UIDesignSystem.Text_Primary;
+            Widgets.Label(headerRect.ContractedBy(UIDesignSystem.SPACE_MD), "🚨 Active Alerts");
+            UIDesignSystem.ResetTextState();
             
-            Text.Font = GameFont.Tiny;
+            y = headerRect.yMax + UIDesignSystem.SPACE_MD;
             
-            // Mood crisis alerts
+            // Check for mood crises
             var crises = MoodCrisisDetector.GetActiveCrises();
+            
             if (crises != null && crises.Count > 0)
             {
-                // Яркий красный для кризисов
-                Widgets.DrawBoxSolid(new Rect(PADDING, y, contentRect.width - 40f, 30f + crises.Count * 25f), 
-                    new Color(0.8f, 0.2f, 0.2f, 0.85f));
+                float alertHeight = 30f + crises.Count * 24f;
+                Rect alertRect = new Rect(0, y, viewRect.width, alertHeight);
+                UIDesignSystem.DrawCard(alertRect, new Color(0.3f, 0.15f, 0.15f, 0.8f)); // Dark red
                 
-                Widgets.Label(new Rect(PADDING + 5f, y + 5f, contentRect.width - 50f, 20f), 
-                    $"⚠️ {crises.Count} Mood Crisis Alert(s)");
+                Rect alertTitleRect = new Rect(alertRect.x + UIDesignSystem.SPACE_MD, 
+                    alertRect.y + UIDesignSystem.SPACE_SM, alertRect.width - UIDesignSystem.SPACE_MD * 2, 20f);
+                GUI.color = UIDesignSystem.Status_Error;
+                Text.Font = GameFont.Small;
+                Widgets.Label(alertTitleRect, $"⚠️ {crises.Count} Mood Crisis Alert(s)");
                 
-                y += 30f;
+                float crisisY = alertTitleRect.yMax + UIDesignSystem.SPACE_XS;
+                GUI.color = UIDesignSystem.Text_Primary;
+                Text.Font = GameFont.Tiny;
+                
                 foreach (var crisis in crises.Take(5))
                 {
-                    Widgets.Label(new Rect(PADDING + 10f, y, contentRect.width - 60f, 20f), 
-                        $"• {crisis.PawnName}: {crisis.Level} ({crisis.Mood:P0})");
-                    y += 25f;
+                    Rect crisisRect = new Rect(alertRect.x + UIDesignSystem.SPACE_MD * 2, crisisY, 
+                        alertRect.width - UIDesignSystem.SPACE_MD * 3, 22f);
+                    Widgets.Label(crisisRect, $"• {crisis.PawnName}: {crisis.Level} ({crisis.Mood:P0})");
+                    crisisY += 22f;
                 }
                 
-                y += PADDING;
+                y = alertRect.yMax + UIDesignSystem.SPACE_MD;
             }
-            
-            // All good message
-            if (crises == null || crises.Count == 0)
+            else
             {
-                GUI.color = Color.green;
-                Widgets.Label(new Rect(PADDING, y, contentRect.width - 40f, 30f), "✅ No active alerts - Colony running smoothly!");
-                GUI.color = Color.white;
+                // No alerts - all good
+                Rect goodRect = new Rect(0, y, viewRect.width, UIDesignSystem.HEIGHT_Button);
+                GUI.color = UIDesignSystem.Status_Active;
+                Text.Font = GameFont.Small;
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(new Rect(goodRect.x + UIDesignSystem.SPACE_MD, goodRect.y, 
+                    goodRect.width - UIDesignSystem.SPACE_MD * 2, goodRect.height), 
+                    "✅ No active alerts - Colony running smoothly!");
             }
             
+            UIDesignSystem.ResetTextState();
             Widgets.EndScrollView();
         }
         
-        /// <summary>
-        /// Dashboard tab enum.
-        /// </summary>
         private enum DashboardTab
         {
             Overview,
@@ -461,4 +502,3 @@ namespace RimWatch.UI
         }
     }
 }
-

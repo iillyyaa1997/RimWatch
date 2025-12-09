@@ -10,16 +10,11 @@ namespace RimWatch.UI
     /// <summary>
     /// Unified settings UI component used by both Mod Settings and Shift+R panel.
     /// Single source of truth for all settings rendering.
+    /// v1.3.1: Uses UIDesignSystem for consistent styling.
     /// </summary>
     public static class UnifiedSettingsUI
     {
         private static Vector2 _scrollPosition = Vector2.zero;
-        
-        // Minimalist color scheme - simple and clean
-        private static readonly Color HeaderBgColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
-        private static readonly Color SectionBgColor = new Color(0.15f, 0.15f, 0.15f, 0.3f);
-        private static readonly Color TextColor = Color.white;
-        private static readonly Color MutedTextColor = new Color(0.6f, 0.6f, 0.6f);
 
         /// <summary>
         /// Main settings drawing method - used by both Mod Settings and Quick Panel.
@@ -109,70 +104,42 @@ namespace RimWatch.UI
 
             bool isCollapsed = _sectionCollapsed[id];
 
-            // Header with gradient background
-            Rect headerRect = listing.GetRect(36f);
-            DrawGradientBox(headerRect, SectionBgColor, SectionBgColor * 0.8f);
-            Widgets.DrawBox(headerRect, 1);
+            // Header with clean card style
+            Rect headerRect = listing.GetRect(UIDesignSystem.HEIGHT_Header);
             
-            // Arrow button
-            Rect arrowRect = new Rect(headerRect.x + 8f, headerRect.y + 8f, 20f, 20f);
-            string arrow = isCollapsed ? "▶" : "▼";
-            Text.Font = GameFont.Medium;
-            Widgets.Label(arrowRect, arrow);
-            
-            // Title
-            Rect titleRect = new Rect(headerRect.x + 35f, headerRect.y, headerRect.width - 35f, headerRect.height);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Text.Font = GameFont.Medium;
-            Widgets.Label(titleRect, title);
-            Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
-            
-            // Click to toggle
-            if (Widgets.ButtonInvisible(headerRect))
+            bool clicked = UIDesignSystem.DrawCollapsibleHeader(headerRect, title, isCollapsed);
+            if (clicked)
             {
                 _sectionCollapsed[id] = !isCollapsed;
             }
 
-            listing.Gap(4f);
+            listing.Gap(UIDesignSystem.SPACE_XS);
 
             // Content
             if (!isCollapsed)
             {
-                Rect contentBg = listing.GetRect(0f); // Will be adjusted
                 float contentStartY = listing.CurHeight;
-                
                 drawContent();
-                
                 float contentEndY = listing.CurHeight;
-                contentBg.y = contentStartY;
-                contentBg.height = contentEndY - contentStartY;
                 
                 // Draw subtle background behind content
-                Widgets.DrawBoxSolid(contentBg, new Color(0.1f, 0.1f, 0.1f, 0.2f));
+                Rect contentBg = new Rect(0f, contentStartY, listing.ColumnWidth, contentEndY - contentStartY);
+                UIDesignSystem.DrawSection(contentBg);
                 
-                listing.Gap(8f);
+                listing.Gap(UIDesignSystem.SPACE_SM);
             }
             else
             {
-                listing.Gap(4f);
+                listing.Gap(UIDesignSystem.SPACE_XS);
             }
         }
 
         private static void DrawHeader(Listing_Standard listing, bool isQuickPanel)
         {
-            Rect headerRect = listing.GetRect(50f);
-            DrawGradientBox(headerRect, HeaderBgColor, HeaderBgColor * 0.7f);
-            
-            Text.Font = GameFont.Medium;
-            Text.Anchor = TextAnchor.MiddleCenter;
+            Rect headerRect = listing.GetRect(UIDesignSystem.HEIGHT_HeaderLarge);
             string title = isQuickPanel ? "RimWatch.UI.QuickPanel".Translate() : "RimWatch.UI.Settings".Translate();
-            Widgets.Label(headerRect, title);
-            GUI.color = Color.white;
-            Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
-            
-            listing.Gap(12f);
+            UIDesignSystem.DrawHeader(headerRect, title, GameFont.Medium);
+            listing.Gap(UIDesignSystem.SPACE_MD);
         }
 
         private static void DrawQuickStatus(Listing_Standard listing, RimWatchSettings settings)
@@ -192,11 +159,11 @@ namespace RimWatch.UI
             if (settings.researchEnabled) activeModules++;
             if (settings.tradeEnabled) activeModules++;
             
-            GUI.color = MutedTextColor;
+            GUI.color = UIDesignSystem.Text_Secondary;
             listing.Label("RimWatch.UI.ActiveModules".Translate(activeModules));
             GUI.color = Color.white;
             
-            listing.Gap(8f);
+            listing.Gap(UIDesignSystem.SPACE_SM);
         }
 
         private static void DrawAutopilotSection(Listing_Standard listing, RimWatchSettings settings)
@@ -336,7 +303,7 @@ namespace RimWatch.UI
                 // Building Log Level
                 listing.Gap(4f);
                 listing.Label("Building Construction Log Level:");
-                GUI.color = MutedTextColor;
+                GUI.color = UIDesignSystem.Text_Secondary;
                 listing.Label("Controls verbosity for building placement and construction.");
                 GUI.color = Color.white;
                 
@@ -360,7 +327,7 @@ namespace RimWatch.UI
                 
                 // Per-System Log Levels
                 listing.Label("Per-System Log Levels:");
-                GUI.color = MutedTextColor;
+                GUI.color = UIDesignSystem.Text_Secondary;
                 listing.Label("Individual verbosity for each automation system:");
                 GUI.color = Color.white;
                 
@@ -400,7 +367,7 @@ namespace RimWatch.UI
             if (settings.debugModeEnabled || settings.fileLoggingEnabled)
             {
                 listing.Gap(6f);
-                GUI.color = MutedTextColor;
+                GUI.color = UIDesignSystem.Text_Secondary;
                 listing.Label("RimWatch.UI.DebugWarning".Translate());
                 GUI.color = Color.white;
             }
@@ -532,23 +499,22 @@ namespace RimWatch.UI
             if (gameComponent == null) return;
             
             // Section header
-            Rect headerRect = listing.GetRect(30f);
-            DrawGradientBox(headerRect, new Color(0.2f, 0.35f, 0.5f, 0.4f), new Color(0.15f, 0.25f, 0.4f, 0.4f));
-            Widgets.DrawBox(headerRect, 1);
+            Rect headerRect = listing.GetRect(UIDesignSystem.HEIGHT_Header);
+            UIDesignSystem.DrawCard(headerRect, UIDesignSystem.Accent_Purple);
             
-            Text.Font = GameFont.Medium;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(headerRect, "Per-Save Settings (v1.3.0)");
-            Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            GUI.color = UIDesignSystem.Text_Primary;
+            Widgets.Label(headerRect, "💾 Per-Save Settings (v1.3.0)");
+            UIDesignSystem.ResetTextState();
             
-            listing.Gap(8f);
+            listing.Gap(UIDesignSystem.SPACE_SM);
             
             // Main checkbox - enabled by default
             bool oldUsePerSave = gameComponent.UsePerSaveSettings;
             bool newUsePerSave = oldUsePerSave;
             
-            Rect checkboxRect = listing.GetRect(30f);
+            Rect checkboxRect = listing.GetRect(UIDesignSystem.HEIGHT_Checkbox);
             Widgets.CheckboxLabeled(checkboxRect, "Use per-save settings (recommended)", ref newUsePerSave);
             
             if (newUsePerSave != oldUsePerSave)
@@ -566,45 +532,47 @@ namespace RimWatch.UI
             }
             
             // Description text
-            GUI.color = MutedTextColor;
+            GUI.color = UIDesignSystem.Text_Secondary;
             listing.Label("  Each save file will remember its own settings");
             GUI.color = Color.white;
             
-            listing.Gap(6f);
+            listing.Gap(UIDesignSystem.SPACE_XS);
             
             // Status indicator
             if (gameComponent.UsePerSaveSettings)
             {
-                GUI.color = new Color(0.5f, 1f, 0.5f); // Green
+                GUI.color = UIDesignSystem.Status_Active;
                 listing.Label("  Status: ✓ Per-save settings active");
                 GUI.color = Color.white;
             }
             else
             {
-                GUI.color = new Color(1f, 0.8f, 0.5f); // Yellow
+                GUI.color = UIDesignSystem.Status_Warning;
                 listing.Label("  Status: ⚠ Using global settings");
                 GUI.color = Color.white;
             }
             
-            listing.Gap(8f);
+            listing.Gap(UIDesignSystem.SPACE_SM);
             
             // Copy buttons (only visible if per-save enabled)
             if (gameComponent.UsePerSaveSettings)
             {
-                Rect buttonsRect = listing.GetRect(30f);
-                float buttonWidth = (buttonsRect.width - 10f) / 2f;
+                Rect buttonsRect = listing.GetRect(UIDesignSystem.HEIGHT_Button);
+                float buttonWidth = (buttonsRect.width - UIDesignSystem.SPACE_MD) / 2f;
                 
                 // Button: Copy global → this save
-                Rect button1Rect = new Rect(buttonsRect.x, buttonsRect.y, buttonWidth, buttonsRect.height);
-                if (Widgets.ButtonText(button1Rect, "Copy global → this save"))
+                if (UIDesignSystem.DrawButton(
+                    new Rect(buttonsRect.x, buttonsRect.y, buttonWidth, buttonsRect.height),
+                    "Copy global → this save"))
                 {
                     gameComponent.CopyFromGlobalSettings();
                     Messages.Message("✓ Copied global settings to this save", MessageTypeDefOf.NeutralEvent, false);
                 }
                 
                 // Button: Copy this save → global
-                Rect button2Rect = new Rect(buttonsRect.x + buttonWidth + 10f, buttonsRect.y, buttonWidth, buttonsRect.height);
-                if (Widgets.ButtonText(button2Rect, "Copy this save → global"))
+                if (UIDesignSystem.DrawButton(
+                    new Rect(buttonsRect.x + buttonWidth + UIDesignSystem.SPACE_MD, buttonsRect.y, buttonWidth, buttonsRect.height),
+                    "Copy this save → global"))
                 {
                     gameComponent.ApplyToGlobalSettings();
                     settings.Write(); // Save to disk
@@ -612,24 +580,9 @@ namespace RimWatch.UI
                 }
             }
             
-            listing.Gap(4f);
+            listing.Gap(UIDesignSystem.SPACE_XS);
         }
 
-        /// <summary>
-        /// Draws a gradient box for beautiful backgrounds.
-        /// </summary>
-        private static void DrawGradientBox(Rect rect, Color colorTop, Color colorBottom)
-        {
-            // Simple gradient effect using two boxes
-            Rect topHalf = rect;
-            topHalf.height /= 2f;
-            Widgets.DrawBoxSolid(topHalf, colorTop);
-            
-            Rect bottomHalf = rect;
-            bottomHalf.y += bottomHalf.height / 2f;
-            bottomHalf.height /= 2f;
-            Widgets.DrawBoxSolid(bottomHalf, colorBottom);
-        }
     }
 }
 
