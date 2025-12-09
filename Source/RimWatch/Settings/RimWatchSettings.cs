@@ -112,18 +112,18 @@ namespace RimWatch.Settings
         public DebugOverlayMode debugOverlayMode = DebugOverlayMode.Zones; // Режим отображения overlay
         public bool enableDecisionLogging = false; // Логировать AI решения в JSON файл
 
-        // v0.8.1: New AI Systems Settings
-        public bool gameSpeedControlEnabled = true;  // ✅ Adaptive game speed control
-        public bool apparelAutomationEnabled = true; // ✅ Smart clothing management
-        public bool weaponAutomationEnabled = true;  // ✅ Auto weapon upgrades
-        public bool colonistCommandsEnabled = true;  // ✅ Emergency task priority
-        public bool productionAutomationEnabled = true; // v0.8.5: ✅ Automatic bill management
-        public bool constructionCommandsEnabled = true; // v0.9.0: ✅ Force assign builders to critical construction
+        // v0.8.1: New AI Systems Settings - ALL DISABLED BY DEFAULT (v1.3.0)
+        public bool gameSpeedControlEnabled = false;  // Adaptive game speed control
+        public bool apparelAutomationEnabled = false; // Smart clothing management
+        public bool weaponAutomationEnabled = false;  // Auto weapon upgrades
+        public bool colonistCommandsEnabled = false;  // Emergency task priority
+        public bool productionAutomationEnabled = false; // v0.8.5: Automatic bill management
+        public bool constructionCommandsEnabled = false; // v0.9.0: Force assign builders to critical construction
         
-        // v1.1.0: ML Systems Settings
-        public bool decisionAnalyzerEnabled = true;  // ✅ Analyze AI decision patterns and improve over time
-        public bool colonyPredictorEnabled = true;   // ✅ Predict food shortages, raids, resource depletion
-        public bool playerStyleAnalyzerEnabled = true; // ✅ Learn from player's manual overrides and adapt
+        // v1.1.0: ML Systems Settings - ALL DISABLED BY DEFAULT (v1.3.0)
+        public bool decisionAnalyzerEnabled = false;  // Analyze AI decision patterns and improve over time
+        public bool colonyPredictorEnabled = false;   // Predict food shortages, raids, resource depletion
+        public bool playerStyleAnalyzerEnabled = false; // Learn from player's manual overrides and adapt
         
         // v1.1.0: ML Configuration
         public float mlLearningRate = 0.1f; // How fast ML systems adapt (0.0-1.0)
@@ -176,10 +176,10 @@ namespace RimWatch.Settings
         {
             base.ExposeData();
 
-            // Automation Categories
-            Scribe_Values.Look(ref buildingEnabled, "buildingEnabled", true);  // ✅ CHANGED: default true
-            Scribe_Values.Look(ref workEnabled, "workEnabled", true);          // ✅ CHANGED: default true
-            Scribe_Values.Look(ref farmingEnabled, "farmingEnabled", true);    // ✅ CHANGED: default true
+            // Automation Categories - ALL DISABLED BY DEFAULT (v1.3.0)
+            Scribe_Values.Look(ref buildingEnabled, "buildingEnabled", false);
+            Scribe_Values.Look(ref workEnabled, "workEnabled", false);
+            Scribe_Values.Look(ref farmingEnabled, "farmingEnabled", false);
             Scribe_Values.Look(ref defenseEnabled, "defenseEnabled", false);
             Scribe_Values.Look(ref tradeEnabled, "tradeEnabled", false);
             Scribe_Values.Look(ref medicalEnabled, "medicalEnabled", false);
@@ -277,6 +277,28 @@ namespace RimWatch.Settings
             Scribe_Values.Look(ref useSmartApparelMode, "useSmartApparelMode", true);
             Scribe_Values.Look(ref useAutoOutfitPolicies, "useAutoOutfitPolicies", true);
             Scribe_Values.Look(ref useCombatVsCivilianClothing, "useCombatVsCivilianClothing", true);
+            
+            // v0.8.1 & v1.1.0: AI Systems Settings - ALL DEFAULT FALSE (v1.3.0)
+            Scribe_Values.Look(ref gameSpeedControlEnabled, "gameSpeedControlEnabled", false);
+            Scribe_Values.Look(ref apparelAutomationEnabled, "apparelAutomationEnabled", false);
+            Scribe_Values.Look(ref weaponAutomationEnabled, "weaponAutomationEnabled", false);
+            Scribe_Values.Look(ref colonistCommandsEnabled, "colonistCommandsEnabled", false);
+            Scribe_Values.Look(ref productionAutomationEnabled, "productionAutomationEnabled", false);
+            Scribe_Values.Look(ref constructionCommandsEnabled, "constructionCommandsEnabled", false);
+            Scribe_Values.Look(ref decisionAnalyzerEnabled, "decisionAnalyzerEnabled", false);
+            Scribe_Values.Look(ref colonyPredictorEnabled, "colonyPredictorEnabled", false);
+            Scribe_Values.Look(ref playerStyleAnalyzerEnabled, "playerStyleAnalyzerEnabled", false);
+            
+            // v1.1.0: ML Configuration
+            Scribe_Values.Look(ref mlLearningRate, "mlLearningRate", 0.1f);
+            Scribe_Values.Look(ref predictionSensitivity, "predictionSensitivity", 0.7f);
+            Scribe_Values.Look(ref mlAnalysisInterval, "mlAnalysisInterval", 60000);
+            
+            // v0.8.1: Game Speed Settings
+            Scribe_Values.Look(ref idleSpeed, "idleSpeed", TimeSpeed.Ultrafast);
+            Scribe_Values.Look(ref workSpeed, "workSpeed", TimeSpeed.Fast);
+            Scribe_Values.Look(ref combatSpeed, "combatSpeed", TimeSpeed.Normal);
+            Scribe_Values.Look(ref autoUnpause, "autoUnpause", true);
         }
 
         /// <summary>
