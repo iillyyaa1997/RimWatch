@@ -17,37 +17,37 @@ namespace RimWatch.Components
         // Master toggle for per-save settings (TRUE BY DEFAULT!)
         private bool _usePerSaveSettings = true;
         
-        // Automation Categories (8)
-        private bool _buildingEnabled = true;
-        private bool _workEnabled = true;
-        private bool _farmingEnabled = true;
+        // Automation Categories (8) - ALL DISABLED BY DEFAULT
+        private bool _buildingEnabled = false;
+        private bool _workEnabled = false;
+        private bool _farmingEnabled = false;
         private bool _defenseEnabled = false;
         private bool _tradeEnabled = false;
         private bool _medicalEnabled = false;
         private bool _socialEnabled = false;
         private bool _researchEnabled = false;
         
-        // Building Details (8)
-        private bool _buildBeds = true;
-        private bool _buildKitchen = true;
-        private bool _buildPower = true;
-        private bool _buildStorage = true;
-        private bool _buildWorkshops = true;
-        private bool _buildResearch = true;
-        private bool _buildDefenses = true;
-        private bool _buildRooms = true;
+        // Building Details (8) - ALL DISABLED BY DEFAULT
+        private bool _buildBeds = false;
+        private bool _buildKitchen = false;
+        private bool _buildPower = false;
+        private bool _buildStorage = false;
+        private bool _buildWorkshops = false;
+        private bool _buildResearch = false;
+        private bool _buildDefenses = false;
+        private bool _buildRooms = false;
         
-        // Farming Details (4)
-        private bool _autoPlantCrops = true;
-        private bool _autoHarvest = true;
-        private bool _autoTameAnimals = true;
-        private bool _autoButcherAnimals = true;
+        // Farming Details (4) - ALL DISABLED BY DEFAULT
+        private bool _autoPlantCrops = false;
+        private bool _autoHarvest = false;
+        private bool _autoTameAnimals = false;
+        private bool _autoButcherAnimals = false;
         
-        // Defense Details (4)
-        private bool _autoDraftColonists = true;
-        private bool _autoEquipWeapons = true;
-        private bool _autoEquipArmor = true;
-        private bool _autoPositionDefenders = true;
+        // Defense Details (4) - ALL DISABLED BY DEFAULT
+        private bool _autoDraftColonists = false;
+        private bool _autoEquipWeapons = false;
+        private bool _autoEquipArmor = false;
+        private bool _autoPositionDefenders = false;
         
         // Advanced Settings (6)
         private string _storytellerType = "Balanced";
@@ -71,19 +71,19 @@ namespace RimWatch.Components
         private SystemLogLevel _colonyDevelopmentLogLevel = SystemLogLevel.Moderate;
         private SystemLogLevel _constructionLogLevel = SystemLogLevel.Moderate;
         
-        // Debug & ML Systems (10)
+        // Debug & ML Systems (10) - ALL DISABLED BY DEFAULT
         private bool _enableDebugOverlay = false;
         private DebugOverlayMode _debugOverlayMode = DebugOverlayMode.Zones;
         private bool _enableDecisionLogging = false;
-        private bool _gameSpeedControlEnabled = true;
-        private bool _apparelAutomationEnabled = true;
-        private bool _weaponAutomationEnabled = true;
-        private bool _colonistCommandsEnabled = true;
-        private bool _productionAutomationEnabled = true;
-        private bool _constructionCommandsEnabled = true;
-        private bool _decisionAnalyzerEnabled = true;
-        private bool _colonyPredictorEnabled = true;
-        private bool _playerStyleAnalyzerEnabled = true;
+        private bool _gameSpeedControlEnabled = false;
+        private bool _apparelAutomationEnabled = false;
+        private bool _weaponAutomationEnabled = false;
+        private bool _colonistCommandsEnabled = false;
+        private bool _productionAutomationEnabled = false;
+        private bool _constructionCommandsEnabled = false;
+        private bool _decisionAnalyzerEnabled = false;
+        private bool _colonyPredictorEnabled = false;
+        private bool _playerStyleAnalyzerEnabled = false;
         
         // ML Configuration (3)
         private float _mlLearningRate = 0.1f;
@@ -96,25 +96,25 @@ namespace RimWatch.Components
         private TimeSpeed _combatSpeed = TimeSpeed.Normal;
         private bool _autoUnpause = true;
         
-        // Hierarchical Settings (~20)
-        private bool _useSmartOutfits = true;
-        private bool _useEmergencySchedules = true;
-        private bool _useMoodBasedSchedules = true;
-        private bool _useSeasonalSchedules = true;
-        private bool _useDynamicWorkPriorities = true;
-        private bool _autoDetectModWorkTypes = true;
-        private bool _autoRelocateOutdoorBeds = true;
-        private bool _autoInstallStoredBeds = true;
-        private bool _buildBedrooms = true;
-        private bool _buildKitchens = true;
-        private bool _buildStorageRooms = true;
-        private bool _buildFreezer = true;
-        private bool _useNightOwlSchedules = true;
-        private bool _useEmergencyScheduleType = true;
-        private bool _useMoodBasedScheduleType = true;
-        private bool _useSmartApparelMode = true;
-        private bool _useAutoOutfitPolicies = true;
-        private bool _useCombatVsCivilianClothing = true;
+        // Hierarchical Settings (~20) - ALL DISABLED BY DEFAULT
+        private bool _useSmartOutfits = false;
+        private bool _useEmergencySchedules = false;
+        private bool _useMoodBasedSchedules = false;
+        private bool _useSeasonalSchedules = false;
+        private bool _useDynamicWorkPriorities = false;
+        private bool _autoDetectModWorkTypes = false;
+        private bool _autoRelocateOutdoorBeds = false;
+        private bool _autoInstallStoredBeds = false;
+        private bool _buildBedrooms = false;
+        private bool _buildKitchens = false;
+        private bool _buildStorageRooms = false;
+        private bool _buildFreezer = false;
+        private bool _useNightOwlSchedules = false;
+        private bool _useEmergencyScheduleType = false;
+        private bool _useMoodBasedScheduleType = false;
+        private bool _useSmartApparelMode = false;
+        private bool _useAutoOutfitPolicies = false;
+        private bool _useCombatVsCivilianClothing = false;
         
         // Track if settings were loaded from save file
         private bool _settingsLoadedFromSave = false;
@@ -193,37 +193,37 @@ namespace RimWatch.Components
             
             if (_usePerSaveSettings)
             {
-                // Automation Categories (8)
-                Scribe_Values.Look(ref _buildingEnabled, "buildingEnabled", true);
-                Scribe_Values.Look(ref _workEnabled, "workEnabled", true);
-                Scribe_Values.Look(ref _farmingEnabled, "farmingEnabled", true);
+                // Automation Categories (8) - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _buildingEnabled, "buildingEnabled", false);
+                Scribe_Values.Look(ref _workEnabled, "workEnabled", false);
+                Scribe_Values.Look(ref _farmingEnabled, "farmingEnabled", false);
                 Scribe_Values.Look(ref _defenseEnabled, "defenseEnabled", false);
                 Scribe_Values.Look(ref _tradeEnabled, "tradeEnabled", false);
                 Scribe_Values.Look(ref _medicalEnabled, "medicalEnabled", false);
                 Scribe_Values.Look(ref _socialEnabled, "socialEnabled", false);
                 Scribe_Values.Look(ref _researchEnabled, "researchEnabled", false);
                 
-                // Building Details (8)
-                Scribe_Values.Look(ref _buildBeds, "buildBeds", true);
-                Scribe_Values.Look(ref _buildKitchen, "buildKitchen", true);
-                Scribe_Values.Look(ref _buildPower, "buildPower", true);
-                Scribe_Values.Look(ref _buildStorage, "buildStorage", true);
-                Scribe_Values.Look(ref _buildWorkshops, "buildWorkshops", true);
-                Scribe_Values.Look(ref _buildResearch, "buildResearch", true);
-                Scribe_Values.Look(ref _buildDefenses, "buildDefenses", true);
-                Scribe_Values.Look(ref _buildRooms, "buildRooms", true);
+                // Building Details (8) - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _buildBeds, "buildBeds", false);
+                Scribe_Values.Look(ref _buildKitchen, "buildKitchen", false);
+                Scribe_Values.Look(ref _buildPower, "buildPower", false);
+                Scribe_Values.Look(ref _buildStorage, "buildStorage", false);
+                Scribe_Values.Look(ref _buildWorkshops, "buildWorkshops", false);
+                Scribe_Values.Look(ref _buildResearch, "buildResearch", false);
+                Scribe_Values.Look(ref _buildDefenses, "buildDefenses", false);
+                Scribe_Values.Look(ref _buildRooms, "buildRooms", false);
                 
-                // Farming Details (4)
-                Scribe_Values.Look(ref _autoPlantCrops, "autoPlantCrops", true);
-                Scribe_Values.Look(ref _autoHarvest, "autoHarvest", true);
-                Scribe_Values.Look(ref _autoTameAnimals, "autoTameAnimals", true);
-                Scribe_Values.Look(ref _autoButcherAnimals, "autoButcherAnimals", true);
+                // Farming Details (4) - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _autoPlantCrops, "autoPlantCrops", false);
+                Scribe_Values.Look(ref _autoHarvest, "autoHarvest", false);
+                Scribe_Values.Look(ref _autoTameAnimals, "autoTameAnimals", false);
+                Scribe_Values.Look(ref _autoButcherAnimals, "autoButcherAnimals", false);
                 
-                // Defense Details (4)
-                Scribe_Values.Look(ref _autoDraftColonists, "autoDraftColonists", true);
-                Scribe_Values.Look(ref _autoEquipWeapons, "autoEquipWeapons", true);
-                Scribe_Values.Look(ref _autoEquipArmor, "autoEquipArmor", true);
-                Scribe_Values.Look(ref _autoPositionDefenders, "autoPositionDefenders", true);
+                // Defense Details (4) - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _autoDraftColonists, "autoDraftColonists", false);
+                Scribe_Values.Look(ref _autoEquipWeapons, "autoEquipWeapons", false);
+                Scribe_Values.Look(ref _autoEquipArmor, "autoEquipArmor", false);
+                Scribe_Values.Look(ref _autoPositionDefenders, "autoPositionDefenders", false);
                 
                 // Advanced Settings (6)
                 Scribe_Values.Look(ref _storytellerType, "storytellerType", "Balanced");
@@ -247,19 +247,19 @@ namespace RimWatch.Components
                 Scribe_Values.Look(ref _colonyDevelopmentLogLevel, "colonyDevelopmentLogLevel", SystemLogLevel.Moderate);
                 Scribe_Values.Look(ref _constructionLogLevel, "constructionLogLevel", SystemLogLevel.Moderate);
                 
-                // Debug & ML Systems (10)
+                // Debug & ML Systems (10) - ALL DISABLED BY DEFAULT
                 Scribe_Values.Look(ref _enableDebugOverlay, "enableDebugOverlay", false);
                 Scribe_Values.Look(ref _debugOverlayMode, "debugOverlayMode", DebugOverlayMode.Zones);
                 Scribe_Values.Look(ref _enableDecisionLogging, "enableDecisionLogging", false);
-                Scribe_Values.Look(ref _gameSpeedControlEnabled, "gameSpeedControlEnabled", true);
-                Scribe_Values.Look(ref _apparelAutomationEnabled, "apparelAutomationEnabled", true);
-                Scribe_Values.Look(ref _weaponAutomationEnabled, "weaponAutomationEnabled", true);
-                Scribe_Values.Look(ref _colonistCommandsEnabled, "colonistCommandsEnabled", true);
-                Scribe_Values.Look(ref _productionAutomationEnabled, "productionAutomationEnabled", true);
-                Scribe_Values.Look(ref _constructionCommandsEnabled, "constructionCommandsEnabled", true);
-                Scribe_Values.Look(ref _decisionAnalyzerEnabled, "decisionAnalyzerEnabled", true);
-                Scribe_Values.Look(ref _colonyPredictorEnabled, "colonyPredictorEnabled", true);
-                Scribe_Values.Look(ref _playerStyleAnalyzerEnabled, "playerStyleAnalyzerEnabled", true);
+                Scribe_Values.Look(ref _gameSpeedControlEnabled, "gameSpeedControlEnabled", false);
+                Scribe_Values.Look(ref _apparelAutomationEnabled, "apparelAutomationEnabled", false);
+                Scribe_Values.Look(ref _weaponAutomationEnabled, "weaponAutomationEnabled", false);
+                Scribe_Values.Look(ref _colonistCommandsEnabled, "colonistCommandsEnabled", false);
+                Scribe_Values.Look(ref _productionAutomationEnabled, "productionAutomationEnabled", false);
+                Scribe_Values.Look(ref _constructionCommandsEnabled, "constructionCommandsEnabled", false);
+                Scribe_Values.Look(ref _decisionAnalyzerEnabled, "decisionAnalyzerEnabled", false);
+                Scribe_Values.Look(ref _colonyPredictorEnabled, "colonyPredictorEnabled", false);
+                Scribe_Values.Look(ref _playerStyleAnalyzerEnabled, "playerStyleAnalyzerEnabled", false);
                 
                 // ML Configuration (3)
                 Scribe_Values.Look(ref _mlLearningRate, "mlLearningRate", 0.1f);
@@ -272,25 +272,25 @@ namespace RimWatch.Components
                 Scribe_Values.Look(ref _combatSpeed, "combatSpeed", TimeSpeed.Normal);
                 Scribe_Values.Look(ref _autoUnpause, "autoUnpause", true);
                 
-                // Hierarchical Settings (~20)
-                Scribe_Values.Look(ref _useSmartOutfits, "useSmartOutfits", true);
-                Scribe_Values.Look(ref _useEmergencySchedules, "useEmergencySchedules", true);
-                Scribe_Values.Look(ref _useMoodBasedSchedules, "useMoodBasedSchedules", true);
-                Scribe_Values.Look(ref _useSeasonalSchedules, "useSeasonalSchedules", true);
-                Scribe_Values.Look(ref _useDynamicWorkPriorities, "useDynamicWorkPriorities", true);
-                Scribe_Values.Look(ref _autoDetectModWorkTypes, "autoDetectModWorkTypes", true);
-                Scribe_Values.Look(ref _autoRelocateOutdoorBeds, "autoRelocateOutdoorBeds", true);
-                Scribe_Values.Look(ref _autoInstallStoredBeds, "autoInstallStoredBeds", true);
-                Scribe_Values.Look(ref _buildBedrooms, "buildBedrooms", true);
-                Scribe_Values.Look(ref _buildKitchens, "buildKitchens", true);
-                Scribe_Values.Look(ref _buildStorageRooms, "buildStorageRooms", true);
-                Scribe_Values.Look(ref _buildFreezer, "buildFreezer", true);
-                Scribe_Values.Look(ref _useNightOwlSchedules, "useNightOwlSchedules", true);
-                Scribe_Values.Look(ref _useEmergencyScheduleType, "useEmergencyScheduleType", true);
-                Scribe_Values.Look(ref _useMoodBasedScheduleType, "useMoodBasedScheduleType", true);
-                Scribe_Values.Look(ref _useSmartApparelMode, "useSmartApparelMode", true);
-                Scribe_Values.Look(ref _useAutoOutfitPolicies, "useAutoOutfitPolicies", true);
-                Scribe_Values.Look(ref _useCombatVsCivilianClothing, "useCombatVsCivilianClothing", true);
+                // Hierarchical Settings (~20) - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _useSmartOutfits, "useSmartOutfits", false);
+                Scribe_Values.Look(ref _useEmergencySchedules, "useEmergencySchedules", false);
+                Scribe_Values.Look(ref _useMoodBasedSchedules, "useMoodBasedSchedules", false);
+                Scribe_Values.Look(ref _useSeasonalSchedules, "useSeasonalSchedules", false);
+                Scribe_Values.Look(ref _useDynamicWorkPriorities, "useDynamicWorkPriorities", false);
+                Scribe_Values.Look(ref _autoDetectModWorkTypes, "autoDetectModWorkTypes", false);
+                Scribe_Values.Look(ref _autoRelocateOutdoorBeds, "autoRelocateOutdoorBeds", false);
+                Scribe_Values.Look(ref _autoInstallStoredBeds, "autoInstallStoredBeds", false);
+                Scribe_Values.Look(ref _buildBedrooms, "buildBedrooms", false);
+                Scribe_Values.Look(ref _buildKitchens, "buildKitchens", false);
+                Scribe_Values.Look(ref _buildStorageRooms, "buildStorageRooms", false);
+                Scribe_Values.Look(ref _buildFreezer, "buildFreezer", false);
+                Scribe_Values.Look(ref _useNightOwlSchedules, "useNightOwlSchedules", false);
+                Scribe_Values.Look(ref _useEmergencyScheduleType, "useEmergencyScheduleType", false);
+                Scribe_Values.Look(ref _useMoodBasedScheduleType, "useMoodBasedScheduleType", false);
+                Scribe_Values.Look(ref _useSmartApparelMode, "useSmartApparelMode", false);
+                Scribe_Values.Look(ref _useAutoOutfitPolicies, "useAutoOutfitPolicies", false);
+                Scribe_Values.Look(ref _useCombatVsCivilianClothing, "useCombatVsCivilianClothing", false);
             }
         }
 
