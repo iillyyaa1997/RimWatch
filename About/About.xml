@@ -20,7 +20,7 @@
 🧪 v1.1.0+ TESTING PHASE (2025-11-22): Machine Learning Validation Fix!
 
 ✅ FIX: ML Systems now validate at startup - DecisionAnalyzer, ColonyPredictor, PlayerStyleAnalyzer
-⚠️ STATUS: TESTING - First playtest excellent (0 errors, <1% TPS), ML validation now active!
+⚠️ STATUS: TESTING - First playtest excellent (0 errors, &lt;1% TPS), ML validation now active!
 
 ✨ NEW IN v1.1.0 - ML SYSTEMS:
 🧠 DecisionAnalyzer - AI learns from past decisions, improves over time
