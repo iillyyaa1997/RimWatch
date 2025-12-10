@@ -18,10 +18,14 @@ namespace RimWatch.Settings
         public string ParentId { get; set; }
         public List<SettingNode> Children { get; set; }
         public Action<bool> OnToggle { get; set; }
+        
+        // v1.4.1: Collapsible UI - tracks if node is expanded in UI
+        public bool IsExpanded { get; set; } = false; // Collapsed by default for better UX
 
         public SettingNode()
         {
             Children = new List<SettingNode>();
+            IsExpanded = false; // Start collapsed
         }
 
         public SettingNode(string id, string name, string description, int level, string? parentId = null)
@@ -33,6 +37,7 @@ namespace RimWatch.Settings
             ParentId = parentId;
             Enabled = true;
             Children = new List<SettingNode>();
+            IsExpanded = false; // Start collapsed
         }
     }
 

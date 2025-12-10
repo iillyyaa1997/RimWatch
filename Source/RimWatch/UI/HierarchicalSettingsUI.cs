@@ -193,13 +193,14 @@ namespace RimWatch.UI
 
         /// <summary>
         /// Checks if a node is expanded.
+        /// v1.4.1: All nodes collapsed by default for better UX.
         /// </summary>
         private static bool IsNodeExpanded(string nodeId)
         {
             if (!_expandedNodes.ContainsKey(nodeId))
             {
-                // Level 1 nodes are expanded by default
-                _expandedNodes[nodeId] = true;
+                // v1.4.1: All nodes collapsed by default (was: Level 1 nodes expanded)
+                _expandedNodes[nodeId] = false;
             }
             return _expandedNodes[nodeId];
         }
