@@ -38,29 +38,30 @@ namespace RimWatch.Automation
                 // Analyze resource needs
                 ResourceNeeds needs = AnalyzeResourceNeeds(map);
 
+                // v1.4.0: Check individual sub-category settings
                 // Prioritize critical resources
                 // ✅ EMERGENCY MODE: If NO wood - designate MANY trees immediately!
-                if (needs.EmergencyWood)
+                if (RimWatchMod.Settings.autoWoodcutting && needs.EmergencyWood)
                 {
                     AutoDesignateTreesForCutting(map);
                 }
-                else if (needs.NeedsWood)
+                else if (RimWatchMod.Settings.autoWoodcutting && needs.NeedsWood)
                 {
                     AutoDesignateTreesForCutting(map);
                 }
 
-                if (needs.NeedsMetal)
+                if (RimWatchMod.Settings.autoMining && needs.NeedsMetal)
                 {
                     AutoDesignateMining(map);
                 }
                 
                 // ✅ NEW: Auto-process stone into blocks if wood is low
-                if (needs.NeedsWood || needs.NeedsStone)
+                if (RimWatchMod.Settings.autoWoodcutting && (needs.NeedsWood || needs.NeedsStone))
                 {
                     AutoProcessStoneBlocks(map);
                 }
 
-                if (needs.NeedsFood)
+                if (RimWatchMod.Settings.autoHunting && needs.NeedsFood)
                 {
                     AutoDesignateHunting(map);
                 }

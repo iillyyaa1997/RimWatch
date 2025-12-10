@@ -97,5 +97,51 @@
   
   <RimWatch.Settings.Armor.Combat.Name>Combat vs Civilian</RimWatch.Settings.Armor.Combat.Name>
   <RimWatch.Settings.Armor.Combat.Desc>Switch between combat and civilian clothing</RimWatch.Settings.Armor.Combat.Desc>
+  
+  <!-- Level 2: Farming Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Farming.Crops.Name>Crop Management</RimWatch.Settings.Farming.Crops.Name>
+  <RimWatch.Settings.Farming.Crops.Desc>Auto-plant and manage crops</RimWatch.Settings.Farming.Crops.Desc>
+  
+  <RimWatch.Settings.Farming.Harvest.Name>Harvesting</RimWatch.Settings.Farming.Harvest.Name>
+  <RimWatch.Settings.Farming.Harvest.Desc>Automatically harvest crops</RimWatch.Settings.Farming.Harvest.Desc>
+  
+  <RimWatch.Settings.Farming.Animals.Name>Animal Management</RimWatch.Settings.Farming.Animals.Name>
+  <RimWatch.Settings.Farming.Animals.Desc>Taming and butchering animals</RimWatch.Settings.Farming.Animals.Desc>
+  
+  <!-- Level 3: Animal Management Details -->
+  <RimWatch.Settings.Animals.Tame.Name>Taming</RimWatch.Settings.Animals.Tame.Name>
+  <RimWatch.Settings.Animals.Tame.Desc>Automatically tame wild animals</RimWatch.Settings.Animals.Tame.Desc>
+  
+  <RimWatch.Settings.Animals.Butcher.Name>Butchering</RimWatch.Settings.Animals.Butcher.Name>
+  <RimWatch.Settings.Animals.Butcher.Desc>Automatically butcher excess animals</RimWatch.Settings.Animals.Butcher.Desc>
+  
+  <!-- Level 2: Resources Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Resources.Mining.Name>Mining</RimWatch.Settings.Resources.Mining.Name>
+  <RimWatch.Settings.Resources.Mining.Desc>Automatically designate ore for mining (steel, components, gold)</RimWatch.Settings.Resources.Mining.Desc>
+  
+  <RimWatch.Settings.Resources.Woodcutting.Name>Woodcutting</RimWatch.Settings.Resources.Woodcutting.Name>
+  <RimWatch.Settings.Resources.Woodcutting.Desc>Automatically designate trees for cutting</RimWatch.Settings.Resources.Woodcutting.Desc>
+  
+  <RimWatch.Settings.Resources.Hunting.Name>Hunting</RimWatch.Settings.Resources.Hunting.Name>
+  <RimWatch.Settings.Resources.Hunting.Desc>Automatically designate animals for hunting</RimWatch.Settings.Resources.Hunting.Desc>
+  
+  <!-- Level 2: Medical Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Medical.Emergency.Name>Emergency Care</RimWatch.Settings.Medical.Emergency.Name>
+  <RimWatch.Settings.Medical.Emergency.Desc>Handle medical emergencies (rescue, bleeding, downed colonists)</RimWatch.Settings.Medical.Emergency.Desc>
+  
+  <RimWatch.Settings.Medical.Preventive.Name>Preventive Care</RimWatch.Settings.Medical.Preventive.Name>
+  <RimWatch.Settings.Medical.Preventive.Desc>Preventive operations and health monitoring</RimWatch.Settings.Medical.Preventive.Desc>
+  
+  <!-- Level 2: Trade Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Trade.Management.Name>Trade Management</RimWatch.Settings.Trade.Management.Name>
+  <RimWatch.Settings.Trade.Management.Desc>Automatic trading with caravans and traders</RimWatch.Settings.Trade.Management.Desc>
+  
+  <!-- Level 2: Social Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Social.Mood.Name>Mood Management</RimWatch.Settings.Social.Mood.Name>
+  <RimWatch.Settings.Social.Mood.Desc>Monitor and manage colonist mood and mental breaks</RimWatch.Settings.Social.Mood.Desc>
+  
+  <!-- Level 2: Research Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Research.Priorities.Name>Research Priorities</RimWatch.Settings.Research.Priorities.Name>
+  <RimWatch.Settings.Research.Priorities.Desc>Automatically select research projects</RimWatch.Settings.Research.Priorities.Desc>
 </LanguageData>
 

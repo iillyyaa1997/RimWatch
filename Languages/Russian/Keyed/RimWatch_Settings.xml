@@ -97,5 +97,51 @@
   
   <RimWatch.Settings.Armor.Combat.Name>Боевая и гражданская</RimWatch.Settings.Armor.Combat.Name>
   <RimWatch.Settings.Armor.Combat.Desc>Переключение между боевой и гражданской одеждой</RimWatch.Settings.Armor.Combat.Desc>
+  
+  <!-- Level 2: Farming Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Farming.Crops.Name>Управление посевами</RimWatch.Settings.Farming.Crops.Name>
+  <RimWatch.Settings.Farming.Crops.Desc>Автоматическая посадка и управление посевами</RimWatch.Settings.Farming.Crops.Desc>
+  
+  <RimWatch.Settings.Farming.Harvest.Name>Сбор урожая</RimWatch.Settings.Farming.Harvest.Name>
+  <RimWatch.Settings.Farming.Harvest.Desc>Автоматический сбор урожая</RimWatch.Settings.Farming.Harvest.Desc>
+  
+  <RimWatch.Settings.Farming.Animals.Name>Управление животными</RimWatch.Settings.Farming.Animals.Name>
+  <RimWatch.Settings.Farming.Animals.Desc>Приручение и забой животных</RimWatch.Settings.Farming.Animals.Desc>
+  
+  <!-- Level 3: Animal Management Details -->
+  <RimWatch.Settings.Animals.Tame.Name>Приручение</RimWatch.Settings.Animals.Tame.Name>
+  <RimWatch.Settings.Animals.Tame.Desc>Автоматическое приручение диких животных</RimWatch.Settings.Animals.Tame.Desc>
+  
+  <RimWatch.Settings.Animals.Butcher.Name>Забой</RimWatch.Settings.Animals.Butcher.Name>
+  <RimWatch.Settings.Animals.Butcher.Desc>Автоматический забой лишних животных</RimWatch.Settings.Animals.Butcher.Desc>
+  
+  <!-- Level 2: Resources Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Resources.Mining.Name>Добыча руды</RimWatch.Settings.Resources.Mining.Name>
+  <RimWatch.Settings.Resources.Mining.Desc>Автоматическое назначение руды на копание (сталь, компоненты, золото)</RimWatch.Settings.Resources.Mining.Desc>
+  
+  <RimWatch.Settings.Resources.Woodcutting.Name>Рубка деревьев</RimWatch.Settings.Resources.Woodcutting.Name>
+  <RimWatch.Settings.Resources.Woodcutting.Desc>Автоматическое назначение деревьев на рубку</RimWatch.Settings.Resources.Woodcutting.Desc>
+  
+  <RimWatch.Settings.Resources.Hunting.Name>Охота</RimWatch.Settings.Resources.Hunting.Name>
+  <RimWatch.Settings.Resources.Hunting.Desc>Автоматическое назначение животных на охоту</RimWatch.Settings.Resources.Hunting.Desc>
+  
+  <!-- Level 2: Medical Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Medical.Emergency.Name>Экстренная помощь</RimWatch.Settings.Medical.Emergency.Name>
+  <RimWatch.Settings.Medical.Emergency.Desc>Обработка медицинских ситуаций (спасение, кровотечение, сбитые колонисты)</RimWatch.Settings.Medical.Emergency.Desc>
+  
+  <RimWatch.Settings.Medical.Preventive.Name>Профилактика</RimWatch.Settings.Medical.Preventive.Name>
+  <RimWatch.Settings.Medical.Preventive.Desc>Профилактические операции и мониторинг здоровья</RimWatch.Settings.Medical.Preventive.Desc>
+  
+  <!-- Level 2: Trade Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Trade.Management.Name>Управление торговлей</RimWatch.Settings.Trade.Management.Name>
+  <RimWatch.Settings.Trade.Management.Desc>Автоматическая торговля с караванами и торговцами</RimWatch.Settings.Trade.Management.Desc>
+  
+  <!-- Level 2: Social Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Social.Mood.Name>Управление настроением</RimWatch.Settings.Social.Mood.Name>
+  <RimWatch.Settings.Social.Mood.Desc>Мониторинг и управление настроением колонистов и психическими срывами</RimWatch.Settings.Social.Mood.Desc>
+  
+  <!-- Level 2: Research Sub-Categories (v1.4.0) -->
+  <RimWatch.Settings.Research.Priorities.Name>Приоритеты исследований</RimWatch.Settings.Research.Priorities.Name>
+  <RimWatch.Settings.Research.Priorities.Desc>Автоматический выбор исследовательских проектов</RimWatch.Settings.Research.Priorities.Desc>
 </LanguageData>
 

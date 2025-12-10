@@ -44,11 +44,23 @@ namespace RimWatch.Components
         private bool _autoTameAnimals = false;
         private bool _autoButcherAnimals = false;
         
+        // v1.4.0: Resources sub-categories - ALL DISABLED BY DEFAULT
+        private bool _autoMining = false;
+        private bool _autoWoodcutting = false;
+        private bool _autoHunting = false;
+        
         // Defense Details (4) - ALL DISABLED BY DEFAULT
         private bool _autoDraftColonists = false;
         private bool _autoEquipWeapons = false;
         private bool _autoEquipArmor = false;
         private bool _autoPositionDefenders = false;
+        
+        // v1.4.0: Medical/Trade/Social/Research sub-categories - ALL DISABLED BY DEFAULT
+        private bool _medicalEmergencyCare = false;
+        private bool _medicalPreventiveCare = false;
+        private bool _tradeManagement = false;
+        private bool _socialMoodManagement = false;
+        private bool _researchPriorities = false;
         
         // Advanced Settings (6)
         private string _storytellerType = "Balanced";
@@ -221,11 +233,23 @@ namespace RimWatch.Components
                 Scribe_Values.Look(ref _autoTameAnimals, "autoTameAnimals", false);
                 Scribe_Values.Look(ref _autoButcherAnimals, "autoButcherAnimals", false);
                 
+                // v1.4.0: Resources sub-categories - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _autoMining, "autoMining", false);
+                Scribe_Values.Look(ref _autoWoodcutting, "autoWoodcutting", false);
+                Scribe_Values.Look(ref _autoHunting, "autoHunting", false);
+                
                 // Defense Details (4) - ALL DISABLED BY DEFAULT
                 Scribe_Values.Look(ref _autoDraftColonists, "autoDraftColonists", false);
                 Scribe_Values.Look(ref _autoEquipWeapons, "autoEquipWeapons", false);
                 Scribe_Values.Look(ref _autoEquipArmor, "autoEquipArmor", false);
                 Scribe_Values.Look(ref _autoPositionDefenders, "autoPositionDefenders", false);
+                
+                // v1.4.0: Medical/Trade/Social/Research sub-categories - ALL DISABLED BY DEFAULT
+                Scribe_Values.Look(ref _medicalEmergencyCare, "medicalEmergencyCare", false);
+                Scribe_Values.Look(ref _medicalPreventiveCare, "medicalPreventiveCare", false);
+                Scribe_Values.Look(ref _tradeManagement, "tradeManagement", false);
+                Scribe_Values.Look(ref _socialMoodManagement, "socialMoodManagement", false);
+                Scribe_Values.Look(ref _researchPriorities, "researchPriorities", false);
                 
                 // Advanced Settings (6)
                 Scribe_Values.Look(ref _storytellerType, "storytellerType", "Balanced");
@@ -331,11 +355,23 @@ namespace RimWatch.Components
             settings.autoTameAnimals = _autoTameAnimals;
             settings.autoButcherAnimals = _autoButcherAnimals;
             
+            // v1.4.0: Resources sub-categories
+            settings.autoMining = _autoMining;
+            settings.autoWoodcutting = _autoWoodcutting;
+            settings.autoHunting = _autoHunting;
+            
             // Defense Details (4)
             settings.autoDraftColonists = _autoDraftColonists;
             settings.autoEquipWeapons = _autoEquipWeapons;
             settings.autoEquipArmor = _autoEquipArmor;
             settings.autoPositionDefenders = _autoPositionDefenders;
+            
+            // v1.4.0: Medical/Trade/Social/Research sub-categories
+            settings.medicalEmergencyCare = _medicalEmergencyCare;
+            settings.medicalPreventiveCare = _medicalPreventiveCare;
+            settings.tradeManagement = _tradeManagement;
+            settings.socialMoodManagement = _socialMoodManagement;
+            settings.researchPriorities = _researchPriorities;
             
             // Advanced Settings (6)
             settings.storytellerType = _storytellerType;
@@ -443,11 +479,23 @@ namespace RimWatch.Components
             _autoTameAnimals = settings.autoTameAnimals;
             _autoButcherAnimals = settings.autoButcherAnimals;
             
+            // v1.4.0: Resources sub-categories
+            _autoMining = settings.autoMining;
+            _autoWoodcutting = settings.autoWoodcutting;
+            _autoHunting = settings.autoHunting;
+            
             // Defense Details (4)
             _autoDraftColonists = settings.autoDraftColonists;
             _autoEquipWeapons = settings.autoEquipWeapons;
             _autoEquipArmor = settings.autoEquipArmor;
             _autoPositionDefenders = settings.autoPositionDefenders;
+            
+            // v1.4.0: Medical/Trade/Social/Research sub-categories
+            _medicalEmergencyCare = settings.medicalEmergencyCare;
+            _medicalPreventiveCare = settings.medicalPreventiveCare;
+            _tradeManagement = settings.tradeManagement;
+            _socialMoodManagement = settings.socialMoodManagement;
+            _researchPriorities = settings.researchPriorities;
             
             // Advanced Settings (6)
             _storytellerType = settings.storytellerType;

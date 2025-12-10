@@ -53,27 +53,45 @@ namespace RimWatch.Settings
         public bool socialEnabled = false;    // Social automation
         public bool researchEnabled = false;  // Research automation
 
-        // ✅ NEW: Detailed building automation settings (hierarchical)
-        public bool buildBeds = true;
-        public bool buildKitchen = true;
-        public bool buildPower = true;
-        public bool buildStorage = true;
-        public bool buildWorkshops = true;
-        public bool buildResearch = true;
-        public bool buildDefenses = true;
-        public bool buildRooms = true; // Full room building (walls + doors)
+        // ✅ Level 2: Detailed building automation settings (hierarchical) - ALL DEFAULT FALSE (v1.4.0)
+        public bool buildBeds = false;
+        public bool buildKitchen = false;
+        public bool buildPower = false;
+        public bool buildStorage = false;
+        public bool buildWorkshops = false;
+        public bool buildResearch = false;
+        public bool buildDefenses = false;
+        public bool buildRooms = false; // Full room building (walls + doors)
 
-        // ✅ NEW: Detailed farming settings
-        public bool autoPlantCrops = true;
-        public bool autoHarvest = true;
-        public bool autoTameAnimals = true;
-        public bool autoButcherAnimals = true;
+        // ✅ Level 2: Detailed farming settings - ALL DEFAULT FALSE (v1.4.0)
+        public bool autoPlantCrops = false;
+        public bool autoHarvest = false;
+        public bool autoTameAnimals = false;
+        public bool autoButcherAnimals = false;
+        
+        // v1.4.0: Resources sub-categories - ALL DISABLED BY DEFAULT
+        public bool autoMining = false;          // Mining (ore, steel, components)
+        public bool autoWoodcutting = false;     // Woodcutting (trees)
+        public bool autoHunting = false;         // Hunting (animals for food)
 
-        // ✅ NEW: Detailed defense settings
-        public bool autoDraftColonists = true;
-        public bool autoEquipWeapons = true;
-        public bool autoEquipArmor = true;
-        public bool autoPositionDefenders = true;
+        // ✅ Level 2: Detailed defense settings - ALL DEFAULT FALSE (v1.4.0)
+        public bool autoDraftColonists = false;
+        public bool autoEquipWeapons = false;
+        public bool autoEquipArmor = false;
+        public bool autoPositionDefenders = false;
+        
+        // v1.4.0: Medical sub-categories - ALL DISABLED BY DEFAULT
+        public bool medicalEmergencyCare = false;   // Emergency rescue, bleeding, downed
+        public bool medicalPreventiveCare = false;  // Preventive operations, health checks
+        
+        // v1.4.0: Trade sub-categories - ALL DISABLED BY DEFAULT
+        public bool tradeManagement = false;        // Auto-manage trading with caravans
+        
+        // v1.4.0: Social sub-categories - ALL DISABLED BY DEFAULT
+        public bool socialMoodManagement = false;   // Mood monitoring and management
+        
+        // v1.4.0: Research sub-categories - ALL DISABLED BY DEFAULT
+        public bool researchPriorities = false;     // Auto-select research projects
 
         // AI Storyteller
         public string storytellerType = "Balanced"; // Balanced, Aggressive, Cautious, etc.
@@ -259,25 +277,49 @@ namespace RimWatch.Settings
             Scribe_Values.Look(ref useDynamicWorkPriorities, "useDynamicWorkPriorities", true);
             Scribe_Values.Look(ref autoDetectModWorkTypes, "autoDetectModWorkTypes", true);
 
-            // Level 3: Bed management
-            Scribe_Values.Look(ref autoRelocateOutdoorBeds, "autoRelocateOutdoorBeds", true);
-            Scribe_Values.Look(ref autoInstallStoredBeds, "autoInstallStoredBeds", true);
+            // Level 3: Bed management - ALL DEFAULT FALSE (v1.4.0)
+            Scribe_Values.Look(ref autoRelocateOutdoorBeds, "autoRelocateOutdoorBeds", false);
+            Scribe_Values.Look(ref autoInstallStoredBeds, "autoInstallStoredBeds", false);
 
-            // Level 3: Room types
-            Scribe_Values.Look(ref buildBedrooms, "buildBedrooms", true);
-            Scribe_Values.Look(ref buildKitchens, "buildKitchens", true);
-            Scribe_Values.Look(ref buildStorageRooms, "buildStorageRooms", true);
-            Scribe_Values.Look(ref buildFreezer, "buildFreezer", true);
+            // Level 3: Room types - ALL DEFAULT FALSE (v1.4.0)
+            Scribe_Values.Look(ref buildBedrooms, "buildBedrooms", false);
+            Scribe_Values.Look(ref buildKitchens, "buildKitchens", false);
+            Scribe_Values.Look(ref buildStorageRooms, "buildStorageRooms", false);
+            Scribe_Values.Look(ref buildFreezer, "buildFreezer", false);
 
-            // Level 3: Schedule types
-            Scribe_Values.Look(ref useNightOwlSchedules, "useNightOwlSchedules", true);
-            Scribe_Values.Look(ref useEmergencyScheduleType, "useEmergencyScheduleType", true);
-            Scribe_Values.Look(ref useMoodBasedScheduleType, "useMoodBasedScheduleType", true);
+            // Level 3: Schedule types - ALL DEFAULT FALSE (v1.4.0)
+            Scribe_Values.Look(ref useNightOwlSchedules, "useNightOwlSchedules", false);
+            Scribe_Values.Look(ref useEmergencyScheduleType, "useEmergencyScheduleType", false);
+            Scribe_Values.Look(ref useMoodBasedScheduleType, "useMoodBasedScheduleType", false);
 
-            // Level 3: Armor details
-            Scribe_Values.Look(ref useSmartApparelMode, "useSmartApparelMode", true);
-            Scribe_Values.Look(ref useAutoOutfitPolicies, "useAutoOutfitPolicies", true);
-            Scribe_Values.Look(ref useCombatVsCivilianClothing, "useCombatVsCivilianClothing", true);
+            // Level 3: Armor details - ALL DEFAULT FALSE (v1.4.0)
+            Scribe_Values.Look(ref useSmartApparelMode, "useSmartApparelMode", false);
+            Scribe_Values.Look(ref useAutoOutfitPolicies, "useAutoOutfitPolicies", false);
+            Scribe_Values.Look(ref useCombatVsCivilianClothing, "useCombatVsCivilianClothing", false);
+            
+            // v1.4.0: Level 2 Farming details - ALL DEFAULT FALSE
+            Scribe_Values.Look(ref autoPlantCrops, "autoPlantCrops", false);
+            Scribe_Values.Look(ref autoHarvest, "autoHarvest", false);
+            Scribe_Values.Look(ref autoTameAnimals, "autoTameAnimals", false);
+            Scribe_Values.Look(ref autoButcherAnimals, "autoButcherAnimals", false);
+            
+            // v1.4.0: Level 2 Resources details - ALL DEFAULT FALSE
+            Scribe_Values.Look(ref autoMining, "autoMining", false);
+            Scribe_Values.Look(ref autoWoodcutting, "autoWoodcutting", false);
+            Scribe_Values.Look(ref autoHunting, "autoHunting", false);
+            
+            // v1.4.0: Level 2 Defense details - ALL DEFAULT FALSE
+            Scribe_Values.Look(ref autoDraftColonists, "autoDraftColonists", false);
+            Scribe_Values.Look(ref autoEquipWeapons, "autoEquipWeapons", false);
+            Scribe_Values.Look(ref autoEquipArmor, "autoEquipArmor", false);
+            Scribe_Values.Look(ref autoPositionDefenders, "autoPositionDefenders", false);
+            
+            // v1.4.0: Level 2 Medical/Trade/Social/Research - ALL DEFAULT FALSE
+            Scribe_Values.Look(ref medicalEmergencyCare, "medicalEmergencyCare", false);
+            Scribe_Values.Look(ref medicalPreventiveCare, "medicalPreventiveCare", false);
+            Scribe_Values.Look(ref tradeManagement, "tradeManagement", false);
+            Scribe_Values.Look(ref socialMoodManagement, "socialMoodManagement", false);
+            Scribe_Values.Look(ref researchPriorities, "researchPriorities", false);
             
             // v0.8.1 & v1.1.0: AI Systems Settings - ALL DEFAULT FALSE (v1.3.0)
             Scribe_Values.Look(ref gameSpeedControlEnabled, "gameSpeedControlEnabled", false);
@@ -404,10 +446,28 @@ namespace RimWatch.Settings
                 OnToggle = (enabled) => { defenseEnabled = enabled; OnSettingChanged("defense", enabled); }
             });
             
+            settingsTree.AddNode(new SettingNode("trade", "RimWatch.Settings.Trade.Name".Translate(), "RimWatch.Settings.Trade.Desc".Translate(), 1)
+            {
+                Enabled = tradeEnabled,
+                OnToggle = (enabled) => { tradeEnabled = enabled; OnSettingChanged("trade", enabled); }
+            });
+            
             settingsTree.AddNode(new SettingNode("medical", "RimWatch.Settings.Medical.Name".Translate(), "RimWatch.Settings.Medical.Desc".Translate(), 1)
             {
                 Enabled = medicalEnabled,
                 OnToggle = (enabled) => { medicalEnabled = enabled; OnSettingChanged("medical", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("social", "RimWatch.Settings.Social.Name".Translate(), "RimWatch.Settings.Social.Desc".Translate(), 1)
+            {
+                Enabled = socialEnabled,
+                OnToggle = (enabled) => { socialEnabled = enabled; OnSettingChanged("social", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("research", "RimWatch.Settings.Research.Name".Translate(), "RimWatch.Settings.Research.Desc".Translate(), 1)
+            {
+                Enabled = researchEnabled,
+                OnToggle = (enabled) => { researchEnabled = enabled; OnSettingChanged("research", enabled); }
             });
 
             // LEVEL 2: Building sub-categories
@@ -465,6 +525,57 @@ namespace RimWatch.Settings
             {
                 Enabled = buildFreezer,
                 OnToggle = (enabled) => { buildFreezer = enabled; OnSettingChanged("rooms-freezer", enabled); }
+            });
+            
+            // LEVEL 2: Farming sub-categories (v1.4.0)
+            settingsTree.AddNode(new SettingNode("farming-crops", "RimWatch.Settings.Farming.Crops.Name".Translate(), "RimWatch.Settings.Farming.Crops.Desc".Translate(), 2, "farming")
+            {
+                Enabled = autoPlantCrops,
+                OnToggle = (enabled) => { autoPlantCrops = enabled; OnSettingChanged("farming-crops", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("farming-harvest", "RimWatch.Settings.Farming.Harvest.Name".Translate(), "RimWatch.Settings.Farming.Harvest.Desc".Translate(), 2, "farming")
+            {
+                Enabled = autoHarvest,
+                OnToggle = (enabled) => { autoHarvest = enabled; OnSettingChanged("farming-harvest", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("farming-animals", "RimWatch.Settings.Farming.Animals.Name".Translate(), "RimWatch.Settings.Farming.Animals.Desc".Translate(), 2, "farming")
+            {
+                Enabled = autoTameAnimals,
+                OnToggle = (enabled) => { autoTameAnimals = enabled; OnSettingChanged("farming-animals", enabled); }
+            });
+            
+            // LEVEL 3: Animal management details
+            settingsTree.AddNode(new SettingNode("animals-tame", "RimWatch.Settings.Animals.Tame.Name".Translate(), "RimWatch.Settings.Animals.Tame.Desc".Translate(), 3, "farming-animals")
+            {
+                Enabled = autoTameAnimals,
+                OnToggle = (enabled) => { autoTameAnimals = enabled; OnSettingChanged("animals-tame", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("animals-butcher", "RimWatch.Settings.Animals.Butcher.Name".Translate(), "RimWatch.Settings.Animals.Butcher.Desc".Translate(), 3, "farming-animals")
+            {
+                Enabled = autoButcherAnimals,
+                OnToggle = (enabled) => { autoButcherAnimals = enabled; OnSettingChanged("animals-butcher", enabled); }
+            });
+            
+            // LEVEL 2: Resources sub-categories (v1.4.0)
+            settingsTree.AddNode(new SettingNode("resources-mining", "RimWatch.Settings.Resources.Mining.Name".Translate(), "RimWatch.Settings.Resources.Mining.Desc".Translate(), 2, "resources")
+            {
+                Enabled = autoMining,
+                OnToggle = (enabled) => { autoMining = enabled; OnSettingChanged("resources-mining", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("resources-woodcutting", "RimWatch.Settings.Resources.Woodcutting.Name".Translate(), "RimWatch.Settings.Resources.Woodcutting.Desc".Translate(), 2, "resources")
+            {
+                Enabled = autoWoodcutting,
+                OnToggle = (enabled) => { autoWoodcutting = enabled; OnSettingChanged("resources-woodcutting", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("resources-hunting", "RimWatch.Settings.Resources.Hunting.Name".Translate(), "RimWatch.Settings.Resources.Hunting.Desc".Translate(), 2, "resources")
+            {
+                Enabled = autoHunting,
+                OnToggle = (enabled) => { autoHunting = enabled; OnSettingChanged("resources-hunting", enabled); }
             });
 
             // LEVEL 2: Work features
@@ -541,6 +652,40 @@ namespace RimWatch.Settings
             {
                 Enabled = useCombatVsCivilianClothing,
                 OnToggle = (enabled) => { useCombatVsCivilianClothing = enabled; OnSettingChanged("armor-combat", enabled); }
+            });
+            
+            // LEVEL 2: Medical sub-categories (v1.4.0)
+            settingsTree.AddNode(new SettingNode("medical-emergency", "RimWatch.Settings.Medical.Emergency.Name".Translate(), "RimWatch.Settings.Medical.Emergency.Desc".Translate(), 2, "medical")
+            {
+                Enabled = medicalEmergencyCare,
+                OnToggle = (enabled) => { medicalEmergencyCare = enabled; OnSettingChanged("medical-emergency", enabled); }
+            });
+            
+            settingsTree.AddNode(new SettingNode("medical-preventive", "RimWatch.Settings.Medical.Preventive.Name".Translate(), "RimWatch.Settings.Medical.Preventive.Desc".Translate(), 2, "medical")
+            {
+                Enabled = medicalPreventiveCare,
+                OnToggle = (enabled) => { medicalPreventiveCare = enabled; OnSettingChanged("medical-preventive", enabled); }
+            });
+            
+            // LEVEL 2: Trade sub-categories (v1.4.0)
+            settingsTree.AddNode(new SettingNode("trade-management", "RimWatch.Settings.Trade.Management.Name".Translate(), "RimWatch.Settings.Trade.Management.Desc".Translate(), 2, "trade")
+            {
+                Enabled = tradeManagement,
+                OnToggle = (enabled) => { tradeManagement = enabled; OnSettingChanged("trade-management", enabled); }
+            });
+            
+            // LEVEL 2: Social sub-categories (v1.4.0)
+            settingsTree.AddNode(new SettingNode("social-mood", "RimWatch.Settings.Social.Mood.Name".Translate(), "RimWatch.Settings.Social.Mood.Desc".Translate(), 2, "social")
+            {
+                Enabled = socialMoodManagement,
+                OnToggle = (enabled) => { socialMoodManagement = enabled; OnSettingChanged("social-mood", enabled); }
+            });
+            
+            // LEVEL 2: Research sub-categories (v1.4.0)
+            settingsTree.AddNode(new SettingNode("research-priorities", "RimWatch.Settings.Research.Priorities.Name".Translate(), "RimWatch.Settings.Research.Priorities.Desc".Translate(), 2, "research")
+            {
+                Enabled = researchPriorities,
+                OnToggle = (enabled) => { researchPriorities = enabled; OnSettingChanged("research-priorities", enabled); }
             });
 
             _treeInitialized = true;
@@ -630,6 +775,49 @@ namespace RimWatch.Settings
             // LEVEL 3: Armor details
             var smartApparelNode = settingsTree.GetNode("armor-smart");
             if (smartApparelNode != null) useSmartApparelMode = smartApparelNode.Enabled;
+            
+            // v1.4.0: LEVEL 2: Farming sub-categories
+            var farmingCropsNode = settingsTree.GetNode("farming-crops");
+            if (farmingCropsNode != null) autoPlantCrops = farmingCropsNode.Enabled;
+            
+            var farmingHarvestNode = settingsTree.GetNode("farming-harvest");
+            if (farmingHarvestNode != null) autoHarvest = farmingHarvestNode.Enabled;
+            
+            var farmingAnimalsNode = settingsTree.GetNode("farming-animals");
+            if (farmingAnimalsNode != null) autoTameAnimals = farmingAnimalsNode.Enabled;
+            
+            // v1.4.0: LEVEL 3: Animal management
+            var animalsTameNode = settingsTree.GetNode("animals-tame");
+            if (animalsTameNode != null) autoTameAnimals = animalsTameNode.Enabled;
+            
+            var animalsButcherNode = settingsTree.GetNode("animals-butcher");
+            if (animalsButcherNode != null) autoButcherAnimals = animalsButcherNode.Enabled;
+            
+            // v1.4.0: LEVEL 2: Resources sub-categories
+            var miningNode = settingsTree.GetNode("resources-mining");
+            if (miningNode != null) autoMining = miningNode.Enabled;
+            
+            var woodcuttingNode = settingsTree.GetNode("resources-woodcutting");
+            if (woodcuttingNode != null) autoWoodcutting = woodcuttingNode.Enabled;
+            
+            var huntingNode = settingsTree.GetNode("resources-hunting");
+            if (huntingNode != null) autoHunting = huntingNode.Enabled;
+            
+            // v1.4.0: LEVEL 2: Medical/Trade/Social/Research sub-categories
+            var medicalEmergencyNode = settingsTree.GetNode("medical-emergency");
+            if (medicalEmergencyNode != null) medicalEmergencyCare = medicalEmergencyNode.Enabled;
+            
+            var medicalPreventiveNode = settingsTree.GetNode("medical-preventive");
+            if (medicalPreventiveNode != null) medicalPreventiveCare = medicalPreventiveNode.Enabled;
+            
+            var tradeManagementNode = settingsTree.GetNode("trade-management");
+            if (tradeManagementNode != null) tradeManagement = tradeManagementNode.Enabled;
+            
+            var socialMoodNode = settingsTree.GetNode("social-mood");
+            if (socialMoodNode != null) socialMoodManagement = socialMoodNode.Enabled;
+            
+            var researchPrioritiesNode = settingsTree.GetNode("research-priorities");
+            if (researchPrioritiesNode != null) researchPriorities = researchPrioritiesNode.Enabled;
 
             Utils.RimWatchLogger.Debug("[Settings] Synced tree state to flat bools");
         }
@@ -664,17 +852,34 @@ namespace RimWatch.Settings
             
             autoEnableAutopilot = false;
             
-            buildBeds = true;
-            buildRooms = true;
-            buildPower = true;
-            buildStorage = true;
-            buildDefenses = true;
+            // v1.4.0: Level 2 details - ALL DEFAULT FALSE
+            buildBeds = false;
+            buildRooms = false;
+            buildPower = false;
+            buildStorage = false;
+            buildDefenses = false;
             
-            useManualPriorities = true;
+            autoPlantCrops = false;
+            autoHarvest = false;
+            autoTameAnimals = false;
+            autoButcherAnimals = false;
             
-            autoDraftColonists = true;
-            autoEquipWeapons = true;
-            autoEquipArmor = true;
+            autoMining = false;
+            autoWoodcutting = false;
+            autoHunting = false;
+            
+            useManualPriorities = false;
+            
+            autoDraftColonists = false;
+            autoEquipWeapons = false;
+            autoEquipArmor = false;
+            autoPositionDefenders = false;
+            
+            medicalEmergencyCare = false;
+            medicalPreventiveCare = false;
+            tradeManagement = false;
+            socialMoodManagement = false;
+            researchPriorities = false;
             
             debugModeEnabled = false;
             fileLoggingEnabled = false;
@@ -695,20 +900,29 @@ namespace RimWatch.Settings
             debugOverlayMode = DebugOverlayMode.Zones;
             enableDecisionLogging = false;
             
-            useSmartOutfits = true;
-            useEmergencySchedules = true;
-            useMoodBasedSchedules = true;
-            useSeasonalSchedules = true;
-            useDynamicWorkPriorities = true;
-            autoDetectModWorkTypes = true;
+            // v1.4.0: Level 3 hierarchical settings - ALL DEFAULT FALSE
+            useSmartOutfits = false;
+            useEmergencySchedules = false;
+            useMoodBasedSchedules = false;
+            useSeasonalSchedules = false;
+            useDynamicWorkPriorities = false;
+            autoDetectModWorkTypes = false;
             
-            autoRelocateOutdoorBeds = true;
-            autoInstallStoredBeds = true;
+            autoRelocateOutdoorBeds = false;
+            autoInstallStoredBeds = false;
             
-            buildBedrooms = true;
-            buildKitchens = true;
-            buildStorageRooms = true;
-            buildFreezer = true;
+            buildBedrooms = false;
+            buildKitchens = false;
+            buildStorageRooms = false;
+            buildFreezer = false;
+            
+            useNightOwlSchedules = false;
+            useEmergencyScheduleType = false;
+            useMoodBasedScheduleType = false;
+            
+            useSmartApparelMode = false;
+            useAutoOutfitPolicies = false;
+            useCombatVsCivilianClothing = false;
             
             useNightOwlSchedules = true;
             useEmergencyScheduleType = true;
