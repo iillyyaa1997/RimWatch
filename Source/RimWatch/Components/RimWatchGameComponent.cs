@@ -17,10 +17,11 @@ namespace RimWatch.Components
         // Master toggle for per-save settings (TRUE BY DEFAULT!)
         private bool _usePerSaveSettings = true;
         
-        // Automation Categories (8) - ALL DISABLED BY DEFAULT
+        // Automation Categories (9) - ALL DISABLED BY DEFAULT
         private bool _buildingEnabled = false;
         private bool _workEnabled = false;
         private bool _farmingEnabled = false;
+        private bool _resourceEnabled = false; // v1.3.1: Resource gathering
         private bool _defenseEnabled = false;
         private bool _tradeEnabled = false;
         private bool _medicalEnabled = false;
@@ -193,10 +194,11 @@ namespace RimWatch.Components
             
             if (_usePerSaveSettings)
             {
-                // Automation Categories (8) - ALL DISABLED BY DEFAULT
+                // Automation Categories (9) - ALL DISABLED BY DEFAULT
                 Scribe_Values.Look(ref _buildingEnabled, "buildingEnabled", false);
                 Scribe_Values.Look(ref _workEnabled, "workEnabled", false);
                 Scribe_Values.Look(ref _farmingEnabled, "farmingEnabled", false);
+                Scribe_Values.Look(ref _resourceEnabled, "resourceEnabled", false); // v1.3.1
                 Scribe_Values.Look(ref _defenseEnabled, "defenseEnabled", false);
                 Scribe_Values.Look(ref _tradeEnabled, "tradeEnabled", false);
                 Scribe_Values.Look(ref _medicalEnabled, "medicalEnabled", false);
@@ -302,10 +304,11 @@ namespace RimWatch.Components
             var settings = RimWatchMod.Settings;
             if (settings == null) return;
             
-            // Automation Categories (8)
+            // Automation Categories (9)
             settings.buildingEnabled = _buildingEnabled;
             settings.workEnabled = _workEnabled;
             settings.farmingEnabled = _farmingEnabled;
+            settings.resourceEnabled = _resourceEnabled; // v1.3.1
             settings.defenseEnabled = _defenseEnabled;
             settings.tradeEnabled = _tradeEnabled;
             settings.medicalEnabled = _medicalEnabled;
@@ -413,10 +416,11 @@ namespace RimWatch.Components
             var settings = RimWatchMod.Settings;
             if (settings == null) return;
             
-            // Automation Categories (8)
+            // Automation Categories (9)
             _buildingEnabled = settings.buildingEnabled;
             _workEnabled = settings.workEnabled;
             _farmingEnabled = settings.farmingEnabled;
+            _resourceEnabled = settings.resourceEnabled; // v1.3.1
             _defenseEnabled = settings.defenseEnabled;
             _tradeEnabled = settings.tradeEnabled;
             _medicalEnabled = settings.medicalEnabled;

@@ -281,12 +281,12 @@ namespace RimWatch.UI
         }
         
         /// <summary>
-        /// Automation Systems - Status indicators for all 8 systems
+        /// Automation Systems - Status indicators for all 9 systems
         /// </summary>
         private float DrawAutomationSystemsSection(float y, float width)
         {
             float rowHeight = 22f;
-            float sectionHeight = UIDesignSystem.HEIGHT_Header + rowHeight * 8 + UIDesignSystem.SPACE_MD * 2;
+            float sectionHeight = UIDesignSystem.HEIGHT_Header + rowHeight * 9 + UIDesignSystem.SPACE_MD * 2;
             Rect sectionRect = new Rect(0, y, width, sectionHeight);
             
             // Header
@@ -311,6 +311,10 @@ namespace RimWatch.UI
             
             DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
                 "Farming", RimWatch.Automation.FarmingAutomation.IsEnabled);
+            statusY += rowHeight;
+            
+            DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 
+                "Resources", RimWatch.Automation.ResourceAutomation.IsEnabled);
             statusY += rowHeight;
             
             DrawSystemStatusRow(sectionRect.x + UIDesignSystem.SPACE_MD, statusY, 

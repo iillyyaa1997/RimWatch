@@ -10,6 +10,9 @@
   <RimWatch.Settings.Farming.Name>Автоматизация фермерства</RimWatch.Settings.Farming.Name>
   <RimWatch.Settings.Farming.Desc>Автоматическое управление посевами и животными</RimWatch.Settings.Farming.Desc>
   
+  <RimWatch.Settings.Resources.Name>Добыча ресурсов</RimWatch.Settings.Resources.Name>
+  <RimWatch.Settings.Resources.Desc>Автоматическая добыча руды, рубка деревьев и охота</RimWatch.Settings.Resources.Desc>
+  
   <RimWatch.Settings.Defense.Name>Автоматизация обороны</RimWatch.Settings.Defense.Name>
   <RimWatch.Settings.Defense.Desc>Автоматическое управление боем и экипировкой</RimWatch.Settings.Defense.Desc>
   

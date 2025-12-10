@@ -42,16 +42,16 @@ namespace RimWatch.Settings
     /// </summary>
     public class RimWatchSettings : ModSettings
     {
-        // Automation Categories (по умолчанию Work включен для тестирования)
-        // ✅ Building enabled by default for better UX!
-        public bool buildingEnabled = true;  // ✅ ВКЛЮЧЕНО для автоматического строительства
-        public bool workEnabled = true;      // ✅ ВКЛЮЧЕНО для управления работой
-        public bool farmingEnabled = true;   // ✅ ВКЛЮЧЕНО для фермерства
-        public bool defenseEnabled = false;
-        public bool tradeEnabled = false;
-        public bool medicalEnabled = false;
-        public bool socialEnabled = false;
-        public bool researchEnabled = false;
+        // Automation Categories - ALL DISABLED BY DEFAULT (v1.3.0)
+        public bool buildingEnabled = false;  // Building construction
+        public bool workEnabled = false;      // Work management
+        public bool farmingEnabled = false;   // Farming automation
+        public bool resourceEnabled = false;  // Resource gathering (mining, woodcutting)
+        public bool defenseEnabled = false;   // Defense automation
+        public bool tradeEnabled = false;     // Trade automation
+        public bool medicalEnabled = false;   // Medical automation
+        public bool socialEnabled = false;    // Social automation
+        public bool researchEnabled = false;  // Research automation
 
         // ✅ NEW: Detailed building automation settings (hierarchical)
         public bool buildBeds = true;
@@ -180,6 +180,7 @@ namespace RimWatch.Settings
             Scribe_Values.Look(ref buildingEnabled, "buildingEnabled", false);
             Scribe_Values.Look(ref workEnabled, "workEnabled", false);
             Scribe_Values.Look(ref farmingEnabled, "farmingEnabled", false);
+            Scribe_Values.Look(ref resourceEnabled, "resourceEnabled", false); // v1.3.1: NEW
             Scribe_Values.Look(ref defenseEnabled, "defenseEnabled", false);
             Scribe_Values.Look(ref tradeEnabled, "tradeEnabled", false);
             Scribe_Values.Look(ref medicalEnabled, "medicalEnabled", false);
@@ -307,7 +308,7 @@ namespace RimWatch.Settings
         public void ApplyToCore()
         {
             Utils.RimWatchLogger.Info($"[Settings] ApplyToCore() called!");
-            Utils.RimWatchLogger.Info($"[Settings] Work={workEnabled}, Building={buildingEnabled}, Farming={farmingEnabled}");
+            Utils.RimWatchLogger.Info($"[Settings] Work={workEnabled}, Building={buildingEnabled}, Farming={farmingEnabled}, Resources={resourceEnabled}");
             Utils.RimWatchLogger.Info($"[Settings] Defense={defenseEnabled}, Trade={tradeEnabled}, Medical={medicalEnabled}");
             Utils.RimWatchLogger.Info($"[Settings] Social={socialEnabled}, Research={researchEnabled}");
 
@@ -315,6 +316,7 @@ namespace RimWatch.Settings
             Core.RimWatchCore.BuildingEnabled = buildingEnabled;
             Core.RimWatchCore.WorkEnabled = workEnabled;
             Core.RimWatchCore.FarmingEnabled = farmingEnabled;
+            Core.RimWatchCore.ResourceEnabled = resourceEnabled; // v1.3.1: NEW
             Core.RimWatchCore.DefenseEnabled = defenseEnabled;
             Core.RimWatchCore.TradeEnabled = tradeEnabled;
             Core.RimWatchCore.MedicalEnabled = medicalEnabled;
@@ -325,6 +327,7 @@ namespace RimWatch.Settings
             Automation.BuildingAutomation.IsEnabled = buildingEnabled;
             Automation.WorkAutomation.IsEnabled = workEnabled;
             Automation.FarmingAutomation.IsEnabled = farmingEnabled;
+            Automation.ResourceAutomation.IsEnabled = resourceEnabled; // v1.3.1: NEW
             Automation.DefenseAutomation.IsEnabled = defenseEnabled;
             Automation.TradeAutomation.IsEnabled = tradeEnabled;
             Automation.MedicalAutomation.IsEnabled = medicalEnabled;
@@ -386,6 +389,13 @@ namespace RimWatch.Settings
             {
                 Enabled = farmingEnabled,
                 OnToggle = (enabled) => { farmingEnabled = enabled; OnSettingChanged("farming", enabled); }
+            });
+            
+            // v1.3.1: Resource gathering (mining, woodcutting, hunting)
+            settingsTree.AddNode(new SettingNode("resources", "RimWatch.Settings.Resources.Name".Translate(), "RimWatch.Settings.Resources.Desc".Translate(), 1)
+            {
+                Enabled = resourceEnabled,
+                OnToggle = (enabled) => { resourceEnabled = enabled; OnSettingChanged("resources", enabled); }
             });
             
             settingsTree.AddNode(new SettingNode("defense", "RimWatch.Settings.Defense.Name".Translate(), "RimWatch.Settings.Defense.Desc".Translate(), 1)
@@ -645,6 +655,7 @@ namespace RimWatch.Settings
             buildingEnabled = false;
             workEnabled = false;
             farmingEnabled = false;
+            resourceEnabled = false; // v1.3.1: NEW
             defenseEnabled = false;
             tradeEnabled = false;
             medicalEnabled = false;

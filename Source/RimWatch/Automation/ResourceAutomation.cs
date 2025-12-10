@@ -14,6 +14,11 @@ namespace RimWatch.Automation
     /// </summary>
     public static class ResourceAutomation
     {
+        /// <summary>
+        /// Global enable/disable flag for resource automation (v1.3.1)
+        /// </summary>
+        public static bool IsEnabled { get; set; } = false;
+        
         private static int _lastResourceCheckTick = 0;
         private const int ResourceCheckInterval = 300; // Check every 5 seconds
 

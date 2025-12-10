@@ -18,6 +18,7 @@ namespace RimWatch.Core
         public static bool WorkEnabled { get; set; } = false;
         public static bool BuildingEnabled { get; set; } = false;
         public static bool FarmingEnabled { get; set; } = false;
+        public static bool ResourceEnabled { get; set; } = false; // v1.3.1: Resource gathering
         public static bool DefenseEnabled { get; set; } = false;
         public static bool TradeEnabled { get; set; } = false;
         public static bool MedicalEnabled { get; set; } = false;
@@ -36,6 +37,7 @@ namespace RimWatch.Core
                 if (WorkEnabled) count++;
                 if (BuildingEnabled) count++;
                 if (FarmingEnabled) count++;
+                if (ResourceEnabled) count++; // v1.3.1
                 if (DefenseEnabled) count++;
                 if (TradeEnabled) count++;
                 if (MedicalEnabled) count++;

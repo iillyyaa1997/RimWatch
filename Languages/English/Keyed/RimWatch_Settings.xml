@@ -10,6 +10,9 @@
   <RimWatch.Settings.Farming.Name>Farming Automation</RimWatch.Settings.Farming.Name>
   <RimWatch.Settings.Farming.Desc>Automatic crop and animal management</RimWatch.Settings.Farming.Desc>
   
+  <RimWatch.Settings.Resources.Name>Resource Gathering</RimWatch.Settings.Resources.Name>
+  <RimWatch.Settings.Resources.Desc>Automatic mining, woodcutting, and hunting</RimWatch.Settings.Resources.Desc>
+  
   <RimWatch.Settings.Defense.Name>Defense Automation</RimWatch.Settings.Defense.Name>
   <RimWatch.Settings.Defense.Desc>Automatic combat and armor management</RimWatch.Settings.Defense.Desc>
   

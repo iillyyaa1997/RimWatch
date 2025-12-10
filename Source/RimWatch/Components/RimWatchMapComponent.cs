@@ -53,11 +53,11 @@ namespace RimWatch.Components
                 WorkAutomation.Tick();
 
             if (RimWatchCore.BuildingEnabled)
-            {
                 BuildingAutomation.Tick();
-                // ✅ NEW: Resource gathering for building materials
+
+            // v1.3.1: Resource gathering separated from Building
+            if (RimWatchCore.ResourceEnabled)
                 ResourceAutomation.AutoManageResources(map);
-            }
 
             if (RimWatchCore.FarmingEnabled)
                 FarmingAutomation.Tick();
