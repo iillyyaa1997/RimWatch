@@ -2,6 +2,15 @@
 
 Спасибо за интерес к проекту RimWatch! Мы рады любому вкладу в развитие мода.
 
+## 🧭 Planning Workflow (OpenSpec-First)
+
+- Для нетривиальных изменений используем OpenSpec-first процесс.
+- Обязательные артефакты до начала реализации: `proposal`, `design`, `specs`, `tasks`.
+- Для tiny-fix допустимо исключение (без полного change-цикла), но нужно оставить trace note в OpenSpec planning registry.
+- Авторитетный planning source: `openspec/planning/PLANNING_REGISTRY.md`.
+- `ROADMAP.md` используется как стратегический индекс и не является authoritative task backlog.
+- Текущий процесс и quality gates: `docs/OPENSPEC_WORKFLOW.md`.
+
 ## 🎯 Как помочь
 
 ### 1. Программирование

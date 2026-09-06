@@ -153,9 +153,9 @@ Enable visual overlays to see AI plans:
 Once you're comfortable with basics:
 
 1. **📖 Read [STORYTELLERS_GUIDE.md](STORYTELLERS_GUIDE.md)** - Learn about AI personalities
-2. **⚙️ Read [AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md)** - Deep dive into automation systems
-3. **🐛 Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Advanced problem-solving
-4. **❓ Read [FAQ.md](FAQ.md)** - Frequently asked questions
+2. **⚙️ Read [README.md](README.md)** - Deep dive into automation systems
+3. **🐛 Check [TESTING_GUIDE.md](TESTING_GUIDE.md)** - Advanced verification and diagnostics
+4. **❓ Read [CONTRIBUTING.md](CONTRIBUTING.md)** - Frequently asked workflow questions and contribution process
 
 ## 💬 Community & Support
 

@@ -5,7 +5,44 @@
 [![RimWorld Version](https://img.shields.io/badge/RimWorld-1.6-green.svg)](https://rimworldgame.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Development Status](https://img.shields.io/badge/Status-BETA-orange.svg)]()
-[![Version](https://img.shields.io/badge/Version-1.3.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/Version-1.4.0--dev-blue.svg)]()
+
+## 🔔 v1.4.0-dev ACTION NOTIFICATIONS (2025-12-10)
+
+**СЛЕДИТЕ ЗА ДЕЙСТВИЯМИ МОДА В РЕАЛЬНОМ ВРЕМЕНИ!**
+
+### ✨ Что это значит
+
+RimWatch теперь **показывает уведомления о ВСЕХ реальных действиях** прямо в игре! Каждое действие мода (постройка blueprint, изменение приоритета, спасение колониста) показывается через стандартные игровые Messages.
+
+**Настраиваемые уровни детализации** - от критических событий до подробных отчетов с координатами!
+
+### 🎯 Уровни детализации
+
+- **Off** - нет уведомлений
+- **Critical** - только жизненно важные (спасение, пожары, рейды)
+- **Important** - + важные действия (blueprints, priorities, draft)
+- **Moderate** - + обычные действия (hauling, planting, mining)
+- **Verbose** - + детали (координаты, материалы, качество)
+- **Debug** - всё включая execution time
+
+### 📋 Примеры уведомлений
+
+```
+RimWatch 🏥 [Medical]: Medical emergency - DOWNED
+RimWatch 🏗️ [Building]: Blueprint created - Bed at (120, 45)
+RimWatch 👷 [Work]: Priority changed - Construction priority 1
+RimWatch ⛏️ [Resources]: Mining designated - Steel ore (15 cells)
+```
+
+### ⚙️ Настройки
+
+1. Откройте **Mod Settings → RimWatch → Notifications**
+2. Включите **Enable Notification System**
+3. Настройте уровень детализации для каждой из 9 категорий
+4. Настройте формат (emoji, координаты, имена, материалы)
+
+**Быстрый доступ:** Shift+R → Notifications ON/OFF
 
 ## 🎮 v1.3.0 PER-SAVE SETTINGS (2025-12-09)
 
@@ -47,7 +84,7 @@ RimWatch теперь **автоматически сохраняет настр
 - При первом сохранении настройки записываются в save file
 - **Никаких действий от вас не требуется!**
 
-📖 **[Технический гайд: PER_SAVE_SETTINGS.md](PER_SAVE_SETTINGS.md)**
+📖 **Технические детали:** см. `ROADMAP.md` (legacy release context) и `docs/archive/ARCHIVE_INDEX.md`.
 
 ## 🧪 v1.1.0 TESTING PHASE (2025-11-22)
 
@@ -60,7 +97,7 @@ RimWatch теперь **автоматически сохраняет настр
 - ✅ **TPS Impact: <1%** - excellent optimization
 - ✅ **Smart decision making** - correct priorities, emergency detection, resource management
 
-**Detailed Analysis:** [LOG_ANALYSIS_2025-11-22.md](LOG_ANALYSIS_2025-11-22.md)
+**Detailed Analysis:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ### 🔍 What Was Tested
 - ✅ WorkAutomation - Job priorities, emergency responses
@@ -238,7 +275,7 @@ RimWatch теперь **автоматически сохраняет настр
 - 🏥 **Priority Medical Rescue** - Доктора помогают сначала самому критичному пациенту (Downed+Bleeding > Downed > Heavy Bleeding)
 - 📊 **Per-System Log Levels** - 9 систем с отдельными уровнями (Off/Minimal/Moderate/Verbose/Debug)
 
-📖 **[Полный Summary в V084_PLUS_COMPLETE_SUMMARY.md](V084_PLUS_COMPLETE_SUMMARY.md)**
+📖 **Полный Summary:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ## 🏗️ НОВОЕ В v0.8.4 (2025-11-16)
 
@@ -248,7 +285,7 @@ RimWatch теперь **автоматически сохраняет настр
 - ⚙️ **ProductionAutomation** - Автоматические bills для производства по стадиям
 - 🐛 **Critical Bug Fixes** - ColonistCommandSystem Rescue (6,724→0 errors), MedicalAutomation spam (95% reduction)
 
-📖 **[Release Notes v0.8.4](V084_RELEASE_NOTES.md)** | **[Implementation Summary](V084_IMPLEMENTATION_SUMMARY.md)**
+📖 **Release Notes v0.8.4 / Implementation Summary:** historical references moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ## 🔍 ПРЕДЫДУЩЕЕ: v0.8.3 (2025-11-16)
 
@@ -270,7 +307,7 @@ RimWatch теперь **автоматически сохраняет настр
 - 📊 **Enhanced Diagnostics** - детальная информация о материалах для строительства комнат
 - ⚡ **Adaptive Defense Interval** - 90% reduction проверок в мирное время
 
-📖 **[Release Notes v0.8.2](V082_RELEASE_NOTES.md)**
+📖 **Release Notes v0.8.2:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ## 🐛 КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ v0.7.8 (2025-11-10)
 
@@ -332,7 +369,7 @@ RimWatch теперь **автоматически сохраняет настр
 - ✅ **Умный драфт:** Колонисты драфтятся только при реальной угрозе
 - ✅ **Cooldown для животных:** Приручение/охота/забой с разумными интервалами
 
-📖 **[Bug Fixes v0.7.3](BUGFIX_V073.md)** | **[Debug Mode Guide](DEBUG_MODE_FEATURE.md)** | **[Release Notes v0.7.2](BUGFIX_V072.md)** | **[Release Notes v0.7.1](V071_RELEASE_NOTES.md)**
+📖 **v0.7.x historical notes:** references moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 > 🎮 **Концепция:** Играй сколько хочешь, наблюдай сколько хочешь. RimWatch автоматически управляет колонией, пока ты отдыхаешь или решаешь стратегические задачи.
 
@@ -615,49 +652,15 @@ RimWatch использует **адаптивную систему принят
 
 ## Дорожная карта
 
-### Версия 0.1 (Прототип) ✅ ЗАВЕРШЕНО
-- [x] Базовая структура мода
-- [x] Система принятия решений (AIStoryteller)
-- [x] Автоматическое назначение работ (WorkAutomation)
-- [x] Управление через Shift+R и настройки мода
-- [x] Логирование и базовая отладка
+Авторитетное планирование и задачи ведутся в OpenSpec.
 
-### Версия 0.5 (Alpha) ✅ ЗАВЕРШЕНО
-- [x] Все 8 категорий автоматизации
-  - [x] 🏗️ Строительство (BuildingAutomation)
-  - [x] 👷 Работа (WorkAutomation)
-  - [x] 🌾 Сельское хозяйство (FarmingAutomation)
-  - [x] ⚔️ Оборона (DefenseAutomation)
-  - [x] 🛒 Торговля (TradeAutomation)
-  - [x] 🏥 Медицина (MedicalAutomation)
-  - [x] 👥 Социальное (SocialAutomation)
-  - [x] 🔬 Исследования (ResearchAutomation)
-- [x] ⚖️ Сбалансированный рассказчик (BalancedStoryteller)
-- [x] Интеграция с RimWatchCore
+- **Primary planning source:** `openspec/planning/PLANNING_REGISTRY.md`
+- **Implementation tasks source:** `openspec/changes/<change>/tasks.md`
+- **Rule:** если задача не представлена в OpenSpec planning/change artifacts, она не считается запланированной
+- **ROADMAP role:** стратегический индекс, приоритеты и исторический контекст (без authoritative task ownership)
+- **Workflow:** `docs/OPENSPEC_WORKFLOW.md`
 
-### Версия 0.6 (Actions) ✅ ЗАВЕРШЕНО
-**От анализа к действиям - ИИ теперь ДЕЙСТВУЕТ!**
-- [x] 🌾 **FarmingAutomation:** Автоматическая охота на животных, забой избыточных, приручение полезных
-- [x] 🛒 **TradeAutomation:** Управление запрещенными/разрешенными предметами (Forbid/Allow)
-- [x] ⚔️ **DefenseAutomation:** Автоматический драфт колонистов при атаке, экипировка оружием
-- [x] 👥 **SocialAutomation:** Умное управление заключенными (рекрутинг/освобождение)
-- [x] Детальный роадмап v0.6-v0.8 с планами полной автоматизации
-- [x] 750+ строк нового action-кода
-
-### Версия 1.0 (Beta) - В ПЛАНАХ
-- [ ] Дополнительные AI-рассказчики
-  - [ ] 🛡️ Осторожный Стратег
-  - [ ] ⚔️ Агрессивный Завоеватель
-  - [ ] 🎲 Хаотичный Экспериментатор
-- [ ] Улучшенная автоматизация категорий
-- [ ] Визуализация решений ИИ
-- [ ] Система профилей
-
-### Версия 2.0 (Stable) - БУДУЩЕЕ
-- [ ] Машинное обучение на основе стиля игрока
-- [ ] Сохранение/загрузка стратегий
-- [ ] Мультиплеер поддержка
-- [ ] Steam Workshop релиз
+Исторический контекст по версиям и выполненным этапам по-прежнему доступен в `ROADMAP.md` (раздел `Legacy Historical Roadmap`).
 
 ## Разработка
 

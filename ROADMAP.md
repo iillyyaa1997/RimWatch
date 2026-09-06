@@ -1,3 +1,72 @@
+## ⚠️ Planning Index (Read First)
+
+`ROADMAP.md` is a strategic index and historical context file.
+Authoritative actionable planning and task tracking live in OpenSpec.
+
+### Source Of Truth Rule
+- Authoritative planning source: `openspec/planning/PLANNING_REGISTRY.md`
+- Active implementation contracts: `openspec/changes/<change>/tasks.md`
+- Capability requirements source: `openspec/specs/<capability>/spec.md`
+- If actionable work is not represented in OpenSpec planning artifacts, it is not planned work.
+
+### Roadmap Scope Rule
+- This file may contain strategy, priorities, milestones, and release context.
+- This file does not own executable task status.
+- Any task-like content here is reference-only and must link to OpenSpec records.
+
+### OpenSpec Rule
+- Non-tiny work MUST use OpenSpec planning and change artifacts.
+- Tiny fixes MAY use exception path but still require OpenSpec planning record trace.
+- Primary workflow and quality gates: `docs/OPENSPEC_WORKFLOW.md`.
+
+---
+
+## Strategic Focus (Reference-Only)
+
+- Planning authority migration to OpenSpec (see `migrate-planning-to-openspec` change).
+- OpenSpec-first governance and artifact quality gates (see `openspec-first-workflow-governance` archive).
+- Ongoing repository hygiene and documentation clarity (see `project-audit-and-cleanup-recommendations` archive).
+
+## Near-Term Strategic Priorities (Reference-Only)
+
+- Complete no-loss migration baseline and mapping for roadmap planning content.
+- Finalize contributor onboarding path to OpenSpec-only actionable planning flow.
+- Evaluate lightweight automation for planning parity checks.
+
+## Longer-Horizon Strategy (Reference-Only)
+
+- Formalize monthly planning hygiene and spec sync cadence.
+- Add automated checks for planning artifact integrity and traceability.
+
+## Completed Governance Milestones (Reference-Only)
+
+- Single-roadmap governance baseline established and archived.
+- OpenSpec-first governance baseline established and archived.
+- Repository hygiene audit and orientation baseline established and archived.
+- OpenSpec planning migration change created (`migrate-planning-to-openspec`).
+
+## Decision Log
+
+- `2026-02-10`: Planning authority moved from roadmap tasks to OpenSpec planning artifacts.
+- `2026-02-10`: Non-roadmap docs (`README.md`, guides, historical notes) are reference-only and must not contain authoritative task backlog.
+- `2026-02-10`: OpenSpec-first adopted for non-trivial work with quality gates (`proposal`, `design`, `specs`, `tasks`).
+- `2026-02-10`: Contributor docs updated with OpenSpec-first process and tiny-fix exception flow (`CONTRIBUTING.md`, `docs/OPENSPEC_WORKFLOW.md`).
+- `2026-02-10`: `ROADMAP.md` retained as strategic index; actionable planning status is maintained in OpenSpec only.
+
+## Planning Audit (Current)
+
+- Conflicting/duplicate planning sources identified:
+  - `README.md` roadmap section (now converted to pointer-only)
+  - historical release/sprint documents in repository root (reference/archive-only)
+  - roadmap task-like sections (now converted to reference-only strategic summaries)
+- Authoritative actionable planning owner: OpenSpec planning artifacts.
+
+---
+
+## Legacy Historical Roadmap (Reference-Only)
+
+The content below is retained as historical release context and is not an authoritative backlog.
+
 # RimWatch - Дорожная карта разработки
 
 ## 📋 Обзор
@@ -954,7 +1023,7 @@ private static bool IsJunkItem(Thing thing)
 
 ### Дата завершения: 12 ноября 2025
 
-**Детали:** См. [V082_RELEASE_NOTES.md](V082_RELEASE_NOTES.md)
+**Детали:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ---
 
@@ -1199,7 +1268,7 @@ if (mineable != null)
 - ✅ **BuildingSequencer.cs** - Building priorities per development stage  
 - ✅ **ProductionAutomation.cs** - Automatic bill management by stage
 
-**Детали:** См. [V084_RELEASE_NOTES.md](V084_RELEASE_NOTES.md)
+**Детали:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ---
 
@@ -1225,7 +1294,7 @@ if (mineable != null)
 - ✅ **Smart rescue scoring** - Each patient gets a score, most critical rescued first
 - ✅ **Multiple patient handling** - Handles 2-3 emergencies simultaneously
 
-**Детали:** См. [V084_PLUS_COMPLETE_SUMMARY.md](V084_PLUS_COMPLETE_SUMMARY.md)
+**Детали:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ---
 
@@ -1354,7 +1423,7 @@ if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.Wear)
 4. `ColonistCommandSystem.cs` - Rescue/medical interruption checks
 5. `DefenseAutomation.cs` - Apparel cooldown + wear job checks
 
-**Детали:** См. [CRITICAL_BUGFIX_V084_PLUS.md](CRITICAL_BUGFIX_V084_PLUS.md), [GENERATOR_PLACEMENT_FIX.md](GENERATOR_PLACEMENT_FIX.md)
+**Детали:** historical references moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ### 📦 Версия
 **v0.8.4++** (2025-11-16) - CRITICAL Fixes
@@ -1451,6 +1520,138 @@ if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.Wear)
 - ✅ Rescue-цепочка: обнаружен → спасён → в кровати → вылечен
 
 ### Дата завершения: 17 ноября 2025
+
+---
+
+## 🎯 Версия 1.3.0 - Per-Save Settings
+
+**Статус:** ✅ **ЗАВЕРШЕНО** (2025-12-09)
+**Цель:** Автоматическое сохранение настроек отдельно для каждого сейва
+
+### ✨ Новые возможности
+
+#### 🎮 Per-Save Settings (Enabled by Default)
+- ✅ **Автоматическое сохранение** - каждый сейв помнит свои настройки
+- ✅ **Включено по умолчанию** - работает "из коробки"
+- ✅ **Прозрачная миграция** - старые сейвы автоматически мигрируют
+- ✅ **Гибкое управление** - можно выключить и вернуться к глобальным
+- ✅ **UI для копирования** - легко синхронизировать настройки между сейвами
+
+#### 📊 Технические детали
+- **GameComponent** хранит ~73 настройки в save file
+- **ExposeData()** автоматически сохраняет/загружает при save/load
+- **FinalizeInit()** применяет настройки при входе в игру
+- **Zero overhead** - нет влияния на производительность
+
+### 📋 Реализация
+
+**Новые файлы:**
+- `RimWatch/Source/RimWatch/Components/RimWatchGameComponent.cs` (450+ строк)
+- `RimWatch/Defs/GameComponents.xml` (регистрация компонента)
+
+**Изменено:**
+- `RimWatchMod.cs` - доступ к GameComponent + авто-синхронизация
+- `UnifiedSettingsUI.cs` - UI для per-save управления
+- `README.md` - секция "Per-Save Settings"
+
+**Функциональность:**
+- Checkbox "Use per-save settings" (включен по умолчанию)
+- Кнопки "Copy global → this save" и "Copy this save → global"
+- Индикатор статуса (✓ Per-save active / ⚠ Using global)
+- Автоматическая миграция старых сейвов
+
+### 🎯 Примеры использования
+
+```
+Сейв "Desert Survival": farming=ON, building=ON, defense=OFF
+Сейв "Ice Sheet":       defense=ON, medical=ON, farming=OFF
+Сейв "Testing":         ALL=ON, debug=ON, ML=ON
+```
+
+**Переключение между сейвами автоматически меняет настройки!**
+
+### Дата завершения: 9 декабря 2025
+
+---
+
+## 🔔 Версия 1.4.0 - Action Notification System
+
+**Статус:** 🟢 **В РАЗРАБОТКЕ** (2025-12-10)
+**Цель:** Система игровых уведомлений для отслеживания всех реальных действий мода
+
+### ✨ Новые возможности
+
+#### 🔔 In-Game Notification System
+- ✅ **Отслеживание действий** - уведомления о ВСЕХ реальных действиях мода
+- ✅ **Настраиваемые уровни** - 6 уровней детализации (Off → Debug) для каждой категории
+- ✅ **9 категорий** - Building, Work, Farming, Resources, Defense, Medical, Trade, Social, Research
+- ✅ **Messages API** - использует стандартные игровые Messages (неинтрузивные)
+- ✅ **Гибкие форматы** - emoji, координаты, имена колонистов, материалы
+- ✅ **Throttling** - защита от спама уведомлений
+
+#### 📊 Уровни детализации
+
+1. **Off** - нет уведомлений
+2. **Critical** - только критические (спасение, пожары, рейды)
+3. **Important** - + важные действия (blueprints, priorities, draft)
+4. **Moderate** - + обычные действия (hauling, planting, mining)
+5. **Verbose** - + детали (coordinates, quality, materials)
+6. **Debug** - всё включая execution time
+
+### 📋 Реализация
+
+**Новые файлы:**
+- `Source/RimWatch/Utils/NotificationManager.cs` (~400 строк)
+- `Languages/English/Keyed/RimWatch_Notifications.xml` (~100 строк)
+
+**Изменено:**
+- `Source/RimWatch/Settings/RimWatchSettings.cs` (+50 строк settings)
+- `Source/RimWatch/UI/UnifiedSettingsUI.cs` (+150 строк UI)
+- **20 файлов Automation** - добавлены `NotificationManager.SendNotification()` вызовы
+- `ROADMAP.md` - добавлена секция v1.4.0
+- `README.md` - упомянута новая фича
+
+### 🎯 Примеры уведомлений
+
+**Critical:**
+```
+RimWatch 🏥 [Medical]: Medical emergency - DOWNED
+  Patient: John
+  Health: 35%
+  Bleeding: YES
+```
+
+**Important:**
+```
+RimWatch 🏗️ [Building]: Blueprint created - Bed at (120, 45)
+```
+
+**Moderate:**
+```
+RimWatch 👷 [Work]: Priority changed - Construction priority 1 (Food shortage)
+```
+
+**Verbose:**
+```
+RimWatch 🌾 [Farming]: Crop planted - Rice (growing zone #2) at (85, 92) by Emma
+  Type: Rice
+  Zone: Growing zone #2
+  Position: (85, 92)
+  Assigned to: Emma
+```
+
+### 🎯 Настройки
+
+**UI секция "Notifications":**
+- Master toggle: ☑ Enable Notification System
+- Per-category dropdowns: Off / Critical / Important / Moderate / Verbose / Debug
+- Format options: emoji, coordinates, pawn names, materials
+
+**Quick Panel (Shift+R):**
+- Быстрое переключение Notifications ON/OFF
+- Показ текущих уровней
+
+### Дата начала: 10 декабря 2025
 
 ---
 
@@ -1988,7 +2189,7 @@ RimWatch/
 - ✅ **TPS Impact: <1%** - excellent optimization
 - ⚠️ **ML Systems:** Infrastructure готова, требуется проверка startup initialization
 
-**Детали:** См. [LOG_ANALYSIS_2025-11-22.md](LOG_ANALYSIS_2025-11-22.md)
+**Детали:** historical reference moved to `docs/archive/ARCHIVE_INDEX.md`.
 
 ### ✨ Реализовано
 
