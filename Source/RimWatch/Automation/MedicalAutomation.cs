@@ -198,6 +198,21 @@ namespace RimWatch.Automation
                         { "stateChanged", stateChanged }
                     });
                     
+                    // v1.4.0: Send critical notification for medical emergency
+                    NotificationManager.SendNotification(
+                        NotificationCategory.Medical,
+                        ActionImportance.Critical,
+                        $"Medical emergency - {status}",
+                        new Dictionary<string, object>
+                        {
+                            { "patient", emergency.LabelShort },
+                            { "status", status },
+                            { "health_pct", (emergency.health.summaryHealth.SummaryHealthPercent * 100f).ToString("F0") + "%" },
+                            { "bleeding", isBleeding ? "YES" : "no" },
+                            { "bleed_rate", bleedRate > 0 ? bleedRate.ToString("F2") + "/day" : "none" }
+                        }
+                    );
+                    
                     // v0.8.5: Removed Info log - already logged via LogDecision above
                     
                     // Update state

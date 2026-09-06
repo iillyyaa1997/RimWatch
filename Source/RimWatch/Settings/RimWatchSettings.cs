@@ -1,5 +1,6 @@
 using UnityEngine;
 using Verse;
+using RimWatch.Utils;
 
 namespace RimWatch.Settings
 {
@@ -153,6 +154,26 @@ namespace RimWatch.Settings
         public TimeSpeed workSpeed = TimeSpeed.Fast;      // Speed during active work (default: Fast)
         public TimeSpeed combatSpeed = TimeSpeed.Normal;  // Speed during combat (default: Normal)
         public bool autoUnpause = true;                   // Auto-unpause when emergencies resolved
+        
+        // v1.4.0: Notification System Settings - ALL DISABLED BY DEFAULT
+        public bool notificationSystemEnabled = false;  // Master toggle for notification system
+        
+        // Per-category notification levels (using NotificationLevel enum)
+        public NotificationLevel buildingNotificationLevel = NotificationLevel.Important;
+        public NotificationLevel workNotificationLevel = NotificationLevel.Important;
+        public NotificationLevel farmingNotificationLevel = NotificationLevel.Important;
+        public NotificationLevel resourcesNotificationLevel = NotificationLevel.Important;
+        public NotificationLevel defenseNotificationLevel = NotificationLevel.Critical;
+        public NotificationLevel medicalNotificationLevel = NotificationLevel.Critical;
+        public NotificationLevel tradeNotificationLevel = NotificationLevel.Moderate;
+        public NotificationLevel socialNotificationLevel = NotificationLevel.Moderate;
+        public NotificationLevel researchNotificationLevel = NotificationLevel.Important;
+        
+        // Notification format options
+        public bool useEmojisInNotifications = true;      // Show emoji icons in notifications
+        public bool showCoordinates = true;               // Show position coordinates
+        public bool showPawnNames = true;                 // Show colonist names
+        public bool showMaterialsInBuilding = true;       // Show materials and quality
 
         // NEW: Hierarchical Settings
         [Unsaved]
@@ -342,6 +363,24 @@ namespace RimWatch.Settings
             Scribe_Values.Look(ref workSpeed, "workSpeed", TimeSpeed.Fast);
             Scribe_Values.Look(ref combatSpeed, "combatSpeed", TimeSpeed.Normal);
             Scribe_Values.Look(ref autoUnpause, "autoUnpause", true);
+            
+            // v1.4.0: Notification System Settings
+            Scribe_Values.Look(ref notificationSystemEnabled, "notificationSystemEnabled", false);
+            Scribe_Values.Look(ref buildingNotificationLevel, "buildingNotificationLevel", NotificationLevel.Important);
+            Scribe_Values.Look(ref workNotificationLevel, "workNotificationLevel", NotificationLevel.Important);
+            Scribe_Values.Look(ref farmingNotificationLevel, "farmingNotificationLevel", NotificationLevel.Important);
+            Scribe_Values.Look(ref resourcesNotificationLevel, "resourcesNotificationLevel", NotificationLevel.Important);
+            Scribe_Values.Look(ref defenseNotificationLevel, "defenseNotificationLevel", NotificationLevel.Critical);
+            Scribe_Values.Look(ref medicalNotificationLevel, "medicalNotificationLevel", NotificationLevel.Critical);
+            Scribe_Values.Look(ref tradeNotificationLevel, "tradeNotificationLevel", NotificationLevel.Moderate);
+            Scribe_Values.Look(ref socialNotificationLevel, "socialNotificationLevel", NotificationLevel.Moderate);
+            Scribe_Values.Look(ref researchNotificationLevel, "researchNotificationLevel", NotificationLevel.Important);
+            
+            // Notification format options
+            Scribe_Values.Look(ref useEmojisInNotifications, "useEmojisInNotifications", true);
+            Scribe_Values.Look(ref showCoordinates, "showCoordinates", true);
+            Scribe_Values.Look(ref showPawnNames, "showPawnNames", true);
+            Scribe_Values.Look(ref showMaterialsInBuilding, "showMaterialsInBuilding", true);
         }
 
         /// <summary>

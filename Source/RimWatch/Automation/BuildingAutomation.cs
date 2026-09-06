@@ -685,6 +685,21 @@ namespace RimWatch.Automation
                     if (success)
                     {
                         placed++;
+                        
+                        // v1.4.0: Send notification for bed placement
+                        NotificationManager.SendNotification(
+                            NotificationCategory.Building,
+                            ActionImportance.Important,
+                            "Blueprint created - Bed",
+                            new Dictionary<string, object>
+                            {
+                                { "type", bedDef.label },
+                                { "position", $"({location.x}, {location.z})" },
+                                { "material", stuffDef?.label ?? "stone" },
+                                { "quality", "Normal" }
+                            }
+                        );
+                        
                         if (logLevel == "Minimal")
                         {
                             RimWatchLogger.Info($"✅ Placed bed at ({location.x}, {location.z})");

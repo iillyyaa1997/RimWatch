@@ -221,6 +221,7 @@
     <!-- Utils -->
     <Compile Include="Utils/RimWatchLogger.cs" />
     <Compile Include="Utils/DecisionLogger.cs" />
+    <Compile Include="Utils/NotificationManager.cs" />
     
     <!-- Components - v0.1 -->
     <Compile Include="Components/RimWatchMapComponent.cs" />

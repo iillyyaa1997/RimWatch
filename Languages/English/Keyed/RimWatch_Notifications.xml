@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  
+  <!-- Notification System Settings -->
+  <RimWatch.Notifications.Title>Notification System</RimWatch.Notifications.Title>
+  <RimWatch.Notifications.MasterToggle>Enable Notification System</RimWatch.Notifications.MasterToggle>
+  <RimWatch.Notifications.MasterToggle.Desc>Show in-game notifications for all RimWatch actions. These are small Messages that appear in the top-right corner.</RimWatch.Notifications.MasterToggle.Desc>
+  
+  <!-- Notification Levels -->
+  <RimWatch.NotificationLevel.Off>Off</RimWatch.NotificationLevel.Off>
+  <RimWatch.NotificationLevel.Off.Desc>No notifications for this category</RimWatch.NotificationLevel.Off.Desc>
+  
+  <RimWatch.NotificationLevel.Critical>Critical Only</RimWatch.NotificationLevel.Critical>
+  <RimWatch.NotificationLevel.Critical.Desc>Only life-threatening events: colonist dying, fires, raids</RimWatch.NotificationLevel.Critical.Desc>
+  
+  <RimWatch.NotificationLevel.Important>Important</RimWatch.NotificationLevel.Important>
+  <RimWatch.NotificationLevel.Important.Desc>Critical + important actions: blueprints created, priorities changed, colonists drafted</RimWatch.NotificationLevel.Important.Desc>
+  
+  <RimWatch.NotificationLevel.Moderate>Moderate</RimWatch.NotificationLevel.Moderate>
+  <RimWatch.NotificationLevel.Moderate.Desc>Important + regular actions: hauling assigned, crops planted, mining designated</RimWatch.NotificationLevel.Moderate.Desc>
+  
+  <RimWatch.NotificationLevel.Verbose>Verbose</RimWatch.NotificationLevel.Verbose>
+  <RimWatch.NotificationLevel.Verbose.Desc>Moderate + detailed info: coordinates, quality, materials, colonist names</RimWatch.NotificationLevel.Verbose.Desc>
+  
+  <RimWatch.NotificationLevel.Debug>Debug</RimWatch.NotificationLevel.Debug>
+  <RimWatch.NotificationLevel.Debug.Desc>Everything including execution time and internal state (for developers)</RimWatch.NotificationLevel.Debug.Desc>
+  
+  <!-- Category Labels -->
+  <RimWatch.Notifications.Building>🏗️ Building</RimWatch.Notifications.Building>
+  <RimWatch.Notifications.Building.Desc>Blueprints, room construction, power generation</RimWatch.Notifications.Building.Desc>
+  
+  <RimWatch.Notifications.Work>👷 Work</RimWatch.Notifications.Work>
+  <RimWatch.Notifications.Work.Desc>Work priority changes, schedule updates</RimWatch.Notifications.Work.Desc>
+  
+  <RimWatch.Notifications.Farming>🌾 Farming</RimWatch.Notifications.Farming>
+  <RimWatch.Notifications.Farming.Desc>Crop planting, animal taming, harvesting</RimWatch.Notifications.Farming.Desc>
+  
+  <RimWatch.Notifications.Resources>⛏️ Resources</RimWatch.Notifications.Resources>
+  <RimWatch.Notifications.Resources.Desc>Mining designations, woodcutting, hunting</RimWatch.Notifications.Resources.Desc>
+  
+  <RimWatch.Notifications.Defense>⚔️ Defense</RimWatch.Notifications.Defense>
+  <RimWatch.Notifications.Defense.Desc>Drafting colonists, equipping weapons, combat positioning</RimWatch.Notifications.Defense.Desc>
+  
+  <RimWatch.Notifications.Medical>🏥 Medical</RimWatch.Notifications.Medical>
+  <RimWatch.Notifications.Medical.Desc>Rescue tasks, doctor assignments, operations</RimWatch.Notifications.Medical.Desc>
+  
+  <RimWatch.Notifications.Trade>💰 Trade</RimWatch.Notifications.Trade>
+  <RimWatch.Notifications.Trade.Desc>Forbid/allow items, trading activities</RimWatch.Notifications.Trade.Desc>
+  
+  <RimWatch.Notifications.Social>👥 Social</RimWatch.Notifications.Social>
+  <RimWatch.Notifications.Social.Desc>Prisoner management, mood events, social activities</RimWatch.Notifications.Social.Desc>
+  
+  <RimWatch.Notifications.Research>🔬 Research</RimWatch.Notifications.Research>
+  <RimWatch.Notifications.Research.Desc>Research project selection and completion</RimWatch.Notifications.Research.Desc>
+  
+  <!-- Format Options -->
+  <RimWatch.Notifications.FormatOptions>Format Options</RimWatch.Notifications.FormatOptions>
+  <RimWatch.Notifications.UseEmojis>Use emojis in notifications</RimWatch.Notifications.UseEmojis>
+  <RimWatch.Notifications.UseEmojis.Desc>Show emoji icons for categories (🏗️, 👷, 🌾, etc.)</RimWatch.Notifications.UseEmojis.Desc>
+  
+  <RimWatch.Notifications.ShowCoordinates>Show coordinates</RimWatch.Notifications.ShowCoordinates>
+  <RimWatch.Notifications.ShowCoordinates.Desc>Display position coordinates in notifications (e.g., "at (120, 45)")</RimWatch.Notifications.ShowCoordinates.Desc>
+  
+  <RimWatch.Notifications.ShowPawnNames>Show colonist names</RimWatch.Notifications.ShowPawnNames>
+  <RimWatch.Notifications.ShowPawnNames.Desc>Include colonist names in notifications (e.g., "for John")</RimWatch.Notifications.ShowPawnNames.Desc>
+  
+  <RimWatch.Notifications.ShowMaterials>Show materials/quality</RimWatch.Notifications.ShowMaterials>
+  <RimWatch.Notifications.ShowMaterials.Desc>Display materials and quality in building notifications</RimWatch.Notifications.ShowMaterials.Desc>
+  
+  <!-- Example Notifications -->
+  <RimWatch.Notifications.Examples>Examples:</RimWatch.Notifications.Examples>
+  <RimWatch.Notifications.Example.Critical>🏥 Medical: Colonist bleeding - immediate rescue needed!</RimWatch.Notifications.Example.Critical>
+  <RimWatch.Notifications.Example.Important>🏗️ Building: Blueprint created - Bed at (120, 45)</RimWatch.Notifications.Example.Important>
+  <RimWatch.Notifications.Example.Moderate>👷 Work: Priority changed - Construction priority 1 (Food shortage)</RimWatch.Notifications.Example.Moderate>
+  <RimWatch.Notifications.Example.Verbose>🌾 Farming: Crop planted - Rice (growing zone #2) at (85, 92) by Emma</RimWatch.Notifications.Example.Verbose>
+  
+</LanguageData>

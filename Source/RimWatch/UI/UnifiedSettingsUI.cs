@@ -70,6 +70,12 @@ namespace RimWatch.UI
             {
                 DrawAISystemsSection(listing, settings);
             });
+            
+            // === v1.4.0: NOTIFICATION SYSTEM ===
+            DrawCollapsibleSection(listing, "Notification System", "notifications", () =>
+            {
+                DrawNotificationSection(listing, settings);
+            });
 
             // === DEBUG & LOGGING ===
             DrawCollapsibleSection(listing, "RimWatch.UI.Debug".Translate(), "debug", () =>
@@ -119,7 +125,17 @@ namespace RimWatch.UI
             if (!isCollapsed)
             {
                 float contentStartY = listing.CurHeight;
-                drawContent();
+                try
+                {
+                    drawContent();
+                }
+                catch (System.Exception ex)
+                {
+                    RimWatchLogger.Error($"DrawCollapsibleSection '{id}' failed", ex);
+                    GUI.color = Color.red;
+                    listing.Label($"ERROR in {id}: {ex.Message}");
+                    GUI.color = Color.white;
+                }
                 float contentEndY = listing.CurHeight;
                 
                 // Draw subtle background behind content
@@ -581,6 +597,171 @@ namespace RimWatch.UI
             }
             
             listing.Gap(UIDesignSystem.SPACE_XS);
+        }
+
+        /// <summary>
+        /// v1.4.0: Draw notification system settings section
+        /// </summary>
+        private static void DrawNotificationSection(Listing_Standard listing, RimWatchSettings settings)
+        {
+            try
+            {
+                // Master toggle
+                bool notificationEnabled = settings.notificationSystemEnabled;
+                listing.CheckboxLabeled(
+                    "Enable Notification System",
+                    ref notificationEnabled,
+                    "Show in-game notifications for all RimWatch actions"
+                );
+                settings.notificationSystemEnabled = notificationEnabled;
+                
+                if (notificationEnabled)
+                {
+                    listing.Gap(UIDesignSystem.SPACE_SM);
+                    
+                    // Per-category notification levels
+                    GUI.color = UIDesignSystem.Text_Secondary;
+                    listing.Label("Configure notification detail level for each category:");
+                    GUI.color = Color.white;
+                    listing.Gap(UIDesignSystem.SPACE_XS);
+                    
+                    // Building
+                    DrawNotificationLevelDropdown(listing, settings, "buildingNotificationLevel",
+                        "🏗️ Building", "Construction, blueprints, rooms");
+                    
+                    // Work
+                    DrawNotificationLevelDropdown(listing, settings, "workNotificationLevel",
+                        "👷 Work", "Work priorities, schedules");
+                    
+                    // Farming
+                    DrawNotificationLevelDropdown(listing, settings, "farmingNotificationLevel",
+                        "🌾 Farming", "Crops, animals, taming");
+                    
+                    // Resources
+                    DrawNotificationLevelDropdown(listing, settings, "resourcesNotificationLevel",
+                        "⛏️ Resources", "Mining, woodcutting, hunting");
+                    
+                    // Defense
+                    DrawNotificationLevelDropdown(listing, settings, "defenseNotificationLevel",
+                        "⚔️ Defense", "Draft, equipment, positioning");
+                    
+                    // Medical
+                    DrawNotificationLevelDropdown(listing, settings, "medicalNotificationLevel",
+                        "🏥 Medical", "Rescue, treatment, operations");
+                    
+                    // Trade
+                    DrawNotificationLevelDropdown(listing, settings, "tradeNotificationLevel",
+                        "💰 Trade", "Forbid/allow, trading");
+                    
+                    // Social
+                    DrawNotificationLevelDropdown(listing, settings, "socialNotificationLevel",
+                        "👥 Social", "Prisoners, mood, events");
+                    
+                    // Research
+                    DrawNotificationLevelDropdown(listing, settings, "researchNotificationLevel",
+                        "🔬 Research", "Research projects");
+                    
+                    listing.Gap(UIDesignSystem.SPACE_MD);
+                    
+                    // Format options
+                    GUI.color = UIDesignSystem.Text_Secondary;
+                    listing.Label("Format Options:");
+                    GUI.color = Color.white;
+                    listing.Gap(UIDesignSystem.SPACE_XS);
+                    
+                    bool useEmojis = settings.useEmojisInNotifications;
+                    listing.CheckboxLabeled("Use emojis in notifications", ref useEmojis, 
+                        "Show emoji icons (🏗️, 👷, 🌾, etc.)");
+                    settings.useEmojisInNotifications = useEmojis;
+                    
+                    bool showCoordinates = settings.showCoordinates;
+                    listing.CheckboxLabeled("Show coordinates", ref showCoordinates, 
+                        "Display position coordinates (e.g., at (120, 45))");
+                    settings.showCoordinates = showCoordinates;
+                    
+                    bool showPawnNames = settings.showPawnNames;
+                    listing.CheckboxLabeled("Show colonist names", ref showPawnNames, 
+                        "Include colonist names (e.g., for John)");
+                    settings.showPawnNames = showPawnNames;
+                    
+                    bool showMaterials = settings.showMaterialsInBuilding;
+                    listing.CheckboxLabeled("Show materials/quality", ref showMaterials, 
+                        "Display materials and quality in building notifications");
+                    settings.showMaterialsInBuilding = showMaterials;
+                }
+                
+                // Apply and write settings immediately on change
+                settings.ApplyToCore();
+                settings.Write();
+            }
+            catch (System.Exception ex)
+            {
+                RimWatchLogger.Error("DrawNotificationSection failed", ex);
+                GUI.color = Color.red;
+                listing.Label("ERROR: " + ex.Message);
+                GUI.color = Color.white;
+            }
+        }
+
+        /// <summary>
+        /// Draw notification level dropdown for a category
+        /// </summary>
+        private static void DrawNotificationLevelDropdown(
+            Listing_Standard listing,
+            RimWatchSettings settings,
+            string fieldName,
+            string label, 
+            string tooltip)
+        {
+            Rect rect = listing.GetRect(UIDesignSystem.HEIGHT_Checkbox);
+            Rect labelRect = new Rect(rect.x, rect.y, rect.width * 0.5f, rect.height);
+            Rect dropdownRect = new Rect(rect.x + rect.width * 0.5f, rect.y, rect.width * 0.5f, rect.height);
+            
+            // Get current value via reflection
+            var field = typeof(RimWatchSettings).GetField(fieldName);
+            NotificationLevel currentLevel = (NotificationLevel)field.GetValue(settings);
+            
+            // Label with tooltip
+            TooltipHandler.TipRegion(labelRect, tooltip);
+            Widgets.Label(labelRect, label);
+            
+            // Dropdown
+            if (Widgets.ButtonText(dropdownRect, GetNotificationLevelLabel(currentLevel)))
+            {
+                List<FloatMenuOption> options = new List<FloatMenuOption>();
+                
+                foreach (NotificationLevel level in System.Enum.GetValues(typeof(NotificationLevel)))
+                {
+                    NotificationLevel levelCopy = level;
+                    options.Add(new FloatMenuOption(
+                        GetNotificationLevelLabel(level), 
+                        delegate { 
+                            field.SetValue(settings, levelCopy);
+                        }
+                    ));
+                }
+                
+                Find.WindowStack.Add(new FloatMenu(options));
+            }
+            
+            listing.Gap(UIDesignSystem.SPACE_XS);
+        }
+
+        /// <summary>
+        /// Get translated label for notification level
+        /// </summary>
+        private static string GetNotificationLevelLabel(NotificationLevel level)
+        {
+            return level switch
+            {
+                NotificationLevel.Off => "RimWatch.NotificationLevel.Off".Translate(),
+                NotificationLevel.Critical => "RimWatch.NotificationLevel.Critical".Translate(),
+                NotificationLevel.Important => "RimWatch.NotificationLevel.Important".Translate(),
+                NotificationLevel.Moderate => "RimWatch.NotificationLevel.Moderate".Translate(),
+                NotificationLevel.Verbose => "RimWatch.NotificationLevel.Verbose".Translate(),
+                NotificationLevel.Debug => "RimWatch.NotificationLevel.Debug".Translate(),
+                _ => level.ToString()
+            };
         }
 
     }

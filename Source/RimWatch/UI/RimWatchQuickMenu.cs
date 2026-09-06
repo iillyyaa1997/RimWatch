@@ -11,7 +11,7 @@ namespace RimWatch.UI
     /// </summary>
     public class RimWatchQuickMenu : Window
     {
-        public override Vector2 InitialSize => new Vector2(600f, 800f);
+        public override Vector2 InitialSize => new Vector2(650f, 900f); // v1.4.0: увеличено для Notifications
 
         public RimWatchQuickMenu()
         {
@@ -23,10 +23,10 @@ namespace RimWatch.UI
 
             // Center on screen
             windowRect = new Rect(
-                (UnityEngine.Screen.width - 600f) / 2f,
-                (UnityEngine.Screen.height - 800f) / 2f,
-                600f,
-                800f
+                (UnityEngine.Screen.width - 650f) / 2f,
+                (UnityEngine.Screen.height - 900f) / 2f,
+                650f,
+                900f
             );
         }
 
