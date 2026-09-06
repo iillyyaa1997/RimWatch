@@ -63,3 +63,6 @@ Thumbs.db
 !About/Preview.png
 !LICENSE
 !README.md
+
+# local environment
+.env
